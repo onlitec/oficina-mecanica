@@ -48,9 +48,7 @@ class GlobalMenu {
                 <div class="header-content">
                     <div class="logo">
                         <a href="/dashboard.html" class="logo-link">
-                            <div class="logo-icon">
-                                🔧
-                            </div>
+                            <div class="logo-icon">🔧</div>
                             <div class="logo-text">
                                 <div class="logo-title">Oficina</div>
                                 <div class="logo-subtitle">Mecânica</div>
@@ -100,7 +98,7 @@ class GlobalMenu {
         `;
 
         document.body.insertAdjacentHTML('afterbegin', menuHTML);
-        console.log('Menu loaded - Version:', this.version, '- No mobile option');
+        console.log('Menu loaded - Version:', this.version, '- Logo and title updated');
     }
 
     // Add clean styles
@@ -128,7 +126,11 @@ class GlobalMenu {
                     gap: 20px;
                 }
 
-                .logo-link {
+                .global-header .logo {
+                    flex-shrink: 0;
+                }
+
+                .global-header .logo-link {
                     color: white;
                     text-decoration: none;
                     display: flex;
@@ -137,11 +139,11 @@ class GlobalMenu {
                     transition: opacity 0.3s ease;
                 }
 
-                .logo-link:hover {
+                .global-header .logo-link:hover {
                     opacity: 0.9;
                 }
 
-                .logo-icon {
+                .global-header .logo-icon {
                     width: 32px;
                     height: 32px;
                     background: #ef4444;
@@ -150,23 +152,29 @@ class GlobalMenu {
                     align-items: center;
                     justify-content: center;
                     font-size: 16px;
+                    color: white;
+                    flex-shrink: 0;
                 }
 
-                .logo-text {
+                .global-header .logo-text {
                     display: flex;
                     flex-direction: column;
                 }
 
-                .logo-title {
-                    font-size: 1.25rem;
+                .global-header .logo-title {
+                    font-size: 20px;
                     font-weight: 700;
-                    line-height: 1;
+                    line-height: 1.2;
+                    color: white;
+                    margin: 0;
                 }
 
-                .logo-subtitle {
-                    font-size: 0.875rem;
+                .global-header .logo-subtitle {
+                    font-size: 14px;
                     opacity: 0.9;
-                    line-height: 1;
+                    line-height: 1.2;
+                    color: white;
+                    margin: 0;
                 }
 
                 .main-nav {
