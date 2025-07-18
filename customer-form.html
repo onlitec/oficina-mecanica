@@ -481,6 +481,7 @@
                                 <div class="loading-spinner" id="zipCodeLoading" style="display: none;">🔄</div>
                             </div>
                             <div class="input-feedback" id="zipCodeFeedback"></div>
+                            <button type="button" onclick="testCEP()" style="margin-top: 5px; padding: 5px 10px; background: #28a745; color: white; border: none; border-radius: 3px; font-size: 12px;">🧪 Teste CEP 01310-100</button>
                         </div>
                         
                         <div class="form-group">
@@ -684,6 +685,15 @@
             // Máscara CEP removida - agora é tratada nos event listeners específicos
         }
         
+        // Função de teste para CEP
+        function testCEP() {
+            console.log('🧪 Teste de CEP iniciado...');
+            const zipCodeInput = document.getElementById('zipCode');
+            zipCodeInput.value = '01310-100';
+            console.log('🧪 CEP definido no campo:', zipCodeInput.value);
+            searchZipCode('01310-100');
+        }
+
         // Limpar campos de endereço
         function clearAddressFields() {
             const addressFields = ['street', 'neighborhood', 'city', 'state'];
@@ -748,23 +758,53 @@
                 zipCodeFeedback.textContent = 'Buscando endereço...';
                 zipCodeFeedback.className = 'input-feedback info';
 
-                const url = `https://viacep.com.br/ws/${cleanZip}/json/`;
+                let data = null;
+                let url = `https://viacep.com.br/ws/${cleanZip}/json/`;
                 console.log('🌐 Fazendo requisição para:', url);
 
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
+                try {
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                        }
+                    });
+                    console.log('📡 Resposta recebida:', response.status, response.ok);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     }
-                });
-                console.log('📡 Resposta recebida:', response.status, response.ok);
 
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    data = await response.json();
+                    console.log('📦 Dados recebidos:', data);
+                } catch (apiError) {
+                    console.warn('⚠️ Erro na API ViaCEP, tentando API alternativa...', apiError);
+
+                    // Tentar API alternativa
+                    try {
+                        url = `https://brasilapi.com.br/api/cep/v1/${cleanZip}`;
+                        console.log('🌐 Tentando API alternativa:', url);
+
+                        const altResponse = await fetch(url);
+                        if (altResponse.ok) {
+                            const altData = await altResponse.json();
+                            // Converter formato da BrasilAPI para ViaCEP
+                            data = {
+                                logradouro: altData.street,
+                                bairro: altData.neighborhood,
+                                localidade: altData.city,
+                                uf: altData.state,
+                                erro: false
+                            };
+                            console.log('📦 Dados da API alternativa:', data);
+                        } else {
+                            throw apiError; // Re-throw original error
+                        }
+                    } catch (altError) {
+                        console.error('❌ Ambas APIs falharam:', altError);
+                        throw apiError; // Re-throw original error
+                    }
                 }
-
-                const data = await response.json();
-                console.log('📦 Dados recebidos:', data);
 
                 // Esconder loading
                 zipCodeLoading.style.display = 'none';
@@ -1211,6 +1251,13 @@
         
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 DOM carregado, inicializando formulário...');
+            console.log('🔍 Verificando elementos CEP...');
+            console.log('zipCode input:', !!document.getElementById('zipCode'));
+            console.log('zipCodeIcon:', !!document.getElementById('zipCodeIcon'));
+            console.log('zipCodeLoading:', !!document.getElementById('zipCodeLoading'));
+            console.log('zipCodeFeedback:', !!document.getElementById('zipCodeFeedback'));
+
             checkAuth();
             loadUserInfo();
             
