@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Estoque Baixo - Sistema de Gestão de Oficina Mecânica</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 2em;
+            color: #333;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .summary-card.critical {
+            border-left: 5px solid #dc3545;
+        }
+        
+        .summary-card.warning {
+            border-left: 5px solid #ffc107;
+        }
+        
+        .summary-card.info {
+            border-left: 5px solid #17a2b8;
+        }
+        
+        .summary-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .summary-value.critical {
+            color: #dc3545;
+        }
+        
+        .summary-value.warning {
+            color: #ffc107;
+        }
+        
+        .summary-value.info {
+            color: #17a2b8;
+        }
+        
+        .summary-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .chart-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        
+        .tables-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .table-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .table-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .stock-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .stock-table th,
+        .stock-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .stock-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .stock-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .stock-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .status-out {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-critical {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-low {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">🚗 Oficina Mecânica</div>
+            <div class="nav-links">
+                <a href="/dashboard.html">Dashboard</a>
+                <a href="/customers.html">Clientes</a>
+                <a href="/service-orders.html">Ordens de Serviço</a>
+                <a href="/parts.html">Peças</a>
+                <a href="/reports.html">Relatórios</a>
+                <span id="userName">Carregando...</span>
+                <button class="btn btn-secondary" onclick="logout()">Sair</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">⚠️ Relatório de Estoque Baixo</h1>
+            <a href="/reports.html" class="btn btn-secondary">← Voltar</a>
+        </div>
+        
+        <div id="loading" class="loading">Carregando relatório...</div>
+        <div id="error" class="error" style="display: none;"></div>
+        
+        <div id="content" style="display: none;">
+            <!-- Alertas -->
+            <div id="alertsSection"></div>
+            
+            <!-- Cards de Resumo -->
+            <div class="summary-cards">
+                <div class="summary-card critical">
+                    <div class="summary-value critical" id="outOfStockCount">0</div>
+                    <div class="summary-label">Sem Estoque</div>
+                </div>
+                
+                <div class="summary-card warning">
+                    <div class="summary-value warning" id="criticalStockCount">0</div>
+                    <div class="summary-label">Estoque Crítico</div>
+                </div>
+                
+                <div class="summary-card warning">
+                    <div class="summary-value warning" id="lowStockCount">0</div>
+                    <div class="summary-label">Estoque Baixo</div>
+                </div>
+                
+                <div class="summary-card info">
+                    <div class="summary-value info" id="totalValueAtRisk">R$ 0,00</div>
+                    <div class="summary-label">Valor em Risco</div>
+                </div>
+            </div>
+            
+            <!-- Gráficos -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3 class="chart-title">📊 Distribuição por Criticidade</h3>
+                    <div class="chart-container">
+                        <canvas id="criticalityChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <h3 class="chart-title">💰 Valor em Risco por Categoria</h3>
+                    <div class="chart-container">
+                        <canvas id="valueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tabelas -->
+            <div class="tables-grid">
+                <div class="table-card">
+                    <h3 class="table-title">🚨 Peças que Precisam de Atenção Imediata</h3>
+                    <table class="stock-table">
+                        <thead>
+                            <tr>
+                                <th>Peça</th>
+                                <th>Código</th>
+                                <th>Categoria</th>
+                                <th>Estoque Atual</th>
+                                <th>Estoque Mínimo</th>
+                                <th>Status</th>
+                                <th>Valor em Risco</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stockTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let criticalityChart = null;
+        let valueChart = null;
+        
+        // Verificar autenticação
+        function checkAuth() {
+            const user = localStorage.getItem('user');
+            if (!user) {
+                window.location.href = '/login.html';
+                return null;
+            }
+            return JSON.parse(user);
+        }
+        
+        // Logout
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = '/login.html';
+        }
+        
+        // Carregar dados do usuário
+        function loadUserInfo() {
+            const user = checkAuth();
+            if (user) {
+                document.getElementById('userName').textContent = `${user.name} (${user.role})`;
+            }
+        }
+        
+        // Carregar relatório
+        async function loadReport() {
+            try {
+                showLoading();
+                
+                const response = await fetch('/api/reports/parts/low-stock');
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayReport(data.data);
+                    showContent();
+                } else {
+                    showError(data.error || 'Erro ao carregar relatório');
+                }
+            } catch (error) {
+                showError('Erro de conexão: ' + error.message);
+            }
+        }
+        
+        // Exibir relatório
+        function displayReport(data) {
+            const { summary, categories, allParts } = data;
+            
+            // Alertas
+            displayAlerts(summary);
+            
+            // Cards de resumo
+            document.getElementById('outOfStockCount').textContent = summary.outOfStockCount || 0;
+            document.getElementById('criticalStockCount').textContent = summary.criticalStockCount || 0;
+            document.getElementById('lowStockCount').textContent = summary.lowStockCount || 0;
+            document.getElementById('totalValueAtRisk').textContent = formatCurrency(summary.totalValueAtRisk);
+            
+            // Gráficos
+            createCriticalityChart(summary);
+            createValueChart(allParts);
+            
+            // Tabela
+            displayStockTable(allParts);
+        }
+        
+        // Exibir alertas
+        function displayAlerts(summary) {
+            const alertsSection = document.getElementById('alertsSection');
+            let alerts = '';
+            
+            if (summary.outOfStockCount > 0) {
+                alerts += `
+                    <div class="alert alert-danger">
+                        <strong>🚨 CRÍTICO!</strong> ${summary.outOfStockCount} peça(s) sem estoque. 
+                        Reposição urgente necessária!
+                    </div>
+                `;
+            }
+            
+            if (summary.criticalStockCount > 0) {
+                alerts += `
+                    <div class="alert alert-warning">
+                        <strong>⚠️ ATENÇÃO!</strong> ${summary.criticalStockCount} peça(s) em estoque crítico. 
+                        Planeje reposição em breve.
+                    </div>
+                `;
+            }
+            
+            alertsSection.innerHTML = alerts;
+        }
+        
+        // Criar gráfico de criticidade
+        function createCriticalityChart(summary) {
+            const ctx = document.getElementById('criticalityChart').getContext('2d');
+            
+            if (criticalityChart) {
+                criticalityChart.destroy();
+            }
+            
+            const data = [
+                summary.outOfStockCount || 0,
+                summary.criticalStockCount || 0,
+                summary.lowStockCount || 0
+            ];
+            
+            criticalityChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Sem Estoque', 'Crítico', 'Baixo'],
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#dc3545', '#ffc107', '#17a2b8'],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Criar gráfico de valor
+        function createValueChart(parts) {
+            const ctx = document.getElementById('valueChart').getContext('2d');
+            
+            if (valueChart) {
+                valueChart.destroy();
+            }
+            
+            // Agrupar por categoria
+            const categories = {};
+            parts.forEach(part => {
+                const category = part.category || 'OTHER';
+                const value = part.stock * Number(part.costPrice);
+                
+                if (!categories[category]) {
+                    categories[category] = 0;
+                }
+                categories[category] += value;
+            });
+            
+            const labels = Object.keys(categories).map(cat => getCategoryLabel(cat));
+            const values = Object.values(categories);
+            
+            valueChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Valor em Risco (R$)',
+                        data: values,
+                        backgroundColor: [
+                            '#667eea', '#764ba2', '#f093fb', '#f5576c',
+                            '#4facfe', '#00f2fe'
+                        ],
+                        borderColor: '#667eea',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Valor: ${formatCurrency(context.raw)}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return formatCurrency(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Exibir tabela de estoque
+        function displayStockTable(parts) {
+            const tbody = document.getElementById('stockTableBody');
+            
+            // Ordenar por criticidade
+            const sortedParts = parts.sort((a, b) => {
+                if (a.stock === 0 && b.stock > 0) return -1;
+                if (b.stock === 0 && a.stock > 0) return 1;
+                return (a.stock / a.minStock) - (b.stock / b.minStock);
+            });
+            
+            tbody.innerHTML = sortedParts.map(part => {
+                const stockValue = part.stock * Number(part.costPrice);
+                let status, statusClass;
+                
+                if (part.stock <= 0) {
+                    status = 'SEM ESTOQUE';
+                    statusClass = 'status-out';
+                } else if (part.stock <= (part.minStock * 0.5)) {
+                    status = 'CRÍTICO';
+                    statusClass = 'status-critical';
+                } else {
+                    status = 'BAIXO';
+                    statusClass = 'status-low';
+                }
+                
+                return `
+                    <tr>
+                        <td>
+                            <strong>${part.name}</strong><br>
+                            <small>${part.brand || 'N/A'}</small>
+                        </td>
+                        <td>${part.internalCode || 'N/A'}</td>
+                        <td>${getCategoryLabel(part.category)}</td>
+                        <td><strong>${part.stock} ${part.unit || 'UN'}</strong></td>
+                        <td>${part.minStock} ${part.unit || 'UN'}</td>
+                        <td><span class="stock-status ${statusClass}">${status}</span></td>
+                        <td><strong>${formatCurrency(stockValue)}</strong></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        // Funções auxiliares
+        function getCategoryLabel(category) {
+            const labels = {
+                'PARTS': 'Peças',
+                'ACCESSORIES': 'Acessórios',
+                'FLUIDS': 'Fluidos',
+                'TOOLS': 'Ferramentas',
+                'CONSUMABLES': 'Consumíveis',
+                'OTHER': 'Outros'
+            };
+            return labels[category] || category;
+        }
+        
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(value || 0);
+        }
+        
+        // Estados da interface
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('content').style.display = 'none';
+        }
+        
+        function showError(message) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+            document.getElementById('error').textContent = message;
+            document.getElementById('content').style.display = 'none';
+        }
+        
+        function showContent() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+        }
+        
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            loadUserInfo();
+            loadReport();
+        });
+    </script>
+</body>
+</html>
