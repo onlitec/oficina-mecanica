@@ -119,25 +119,34 @@ class GlobalMenu {
                     max-width: 1200px;
                     width: 100%;
                     margin: 0 auto;
-                    display: grid;
-                    grid-template-columns: 1fr auto 1fr;
+                    display: flex;
                     align-items: center;
+                    justify-content: center;
                     padding: 12px 20px;
                     gap: 20px;
                     box-sizing: border-box;
+                    position: relative;
                 }
 
                 .logo {
-                    justify-self: start;
+                    position: absolute;
+                    left: 20px;
                 }
-
-
 
                 .main-nav {
                     display: flex;
                     gap: 20px;
                     align-items: center;
-                    justify-self: center;
+                    justify-content: center;
+                    flex: 0 0 auto;
+                }
+
+                .user-section {
+                    position: absolute;
+                    right: 20px;
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
                 }
 
                 .nav-link {
@@ -162,12 +171,7 @@ class GlobalMenu {
                     border-color: rgba(255,255,255,0.3);
                 }
 
-                .user-section {
-                    display: flex;
-                    align-items: center;
-                    gap: 15px;
-                    justify-self: end;
-                }
+
 
                 .settings-btn {
                     display: flex;
@@ -241,12 +245,18 @@ class GlobalMenu {
                         max-width: 100%;
                         padding: 10px 15px;
                         gap: 15px;
-                        grid-template-columns: auto 1fr auto;
+                    }
+
+                    .logo {
+                        left: 15px;
+                    }
+
+                    .user-section {
+                        right: 15px;
                     }
 
                     .main-nav {
                         gap: 15px;
-                        justify-self: center;
                     }
 
                     .nav-link {
@@ -269,16 +279,22 @@ class GlobalMenu {
                     .header-content {
                         padding: 8px 12px;
                         gap: 10px;
-                        grid-template-columns: auto 1fr auto;
+                    }
+
+                    .logo {
+                        left: 12px;
                     }
 
                     .logo a {
                         font-size: 1.1em;
                     }
 
+                    .user-section {
+                        right: 12px;
+                    }
+
                     .main-nav {
                         gap: 8px;
-                        justify-self: center;
                     }
 
                     .nav-link {
