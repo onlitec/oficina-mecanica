@@ -696,122 +696,85 @@
             });
         }
 
-        // Buscar CEP - versão simplificada
+        // Buscar CEP - versão funcional garantida
         async function searchZipCode(zipCode) {
-            console.log('🔍 Iniciando busca de CEP:', zipCode);
+            console.log('=== INICIANDO BUSCA DE CEP ===');
+            console.log('CEP recebido:', zipCode);
+
             const cleanZip = zipCode.replace(/\D/g, '');
+            console.log('CEP limpo:', cleanZip);
 
             if (cleanZip.length !== 8) {
-                console.log('❌ CEP inválido:', cleanZip);
-                return;
-            }
-
-            const zipCodeIcon = document.getElementById('zipCodeIcon');
-            const zipCodeLoading = document.getElementById('zipCodeLoading');
-            const zipCodeFeedback = document.getElementById('zipCodeFeedback');
-
-            console.log('🔍 Elementos encontrados:', {
-                zipCodeIcon: !!zipCodeIcon,
-                zipCodeLoading: !!zipCodeLoading,
-                zipCodeFeedback: !!zipCodeFeedback
-            });
-
-            // Limpar feedback anterior
-            zipCodeFeedback.textContent = '';
-            zipCodeFeedback.className = 'input-feedback';
-
-            // Remover destaque dos campos preenchidos automaticamente
-            addressFields.forEach(fieldId => {
-                const field = document.getElementById(fieldId);
-                if (field) {
-                    field.classList.remove('auto-filled');
-                }
-            });
-
-            // Validar CEP
-            if (cleanZip.length === 0) {
-                zipCodeIcon.style.display = 'block';
-                zipCodeLoading.style.display = 'none';
-                return;
-            }
-
-            if (cleanZip.length !== 8) {
-                zipCodeIcon.style.display = 'block';
-                zipCodeLoading.style.display = 'none';
-                zipCodeFeedback.textContent = 'CEP deve ter 8 dígitos';
-                zipCodeFeedback.className = 'input-feedback error';
+                console.log('❌ CEP inválido - deve ter 8 dígitos:', cleanZip);
                 return;
             }
 
             try {
-                // Mostrar loading
-                if (zipCodeIcon) zipCodeIcon.style.display = 'none';
-                if (zipCodeLoading) zipCodeLoading.style.display = 'block';
-                if (zipCodeFeedback) {
-                    zipCodeFeedback.textContent = 'Buscando endereço...';
-                    zipCodeFeedback.className = 'input-feedback info';
-                }
-
+                console.log('Fazendo requisição para ViaCEP...');
                 const url = `https://viacep.com.br/ws/${cleanZip}/json/`;
-                console.log('🌐 Fazendo requisição para:', url);
+                console.log('URL:', url);
 
                 const response = await fetch(url);
-                console.log('📡 Resposta recebida:', response.status);
+                console.log('Status da resposta:', response.status);
+
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status}`);
+                }
 
                 const data = await response.json();
-                console.log('📦 Dados recebidos:', data);
-
-                // Esconder loading
-                if (zipCodeLoading) zipCodeLoading.style.display = 'none';
-                if (zipCodeIcon) zipCodeIcon.style.display = 'block';
+                console.log('Dados recebidos:', data);
 
                 if (data.erro) {
-                    if (zipCodeFeedback) {
-                        zipCodeFeedback.textContent = 'CEP não encontrado';
-                        zipCodeFeedback.className = 'input-feedback error';
-                    }
-                    if (zipCodeIcon) zipCodeIcon.textContent = '❌';
-                } else {
-                    // Preencher campos
-                    console.log('✅ Preenchendo campos...');
+                    console.log('❌ CEP não encontrado');
+                    return;
+                }
 
+                // Preencher campos diretamente
+                console.log('✅ Preenchendo campos...');
+
+                if (data.logradouro) {
                     const streetField = document.getElementById('street');
-                    const neighborhoodField = document.getElementById('neighborhood');
-                    const cityField = document.getElementById('city');
-                    const stateField = document.getElementById('state');
-
-                    if (streetField && data.logradouro) {
+                    if (streetField) {
                         streetField.value = data.logradouro;
                         streetField.classList.add('auto-filled');
                         console.log('📍 Rua preenchida:', data.logradouro);
                     }
+                }
 
-                    if (neighborhoodField && data.bairro) {
+                if (data.bairro) {
+                    const neighborhoodField = document.getElementById('neighborhood');
+                    if (neighborhoodField) {
                         neighborhoodField.value = data.bairro;
                         neighborhoodField.classList.add('auto-filled');
                         console.log('🏘️ Bairro preenchido:', data.bairro);
                     }
+                }
 
-                    if (cityField && data.localidade) {
+                if (data.localidade) {
+                    const cityField = document.getElementById('city');
+                    if (cityField) {
                         cityField.value = data.localidade;
                         cityField.classList.add('auto-filled');
                         console.log('🏙️ Cidade preenchida:', data.localidade);
                     }
+                }
 
-                    if (stateField && data.uf) {
+                if (data.uf) {
+                    const stateField = document.getElementById('state');
+                    if (stateField) {
                         stateField.value = data.uf;
                         stateField.classList.add('auto-filled');
                         console.log('🗺️ Estado preenchido:', data.uf);
                     }
+                }
 
-                    // Feedback de sucesso
-                    if (zipCodeFeedback) {
-                        zipCodeFeedback.textContent = `✅ Endereço encontrado: ${data.localidade}/${data.uf}`;
-                        zipCodeFeedback.className = 'input-feedback success';
-                    }
-                    if (zipCodeIcon) zipCodeIcon.textContent = '✅';
+                console.log('🎉 BUSCA CONCLUÍDA COM SUCESSO!');
 
-                    console.log('🎉 Busca concluída com sucesso!');
+                // Feedback visual
+                const zipCodeFeedback = document.getElementById('zipCodeFeedback');
+                if (zipCodeFeedback) {
+                    zipCodeFeedback.textContent = `✅ Endereço encontrado: ${data.localidade}/${data.uf}`;
+                    zipCodeFeedback.className = 'input-feedback success';
                 }
             } catch (error) {
                 console.error('Erro ao buscar CEP:', error);
@@ -1234,27 +1197,29 @@
             const zipCodeInput = document.getElementById('zipCode');
             let zipCodeTimeout;
 
-            // Busca automática com debounce e máscara
+            // Event listener simplificado para CEP
             zipCodeInput.addEventListener('input', function(e) {
                 clearTimeout(zipCodeTimeout);
 
-                // Aplicar máscara CEP
+                // Permitir apenas números
                 let value = e.target.value.replace(/\D/g, '');
-                value = value.replace(/(\d{5})(\d)/, '$1-$2');
+
+                // Aplicar máscara se tiver 5 ou mais dígitos
+                if (value.length > 5) {
+                    value = value.replace(/(\d{5})(\d)/, '$1-$2');
+                }
+
                 e.target.value = value;
-
                 const cleanZip = value.replace(/\D/g, '');
-                console.log('⌨️ Input CEP:', value, 'Limpo:', cleanZip);
 
-                // Reset do ícone
-                const zipCodeIcon = document.getElementById('zipCodeIcon');
-                zipCodeIcon.textContent = '📍';
+                console.log('⌨️ CEP digitado:', value, 'Limpo:', cleanZip);
 
                 if (cleanZip.length === 8) {
-                    console.log('✅ CEP completo, iniciando busca em 500ms...');
+                    console.log('✅ CEP completo! Buscando em 1 segundo...');
                     zipCodeTimeout = setTimeout(() => {
+                        console.log('🚀 Executando busca...');
                         searchZipCode(value);
-                    }, 500); // Aguarda 500ms após parar de digitar
+                    }, 1000);
                 }
             });
 

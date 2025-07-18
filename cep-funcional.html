@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEP Funcional - Teste Garantido</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .preenchido {
+            background-color: #e8f5e8 !important;
+            border-color: #28a745 !important;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .btn-test {
+            background: #28a745;
+        }
+        .btn-test:hover {
+            background: #1e7e34;
+        }
+        .status {
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .sucesso {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .erro {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .carregando {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .instrucoes {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .instrucoes h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .exemplo {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin: 2px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .exemplo:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏠 CEP Funcional - Teste Garantido</h1>
+        
+        <div class="instrucoes">
+            <h3>📋 Como usar:</h3>
+            <p><strong>1.</strong> Digite um CEP de 8 dígitos no campo abaixo</p>
+            <p><strong>2.</strong> Clique em "Buscar CEP" ou pressione Enter</p>
+            <p><strong>3.</strong> Veja os campos sendo preenchidos automaticamente</p>
+            <p><strong>Exemplos:</strong> 
+                <span class="exemplo" onclick="testarCEP('01310100')">01310100</span>
+                <span class="exemplo" onclick="testarCEP('20040020')">20040020</span>
+                <span class="exemplo" onclick="testarCEP('30112000')">30112000</span>
+            </p>
+        </div>
+        
+        <div class="form-group">
+            <label for="cep">📍 CEP (apenas números):</label>
+            <input type="text" id="cep" placeholder="Digite 8 dígitos (ex: 01310100)" maxlength="8">
+        </div>
+        
+        <button onclick="buscarCEP()" id="btnBuscar">🔍 Buscar CEP</button>
+        <button onclick="limparTudo()" class="btn-test">🧹 Limpar</button>
+        
+        <div id="status"></div>
+        
+        <div class="form-group">
+            <label for="rua">🏠 Rua/Logradouro:</label>
+            <input type="text" id="rua" readonly placeholder="Será preenchido automaticamente">
+        </div>
+        
+        <div class="form-group">
+            <label for="bairro">🏘️ Bairro:</label>
+            <input type="text" id="bairro" readonly placeholder="Será preenchido automaticamente">
+        </div>
+        
+        <div class="form-group">
+            <label for="cidade">🏙️ Cidade:</label>
+            <input type="text" id="cidade" readonly placeholder="Será preenchida automaticamente">
+        </div>
+        
+        <div class="form-group">
+            <label for="estado">🗺️ Estado:</label>
+            <input type="text" id="estado" readonly placeholder="Será preenchido automaticamente">
+        </div>
+    </div>
+
+    <script>
+        // Função para mostrar status
+        function mostrarStatus(mensagem, tipo) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = mensagem;
+            statusDiv.className = 'status ' + tipo;
+            console.log('Status:', mensagem);
+        }
+        
+        // Função para limpar campos
+        function limparCampos() {
+            const campos = ['rua', 'bairro', 'cidade', 'estado'];
+            campos.forEach(campo => {
+                const elemento = document.getElementById(campo);
+                elemento.value = '';
+                elemento.classList.remove('preenchido');
+            });
+        }
+        
+        // Função principal de busca
+        async function buscarCEP() {
+            console.log('=== INICIANDO BUSCA DE CEP ===');
+            
+            const cepInput = document.getElementById('cep');
+            const cep = cepInput.value.replace(/\D/g, '');
+            
+            console.log('CEP digitado:', cepInput.value);
+            console.log('CEP limpo:', cep);
+            
+            // Validar CEP
+            if (!cep) {
+                mostrarStatus('❌ Digite um CEP', 'erro');
+                return;
+            }
+            
+            if (cep.length !== 8) {
+                mostrarStatus('❌ CEP deve ter exatamente 8 dígitos', 'erro');
+                return;
+            }
+            
+            // Limpar campos anteriores
+            limparCampos();
+            
+            // Mostrar carregando
+            mostrarStatus('🔄 Buscando CEP...', 'carregando');
+            
+            try {
+                const url = `https://viacep.com.br/ws/${cep}/json/`;
+                console.log('URL da requisição:', url);
+                
+                console.log('Fazendo requisição...');
+                const resposta = await fetch(url);
+                
+                console.log('Status da resposta:', resposta.status);
+                console.log('Resposta OK:', resposta.ok);
+                
+                if (!resposta.ok) {
+                    throw new Error(`Erro HTTP: ${resposta.status}`);
+                }
+                
+                console.log('Convertendo para JSON...');
+                const dados = await resposta.json();
+                
+                console.log('Dados recebidos:', dados);
+                
+                if (dados.erro) {
+                    mostrarStatus('❌ CEP não encontrado', 'erro');
+                    return;
+                }
+                
+                // Preencher campos
+                console.log('Preenchendo campos...');
+                
+                if (dados.logradouro) {
+                    document.getElementById('rua').value = dados.logradouro;
+                    document.getElementById('rua').classList.add('preenchido');
+                    console.log('✅ Rua preenchida:', dados.logradouro);
+                }
+                
+                if (dados.bairro) {
+                    document.getElementById('bairro').value = dados.bairro;
+                    document.getElementById('bairro').classList.add('preenchido');
+                    console.log('✅ Bairro preenchido:', dados.bairro);
+                }
+                
+                if (dados.localidade) {
+                    document.getElementById('cidade').value = dados.localidade;
+                    document.getElementById('cidade').classList.add('preenchido');
+                    console.log('✅ Cidade preenchida:', dados.localidade);
+                }
+                
+                if (dados.uf) {
+                    document.getElementById('estado').value = dados.uf;
+                    document.getElementById('estado').classList.add('preenchido');
+                    console.log('✅ Estado preenchido:', dados.uf);
+                }
+                
+                mostrarStatus(`✅ Sucesso! ${dados.localidade}/${dados.uf}`, 'sucesso');
+                console.log('=== BUSCA CONCLUÍDA COM SUCESSO ===');
+                
+            } catch (erro) {
+                console.error('Erro na busca:', erro);
+                mostrarStatus(`❌ Erro: ${erro.message}`, 'erro');
+            }
+        }
+        
+        // Função de teste rápido
+        function testarCEP(cep) {
+            console.log('Teste rápido com CEP:', cep);
+            document.getElementById('cep').value = cep;
+            buscarCEP();
+        }
+        
+        // Função para limpar tudo
+        function limparTudo() {
+            document.getElementById('cep').value = '';
+            limparCampos();
+            document.getElementById('status').innerHTML = '';
+            console.log('Campos limpos');
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Página carregada e pronta!');
+            
+            const cepInput = document.getElementById('cep');
+            
+            // Buscar automaticamente quando digitar 8 dígitos
+            cepInput.addEventListener('input', function(e) {
+                // Permitir apenas números
+                let valor = e.target.value.replace(/\D/g, '');
+                e.target.value = valor;
+                
+                console.log('Input detectado:', valor);
+                
+                if (valor.length === 8) {
+                    console.log('CEP completo detectado, buscando em 1 segundo...');
+                    setTimeout(buscarCEP, 1000);
+                }
+            });
+            
+            // Buscar ao pressionar Enter
+            cepInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    console.log('Enter pressionado');
+                    buscarCEP();
+                }
+            });
+            
+            console.log('Event listeners configurados');
+        });
+    </script>
+</body>
+</html>
