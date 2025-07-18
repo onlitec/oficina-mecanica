@@ -46,14 +46,8 @@ class GlobalMenu {
         const menuHTML = `
             <div class="global-header">
                 <div class="header-content">
-                    <div class="logo" style="flex-shrink: 0;">
-                        <a href="/dashboard.html" style="color: white; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: opacity 0.3s ease;">
-                            <div style="width: 32px; height: 32px; background: #ef4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; flex-shrink: 0;">🔧</div>
-                            <div style="display: flex; flex-direction: column;">
-                                <div style="font-size: 20px; font-weight: 700; line-height: 1.2; color: white; margin: 0;">Oficina</div>
-                                <div style="font-size: 14px; opacity: 0.9; line-height: 1.2; color: white; margin: 0;">Mecânica</div>
-                            </div>
-                        </a>
+                    <div class="logo">
+                        <!-- Logo será inserido pelo fix-logo.js -->
                     </div>
                     
                     <nav class="main-nav">
@@ -98,32 +92,7 @@ class GlobalMenu {
         `;
 
         document.body.insertAdjacentHTML('afterbegin', menuHTML);
-        console.log('Menu loaded - Version:', this.version, '- Logo and title updated');
-
-        // Forçar aplicação dos estilos do logo
-        setTimeout(() => {
-            const logoIcon = document.querySelector('.logo div[style*="background: #ef4444"]');
-            const logoText = document.querySelector('.logo div[style*="flex-direction: column"]');
-
-            if (logoIcon) {
-                logoIcon.innerHTML = '🔧';
-                console.log('Logo icon found and updated');
-            } else {
-                console.log('Logo icon NOT found');
-            }
-
-            if (logoText) {
-                console.log('Logo text found');
-            } else {
-                console.log('Logo text NOT found');
-            }
-
-            // Debug completo
-            const logo = document.querySelector('.logo');
-            if (logo) {
-                console.log('Logo HTML:', logo.innerHTML);
-            }
-        }, 100);
+        console.log('Global Menu loaded - Version:', this.version, '- Ready for logo fix');
     }
 
     // Add clean styles
