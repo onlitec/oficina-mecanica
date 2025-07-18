@@ -1,10 +1,10 @@
-const CACHE_NAME = 'oficina-mobile-v1.0.0';
-const STATIC_CACHE = 'oficina-static-v1.0.0';
-const DYNAMIC_CACHE = 'oficina-dynamic-v1.0.0';
+const CACHE_NAME = 'oficina-clean-v1.1.0';
+const STATIC_CACHE = 'oficina-static-v1.1.0';
+const DYNAMIC_CACHE = 'oficina-dynamic-v1.1.0';
 
 // Arquivos para cache estático
 const STATIC_FILES = [
-  '/mobile.html',
+  '/dashboard.html',
   '/manifest.json',
   '/icon-192.png',
   // Adicionar outros arquivos estáticos conforme necessário
@@ -220,7 +220,7 @@ self.addEventListener('push', (event) => {
     badge: '/icon-72.png',
     vibrate: [200, 100, 200],
     data: {
-      url: '/mobile.html'
+      url: '/dashboard.html'
     },
     actions: [
       {
@@ -253,7 +253,7 @@ self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   
   if (event.action === 'open' || !event.action) {
-    const url = event.notification.data.url || '/mobile.html';
+    const url = event.notification.data.url || '/dashboard.html';
     
     event.waitUntil(
       clients.matchAll({ type: 'window' })

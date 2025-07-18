@@ -16,6 +16,7 @@ model User {
   name      String
   password  String
   role      UserRole @default(USER)
+  active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -574,4 +575,25 @@ enum QuoteItemType {
   SERVICE  // Serviço
   LABOR    // Mão de obra
   OTHER    // Outros
+}
+
+model SystemSettings {
+  id              String   @id @default(cuid())
+  appName         String   @default("Oficina Mecânica")
+  appDescription  String?  @default("Sistema de Gestão Automotiva")
+  logoUrl         String?
+  primaryColor    String   @default("#667eea")
+  secondaryColor  String   @default("#764ba2")
+  companyName     String   @default("Minha Oficina")
+  companyAddress  String?
+  companyPhone    String?
+  companyEmail    String?
+  companyCnpj     String?
+  timezone        String   @default("America/Sao_Paulo")
+  currency        String   @default("BRL")
+  language        String   @default("pt-BR")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("system_settings")
 }

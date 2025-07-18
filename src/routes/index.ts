@@ -10,6 +10,7 @@ import pdfRoutes from './pdfRoutes';
 import emailRoutes from './emailRoutes';
 import quoteRoutes from './quoteRoutes';
 import analyticsRoutes from './analyticsRoutes';
+import settingsRoutes from './settingsRoutes';
 
 const router = Router();
 
@@ -25,6 +26,7 @@ router.use('/pdf', pdfRoutes);
 router.use('/email', emailRoutes);
 router.use('/quotes', quoteRoutes);
 router.use('/analytics', analyticsRoutes);
+router.use('/settings', settingsRoutes);
 
 // Rota de informações da API
 router.get('/', (req, res) => {
@@ -45,6 +47,7 @@ router.get('/', (req, res) => {
       email: '/api/email',
       quotes: '/api/quotes',
       analytics: '/api/analytics',
+      settings: '/api/settings',
     },
     database: {
       status: 'connected',

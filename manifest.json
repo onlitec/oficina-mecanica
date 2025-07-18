@@ -1,8 +1,8 @@
 {
   "name": "Oficina Mecânica - Sistema de Gestão",
-  "short_name": "Oficina Mobile",
+  "short_name": "Oficina Mecânica",
   "description": "Sistema completo de gestão para oficinas mecânicas",
-  "start_url": "/mobile.html",
+  "start_url": "/dashboard.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#667eea",
@@ -70,10 +70,10 @@
   ],
   "shortcuts": [
     {
-      "name": "Nova Ordem de Serviço",
-      "short_name": "Nova OS",
-      "description": "Criar uma nova ordem de serviço",
-      "url": "/mobile-order-form.html",
+      "name": "Orçamentos",
+      "short_name": "Orçamentos",
+      "description": "Gerenciar orçamentos",
+      "url": "/quotes.html",
       "icons": [
         {
           "src": "/icon-192.png",
@@ -82,10 +82,10 @@
       ]
     },
     {
-      "name": "Clientes",
-      "short_name": "Clientes",
-      "description": "Gerenciar clientes",
-      "url": "/mobile-customers.html",
+      "name": "Analytics",
+      "short_name": "Analytics",
+      "description": "Análises e métricas",
+      "url": "/analytics.html",
       "icons": [
         {
           "src": "/icon-192.png",
@@ -94,10 +94,10 @@
       ]
     },
     {
-      "name": "Financeiro",
-      "short_name": "Financeiro",
-      "description": "Gestão financeira",
-      "url": "/mobile-financial.html",
+      "name": "Configurações",
+      "short_name": "Config",
+      "description": "Configurações do sistema",
+      "url": "/settings.html",
       "icons": [
         {
           "src": "/icon-192.png",

@@ -193,7 +193,8 @@
             <a href="/">← Voltar para página inicial</a>
         </div>
     </div>
-    
+
+    <script src="/js/auth.js"></script>
     <script>
         function fillCredentials(email, password) {
             document.getElementById('email').value = email;
@@ -222,19 +223,22 @@
                 
                 if (validUsers[email] && validUsers[email].password === password) {
                     showMessage(`✅ Login realizado com sucesso! Bem-vindo, ${validUsers[email].name}!`, 'success');
-                    
-                    // Salvar dados do usuário no localStorage
-                    localStorage.setItem('user', JSON.stringify({
+
+                    // Usar o sistema de autenticação global
+                    const loginSuccess = auth.login({
                         email: email,
                         name: validUsers[email].name,
-                        role: validUsers[email].role,
-                        loginTime: new Date().toISOString()
-                    }));
-                    
-                    // Redirecionar para dashboard após 2 segundos
-                    setTimeout(() => {
-                        window.location.href = '/dashboard.html';
-                    }, 2000);
+                        role: validUsers[email].role
+                    });
+
+                    if (loginSuccess) {
+                        // Redirecionar para dashboard após 2 segundos
+                        setTimeout(() => {
+                            window.location.href = '/dashboard.html';
+                        }, 2000);
+                    } else {
+                        showMessage('❌ Erro ao salvar dados de login!', 'error');
+                    }
                 } else {
                     showMessage('❌ Email ou senha incorretos!', 'error');
                 }
@@ -243,10 +247,9 @@
             }
         });
         
-        // Verificar se já está logado
-        const user = localStorage.getItem('user');
-        if (user) {
-            const userData = JSON.parse(user);
+        // Verificar se já está logado usando o sistema de autenticação
+        if (auth.isAuthenticated()) {
+            const userData = auth.getUser();
             showMessage(`Você já está logado como ${userData.name}. Redirecionando...`, 'success');
             setTimeout(() => {
                 window.location.href = '/dashboard.html';

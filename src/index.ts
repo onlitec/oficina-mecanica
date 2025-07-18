@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import path from 'path';
 import apiRoutes from './routes';
 
 // Load environment variables
@@ -19,6 +20,9 @@ app.use(cors({
 app.use(morgan('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Servir arquivos estáticos da pasta uploads
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Health check route
 app.get('/health', (req, res) => {

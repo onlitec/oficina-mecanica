@@ -157,7 +157,12 @@
         
         <div class="status">
             <h3>✅ Sistema Online e Funcionando!</h3>
-            <p>API rodando na porta 3000 com proxy Apache na porta 80</p>
+            <p>Redirecionando para o dashboard...</p>
+            <div style="margin-top: 15px;">
+                <div style="width: 100%; background: #e9ecef; border-radius: 10px; height: 8px;">
+                    <div id="progressBar" style="width: 0%; background: #007bff; height: 100%; border-radius: 10px; transition: width 1s ease;"></div>
+                </div>
+            </div>
         </div>
         
         <div class="endpoints">
@@ -193,8 +198,8 @@
         </div>
         
         <div>
+            <a href="/dashboard.html" class="btn">📊 Acessar Dashboard</a>
             <a href="/login.html" class="btn">🔐 Fazer Login</a>
-            <a href="/api" class="btn">📊 Acessar API</a>
             <a href="/health" class="btn btn-success">🏥 Health Check</a>
         </div>
         
@@ -203,8 +208,25 @@
             <p>🌐 Servido via Apache com proxy reverso</p>
         </div>
     </div>
-    
+
+    <script src="/js/auth.js"></script>
     <script>
+        // Redirecionar sempre para o dashboard
+        // O dashboard fará a verificação de autenticação e redirecionará para login se necessário
+
+        // Animar barra de progresso
+        setTimeout(() => {
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                progressBar.style.width = '100%';
+            }
+        }, 100);
+
+        // Redirecionar para o dashboard após 1 segundo
+        setTimeout(() => {
+            window.location.href = '/dashboard.html';
+        }, 1000);
+
         // Verificar status da API automaticamente
         fetch('/health')
             .then(response => response.json())
