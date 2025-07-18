@@ -474,9 +474,9 @@
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="zipCode">CEP</label>
+                            <label for="zipCode">CEP <small style="color: #666; font-weight: normal;">(preenche automaticamente rua, bairro, cidade e estado)</small></label>
                             <div class="input-with-icon">
-                                <input type="text" id="zipCode" name="zipCode" maxlength="9" placeholder="00000-000">
+                                <input type="text" id="zipCode" name="zipCode" maxlength="9" placeholder="Digite o CEP para preencher automaticamente">
                                 <span class="input-icon" id="zipCodeIcon">📍</span>
                                 <div class="loading-spinner" id="zipCodeLoading" style="display: none;">🔄</div>
                             </div>
@@ -837,15 +837,34 @@
                         }
                     }
 
-                    // Feedback de sucesso
-                    zipCodeFeedback.textContent = `✅ Endereço encontrado: ${data.localidade}/${data.uf}`;
+                    // Feedback de sucesso detalhado
+                    const filledFields = [];
+                    if (data.logradouro) filledFields.push('Rua');
+                    if (data.bairro) filledFields.push('Bairro');
+                    if (data.localidade) filledFields.push('Cidade');
+                    if (data.uf) filledFields.push('Estado');
+
+                    zipCodeFeedback.textContent = `✅ ${filledFields.join(', ')} preenchidos automaticamente - ${data.localidade}/${data.uf}`;
                     zipCodeFeedback.className = 'input-feedback success';
                     zipCodeIcon.textContent = '✅';
 
-                    // Focar no campo número
+                    // Animação visual nos campos preenchidos
+                    ['street', 'neighborhood', 'city', 'state'].forEach(fieldId => {
+                        const field = document.getElementById(fieldId);
+                        if (field && field.value) {
+                            // Efeito de destaque
+                            field.style.transition = 'all 0.3s ease';
+                            field.style.transform = 'scale(1.02)';
+                            setTimeout(() => {
+                                field.style.transform = 'scale(1)';
+                            }, 300);
+                        }
+                    });
+
+                    // Focar no campo número após animação
                     setTimeout(() => {
                         document.getElementById('number').focus();
-                    }, 100);
+                    }, 400);
                 }
             } catch (error) {
                 console.error('Erro ao buscar CEP:', error);
