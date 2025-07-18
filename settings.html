@@ -178,36 +178,45 @@
         }
         
         .file-upload {
-            position: relative;
-            display: inline-block;
+            display: block;
             cursor: pointer;
             background: #f8f9fa;
             border: 2px dashed #ddd;
             border-radius: 8px;
-            padding: 20px;
+            padding: 30px;
             text-align: center;
             transition: all 0.3s ease;
+            width: 100%;
+            margin: 10px 0;
         }
-        
+
         .file-upload:hover {
             border-color: #667eea;
             background: #f0f4ff;
         }
-        
+
         .file-upload input[type="file"] {
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
+            display: none;
         }
         
         .logo-preview {
             max-width: 200px;
             max-height: 100px;
-            margin: 10px 0;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 2px solid #e9ecef;
+            display: block;
+        }
+
+        .file-upload.has-file {
+            border-color: #28a745;
+            background: #f8fff8;
+        }
+
+        .file-upload.has-file:hover {
+            border-color: #20c997;
+            background: #e8f8f5;
         }
         
         .users-table {
@@ -469,12 +478,20 @@
                         <h3 class="section-title">Logotipo da Empresa</h3>
                         <div class="form-group">
                             <label class="form-label">Upload do Logo</label>
-                            <div class="file-upload">
-                                <input type="file" id="logoFile" accept="image/*" onchange="previewLogo(this)">
-                                <div>
+                            <input type="file" id="logoFile" accept="image/*" onchange="previewLogo(this)" style="display: none;">
+                            <div class="file-upload" onclick="openFileSelector()">
+                                <div id="uploadText">
                                     📁 Clique para selecionar o logo<br>
                                     <small>Formatos aceitos: JPG, PNG, GIF, SVG (máx. 5MB)</small>
                                 </div>
+                            </div>
+                            <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                <button type="button" class="btn btn-secondary" onclick="openFileSelector()">
+                                    📁 Selecionar Logo
+                                </button>
+                                <button type="button" class="btn btn-success" onclick="uploadLogo()" id="uploadBtn" style="display: none;">
+                                    🚀 Fazer Upload
+                                </button>
                             </div>
                             <img id="logoPreview" class="logo-preview" style="display: none;">
                         </div>
@@ -762,13 +779,136 @@
         // Preview do logo
         function previewLogo(input) {
             if (input.files && input.files[0]) {
+                const file = input.files[0];
+
+                // Verificar tamanho do arquivo (máx. 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    showError('Arquivo muito grande! Máximo permitido: 5MB');
+                    input.value = '';
+                    return;
+                }
+
+                // Verificar tipo do arquivo
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/svg+xml'];
+                if (!allowedTypes.includes(file.type)) {
+                    showError('Formato não suportado! Use: JPG, PNG, GIF ou SVG');
+                    input.value = '';
+                    return;
+                }
+
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const preview = document.getElementById('logoPreview');
                     preview.src = e.target.result;
                     preview.style.display = 'block';
+
+                    // Atualizar texto do upload
+                    const uploadText = document.getElementById('uploadText');
+                    const fileUpload = document.querySelector('.file-upload');
+
+                    if (uploadText) {
+                        uploadText.innerHTML = `
+                            ✅ Logo selecionado: ${file.name}<br>
+                            <small>Clique para alterar</small>
+                        `;
+                    }
+
+                    // Adicionar classe para indicar que há arquivo
+                    if (fileUpload) {
+                        fileUpload.classList.add('has-file');
+                    }
+
+                    // Mostrar botão de upload
+                    const uploadBtn = document.getElementById('uploadBtn');
+                    if (uploadBtn) {
+                        uploadBtn.style.display = 'inline-block';
+                    }
                 };
-                reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Função para abrir seletor de arquivo
+        function openFileSelector() {
+            console.log('🔍 Abrindo seletor de arquivo...');
+            const fileInput = document.getElementById('logoFile');
+            console.log('📁 Input encontrado:', fileInput);
+
+            if (fileInput) {
+                try {
+                    fileInput.click();
+                    console.log('✅ Clique executado no input file');
+                } catch (error) {
+                    console.error('❌ Erro ao clicar no input:', error);
+                    // Fallback: criar um novo input temporário
+                    const tempInput = document.createElement('input');
+                    tempInput.type = 'file';
+                    tempInput.accept = 'image/*';
+                    tempInput.onchange = function(e) {
+                        previewLogo(e.target);
+                    };
+                    tempInput.click();
+                }
+            } else {
+                console.error('❌ Input file não encontrado');
+            }
+        }
+
+        // Função para fazer upload do logo
+        async function uploadLogo() {
+            const fileInput = document.getElementById('logoFile');
+            const uploadBtn = document.getElementById('uploadBtn');
+
+            if (!fileInput.files || !fileInput.files[0]) {
+                showError('Nenhum arquivo selecionado!');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('logo', fileInput.files[0]);
+
+            try {
+                // Desabilitar botão durante upload
+                uploadBtn.disabled = true;
+                uploadBtn.innerHTML = '⏳ Enviando...';
+
+                const response = await fetch('/api/settings/logo', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showSuccess('Logo enviado com sucesso!');
+
+                    // Atualizar preview com a URL do servidor
+                    const preview = document.getElementById('logoPreview');
+                    if (preview && data.data.logoUrl) {
+                        preview.src = data.data.logoUrl;
+                    }
+
+                    // Esconder botão de upload
+                    uploadBtn.style.display = 'none';
+
+                    // Atualizar texto
+                    const uploadText = document.getElementById('uploadText');
+                    if (uploadText) {
+                        uploadText.innerHTML = `
+                            ✅ Logo enviado com sucesso!<br>
+                            <small>Clique para alterar</small>
+                        `;
+                    }
+                } else {
+                    showError(data.error || 'Erro ao enviar logo');
+                }
+            } catch (error) {
+                console.error('Erro no upload:', error);
+                showError('Erro de conexão ao enviar logo');
+            } finally {
+                // Reabilitar botão
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = '🚀 Fazer Upload';
             }
         }
 

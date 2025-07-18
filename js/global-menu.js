@@ -46,12 +46,12 @@ class GlobalMenu {
         const menuHTML = `
             <div class="global-header">
                 <div class="header-content">
-                    <div class="logo">
-                        <a href="/dashboard.html" class="logo-link">
-                            <div class="logo-icon">🔧</div>
-                            <div class="logo-text">
-                                <div class="logo-title">Oficina</div>
-                                <div class="logo-subtitle">Mecânica</div>
+                    <div class="logo" style="flex-shrink: 0;">
+                        <a href="/dashboard.html" style="color: white; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: opacity 0.3s ease;">
+                            <div style="width: 32px; height: 32px; background: #ef4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; flex-shrink: 0;">🔧</div>
+                            <div style="display: flex; flex-direction: column;">
+                                <div style="font-size: 20px; font-weight: 700; line-height: 1.2; color: white; margin: 0;">Oficina</div>
+                                <div style="font-size: 14px; opacity: 0.9; line-height: 1.2; color: white; margin: 0;">Mecânica</div>
                             </div>
                         </a>
                     </div>
@@ -99,6 +99,31 @@ class GlobalMenu {
 
         document.body.insertAdjacentHTML('afterbegin', menuHTML);
         console.log('Menu loaded - Version:', this.version, '- Logo and title updated');
+
+        // Forçar aplicação dos estilos do logo
+        setTimeout(() => {
+            const logoIcon = document.querySelector('.logo div[style*="background: #ef4444"]');
+            const logoText = document.querySelector('.logo div[style*="flex-direction: column"]');
+
+            if (logoIcon) {
+                logoIcon.innerHTML = '🔧';
+                console.log('Logo icon found and updated');
+            } else {
+                console.log('Logo icon NOT found');
+            }
+
+            if (logoText) {
+                console.log('Logo text found');
+            } else {
+                console.log('Logo text NOT found');
+            }
+
+            // Debug completo
+            const logo = document.querySelector('.logo');
+            if (logo) {
+                console.log('Logo HTML:', logo.innerHTML);
+            }
+        }, 100);
     }
 
     // Add clean styles
@@ -126,56 +151,7 @@ class GlobalMenu {
                     gap: 20px;
                 }
 
-                .global-header .logo {
-                    flex-shrink: 0;
-                }
 
-                .global-header .logo-link {
-                    color: white;
-                    text-decoration: none;
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    transition: opacity 0.3s ease;
-                }
-
-                .global-header .logo-link:hover {
-                    opacity: 0.9;
-                }
-
-                .global-header .logo-icon {
-                    width: 32px;
-                    height: 32px;
-                    background: #ef4444;
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 16px;
-                    color: white;
-                    flex-shrink: 0;
-                }
-
-                .global-header .logo-text {
-                    display: flex;
-                    flex-direction: column;
-                }
-
-                .global-header .logo-title {
-                    font-size: 20px;
-                    font-weight: 700;
-                    line-height: 1.2;
-                    color: white;
-                    margin: 0;
-                }
-
-                .global-header .logo-subtitle {
-                    font-size: 14px;
-                    opacity: 0.9;
-                    line-height: 1.2;
-                    color: white;
-                    margin: 0;
-                }
 
                 .main-nav {
                     display: flex;
