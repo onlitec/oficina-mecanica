@@ -47,8 +47,14 @@ class GlobalMenu {
             <div class="global-header">
                 <div class="header-content">
                     <div class="logo">
-                        <a href="/dashboard.html">
-                            🚗 Oficina Mecânica
+                        <a href="/dashboard.html" class="logo-link">
+                            <div class="logo-icon">
+                                🔧
+                            </div>
+                            <div class="logo-text">
+                                <div class="logo-title">Oficina</div>
+                                <div class="logo-subtitle">Mecânica</div>
+                            </div>
                         </a>
                     </div>
                     
@@ -107,8 +113,8 @@ class GlobalMenu {
                     left: 0;
                     right: 0;
                     z-index: 1000;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                    background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
+                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 }
 
@@ -122,16 +128,45 @@ class GlobalMenu {
                     gap: 20px;
                 }
 
-                .logo a {
+                .logo-link {
                     color: white;
                     text-decoration: none;
-                    font-size: 1.3em;
-                    font-weight: bold;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
                     transition: opacity 0.3s ease;
                 }
 
-                .logo a:hover {
+                .logo-link:hover {
                     opacity: 0.9;
+                }
+
+                .logo-icon {
+                    width: 32px;
+                    height: 32px;
+                    background: #ef4444;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 16px;
+                }
+
+                .logo-text {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .logo-title {
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    line-height: 1;
+                }
+
+                .logo-subtitle {
+                    font-size: 0.875rem;
+                    opacity: 0.9;
+                    line-height: 1;
                 }
 
                 .main-nav {
