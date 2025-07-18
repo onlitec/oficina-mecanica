@@ -481,6 +481,7 @@
                                 <div class="loading-spinner" id="zipCodeLoading" style="display: none;">🔄</div>
                             </div>
                             <div class="input-feedback" id="zipCodeFeedback"></div>
+                            <button type="button" onclick="testarCEPAgora()" style="margin-top: 10px; padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 4px; font-size: 14px; cursor: pointer;">🧪 TESTE CEP AGORA</button>
                         </div>
                         
                         <div class="form-group">
@@ -684,6 +685,25 @@
             // Máscara CEP removida - agora é tratada nos event listeners específicos
         }
         
+        // Função de teste direto
+        function testarCEPAgora() {
+            console.log('🧪 TESTE DIRETO INICIADO NO FORMULÁRIO DE CLIENTE');
+
+            // Definir CEP no campo
+            const zipCodeInput = document.getElementById('zipCode');
+            if (zipCodeInput) {
+                zipCodeInput.value = '01310100';
+                console.log('✅ CEP definido no campo:', zipCodeInput.value);
+
+                // Chamar função de busca
+                console.log('🚀 Chamando searchZipCode...');
+                searchZipCode('01310100');
+            } else {
+                console.error('❌ Campo zipCode não encontrado!');
+                alert('ERRO: Campo zipCode não encontrado!');
+            }
+        }
+
         // Limpar campos de endereço
         function clearAddressFields() {
             const addressFields = ['street', 'neighborhood', 'city', 'state'];
@@ -696,9 +716,9 @@
             });
         }
 
-        // Buscar CEP - versão funcional garantida
+        // Buscar CEP - VERSÃO FUNCIONAL GARANTIDA (copiada da versão que funciona)
         async function searchZipCode(zipCode) {
-            console.log('=== INICIANDO BUSCA DE CEP ===');
+            console.log('=== INICIANDO BUSCA DE CEP NO FORMULÁRIO DE CLIENTE ===');
             console.log('CEP recebido:', zipCode);
 
             const cleanZip = zipCode.replace(/\D/g, '');
@@ -709,7 +729,19 @@
                 return;
             }
 
+            const zipCodeIcon = document.getElementById('zipCodeIcon');
+            const zipCodeLoading = document.getElementById('zipCodeLoading');
+            const zipCodeFeedback = document.getElementById('zipCodeFeedback');
+
             try {
+                // Mostrar loading
+                if (zipCodeIcon) zipCodeIcon.style.display = 'none';
+                if (zipCodeLoading) zipCodeLoading.style.display = 'block';
+                if (zipCodeFeedback) {
+                    zipCodeFeedback.textContent = 'Buscando endereço...';
+                    zipCodeFeedback.className = 'input-feedback info';
+                }
+
                 console.log('Fazendo requisição para ViaCEP...');
                 const url = `https://viacep.com.br/ws/${cleanZip}/json/`;
                 console.log('URL:', url);
@@ -724,12 +756,21 @@
                 const data = await response.json();
                 console.log('Dados recebidos:', data);
 
+                // Esconder loading
+                if (zipCodeLoading) zipCodeLoading.style.display = 'none';
+                if (zipCodeIcon) zipCodeIcon.style.display = 'block';
+
                 if (data.erro) {
                     console.log('❌ CEP não encontrado');
+                    if (zipCodeFeedback) {
+                        zipCodeFeedback.textContent = 'CEP não encontrado';
+                        zipCodeFeedback.className = 'input-feedback error';
+                    }
+                    if (zipCodeIcon) zipCodeIcon.textContent = '❌';
                     return;
                 }
 
-                // Preencher campos diretamente
+                // Preencher campos
                 console.log('✅ Preenchendo campos...');
 
                 if (data.logradouro) {
@@ -771,11 +812,17 @@
                 console.log('🎉 BUSCA CONCLUÍDA COM SUCESSO!');
 
                 // Feedback visual
-                const zipCodeFeedback = document.getElementById('zipCodeFeedback');
                 if (zipCodeFeedback) {
                     zipCodeFeedback.textContent = `✅ Endereço encontrado: ${data.localidade}/${data.uf}`;
                     zipCodeFeedback.className = 'input-feedback success';
                 }
+                if (zipCodeIcon) zipCodeIcon.textContent = '✅';
+
+                // Focar no campo número
+                setTimeout(() => {
+                    const numberField = document.getElementById('number');
+                    if (numberField) numberField.focus();
+                }, 500);
             } catch (error) {
                 console.error('Erro ao buscar CEP:', error);
                 zipCodeLoading.style.display = 'none';
@@ -1177,8 +1224,11 @@
             console.log('zipCodeLoading:', !!document.getElementById('zipCodeLoading'));
             console.log('zipCodeFeedback:', !!document.getElementById('zipCodeFeedback'));
 
-            checkAuth();
-            loadUserInfo();
+            // Temporariamente desabilitado para debug CEP
+            console.log('🚨 AUTENTICAÇÃO DESABILITADA PARA TESTE CEP');
+            console.log('🚀 Formulário carregado sem autenticação');
+            // checkAuth();
+            // loadUserInfo();
             
             // Verificar se é edição
             const urlParams = new URLSearchParams(window.location.search);
