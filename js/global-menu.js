@@ -41,15 +41,37 @@ class GlobalMenu {
         this.currentUser = JSON.parse(user);
     }
 
+    // Load company name from settings
+    loadCompanyName() {
+        try {
+            const settings = localStorage.getItem('companySettings');
+            if (settings) {
+                const companyData = JSON.parse(settings);
+                const companyNameElement = document.getElementById('companyName');
+                if (companyNameElement && companyData.companyName) {
+                    companyNameElement.textContent = companyData.companyName;
+                    console.log('Company name loaded:', companyData.companyName);
+                }
+            }
+        } catch (error) {
+            console.log('No company settings found, using default name');
+        }
+    }
+
     // Create clean menu HTML
     createMenuHTML() {
         const menuHTML = `
             <div class="global-header">
                 <div class="header-content">
-                    <div class="logo">
-                        <!-- Logo será inserido pelo logo-manager.js -->
+                    <div class="logo-section">
+                        <div class="logo">
+                            <!-- Logo será inserido pelo logo-manager.js -->
+                        </div>
+                        <div class="company-name" id="companyName">
+                            Sistema de Gestão
+                        </div>
                     </div>
-                    
+
                     <nav class="main-nav">
                         <a href="/customers.html" class="nav-link" data-page="customers">
                             👥 Clientes
@@ -70,7 +92,7 @@ class GlobalMenu {
                             📊 Analytics
                         </a>
                     </nav>
-                    
+
                     <div class="user-section">
                         <a href="/settings.html" class="settings-btn" data-page="settings" title="Configurações">
                             ⚙️
@@ -93,6 +115,9 @@ class GlobalMenu {
 
         document.body.insertAdjacentHTML('afterbegin', menuHTML);
         console.log('Global Menu loaded - Version:', this.version, '- Ready for logo manager');
+
+        // Carregar nome da empresa
+        this.loadCompanyName();
 
         // Notificar logo manager que o menu está pronto
         if (window.logoManager) {
@@ -121,16 +146,24 @@ class GlobalMenu {
                     margin: 0 auto;
                     display: flex;
                     align-items: center;
-                    justify-content: center;
+                    justify-content: space-between;
                     padding: 12px 20px;
                     gap: 20px;
                     box-sizing: border-box;
-                    position: relative;
                 }
 
-                .logo {
-                    position: absolute;
-                    left: 20px;
+                .logo-section {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    flex: 0 0 auto;
+                }
+
+                .company-name {
+                    color: white;
+                    font-weight: 600;
+                    font-size: 1.1em;
+                    white-space: nowrap;
                 }
 
                 .main-nav {
@@ -138,15 +171,14 @@ class GlobalMenu {
                     gap: 20px;
                     align-items: center;
                     justify-content: center;
-                    flex: 0 0 auto;
+                    flex: 1;
                 }
 
                 .user-section {
-                    position: absolute;
-                    right: 20px;
                     display: flex;
                     align-items: center;
                     gap: 15px;
+                    flex: 0 0 auto;
                 }
 
                 .nav-link {
@@ -247,12 +279,8 @@ class GlobalMenu {
                         gap: 15px;
                     }
 
-                    .logo {
-                        left: 15px;
-                    }
-
-                    .user-section {
-                        right: 15px;
+                    .company-name {
+                        font-size: 1em;
                     }
 
                     .main-nav {
@@ -279,22 +307,26 @@ class GlobalMenu {
                     .header-content {
                         padding: 8px 12px;
                         gap: 10px;
+                        flex-direction: column;
                     }
 
-                    .logo {
-                        left: 12px;
+                    .logo-section {
+                        order: 1;
                     }
 
-                    .logo a {
-                        font-size: 1.1em;
-                    }
-
-                    .user-section {
-                        right: 12px;
+                    .company-name {
+                        font-size: 0.9em;
                     }
 
                     .main-nav {
+                        order: 2;
                         gap: 8px;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                    }
+
+                    .user-section {
+                        order: 3;
                     }
 
                     .nav-link {
