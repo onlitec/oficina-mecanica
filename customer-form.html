@@ -481,7 +481,6 @@
                                 <div class="loading-spinner" id="zipCodeLoading" style="display: none;">🔄</div>
                             </div>
                             <div class="input-feedback" id="zipCodeFeedback"></div>
-                            <button type="button" onclick="testCEP()" style="margin-top: 5px; padding: 5px 10px; background: #28a745; color: white; border: none; border-radius: 3px; font-size: 12px;">🧪 Teste CEP 01310-100</button>
                         </div>
                         
                         <div class="form-group">
@@ -685,15 +684,6 @@
             // Máscara CEP removida - agora é tratada nos event listeners específicos
         }
         
-        // Função de teste para CEP
-        function testCEP() {
-            console.log('🧪 Teste de CEP iniciado...');
-            const zipCodeInput = document.getElementById('zipCode');
-            zipCodeInput.value = '01310-100';
-            console.log('🧪 CEP definido no campo:', zipCodeInput.value);
-            searchZipCode('01310-100');
-        }
-
         // Limpar campos de endereço
         function clearAddressFields() {
             const addressFields = ['street', 'neighborhood', 'city', 'state'];
