@@ -128,3 +128,4 @@ settings.local.json
 *.sqlite
 *.sqlite3
 *.db3
+.env
