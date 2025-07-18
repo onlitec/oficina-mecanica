@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Menu Centralizado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f9fafb;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        
+        .test-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+            text-align: center;
+        }
+        
+        .test-info {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .debug-info {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            text-align: left;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        
+        .check-item {
+            margin: 10px 0;
+            padding: 10px;
+            border-left: 4px solid #007bff;
+            background: #f8f9fa;
+        }
+        
+        .check-item.success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .check-item.warning {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        
+        .check-item.error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-content">
+        <div class="test-info">
+            <h1>🔍 Teste de Centralização do Menu</h1>
+            <p>Esta página testa se o menu está sendo carregado e centralizado corretamente.</p>
+        </div>
+        
+        <div class="debug-info">
+            <h3>📊 Informações de Debug:</h3>
+            <div id="debugInfo">Carregando...</div>
+        </div>
+        
+        <div class="debug-info">
+            <h3>✅ Checklist de Centralização:</h3>
+            <div id="checkList">Verificando...</div>
+        </div>
+        
+        <div class="debug-info">
+            <h3>🎯 CSS Aplicado ao Menu:</h3>
+            <div id="cssInfo">Analisando...</div>
+        </div>
+    </div>
+
+    <script src="/js/global-menu.js"></script>
+    <script src="/js/logo-manager.js"></script>
+    <script>
+        // Aguardar o menu carregar
+        setTimeout(() => {
+            const debugInfo = document.getElementById('debugInfo');
+            const checkList = document.getElementById('checkList');
+            const cssInfo = document.getElementById('cssInfo');
+            
+            // Verificar se o menu foi carregado
+            const globalHeader = document.querySelector('.global-header');
+            const headerContent = document.querySelector('.header-content');
+            const mainNav = document.querySelector('.main-nav');
+            
+            let debug = '';
+            let checks = '';
+            let css = '';
+            
+            // Debug básico
+            debug += `Menu carregado: ${globalHeader ? '✅ SIM' : '❌ NÃO'}<br>`;
+            debug += `Header content: ${headerContent ? '✅ SIM' : '❌ NÃO'}<br>`;
+            debug += `Main nav: ${mainNav ? '✅ SIM' : '❌ NÃO'}<br>`;
+            
+            if (headerContent) {
+                const headerStyles = window.getComputedStyle(headerContent);
+                debug += `Header display: ${headerStyles.display}<br>`;
+                debug += `Header grid-template-columns: ${headerStyles.gridTemplateColumns}<br>`;
+                debug += `Header width: ${headerStyles.width}<br>`;
+                debug += `Header max-width: ${headerStyles.maxWidth}<br>`;
+            }
+            
+            if (mainNav) {
+                const navStyles = window.getComputedStyle(mainNav);
+                debug += `Nav display: ${navStyles.display}<br>`;
+                debug += `Nav justify-content: ${navStyles.justifyContent}<br>`;
+                debug += `Nav grid-column: ${navStyles.gridColumn}<br>`;
+                debug += `Nav justify-self: ${navStyles.justifySelf}<br>`;
+                
+                // CSS aplicado
+                css += `display: ${navStyles.display}<br>`;
+                css += `justify-content: ${navStyles.justifyContent}<br>`;
+                css += `grid-column: ${navStyles.gridColumn}<br>`;
+                css += `justify-self: ${navStyles.justifySelf}<br>`;
+                css += `position: ${navStyles.position}<br>`;
+                css += `left: ${navStyles.left}<br>`;
+                css += `transform: ${navStyles.transform}<br>`;
+            }
+            
+            // Checklist
+            checks += `<div class="check-item ${globalHeader ? 'success' : 'error'}">`;
+            checks += `Menu Global carregado: ${globalHeader ? '✅' : '❌'}`;
+            checks += `</div>`;
+            
+            checks += `<div class="check-item ${headerContent ? 'success' : 'error'}">`;
+            checks += `Header Content presente: ${headerContent ? '✅' : '❌'}`;
+            checks += `</div>`;
+            
+            checks += `<div class="check-item ${mainNav ? 'success' : 'error'}">`;
+            checks += `Main Nav presente: ${mainNav ? '✅' : '❌'}`;
+            checks += `</div>`;
+            
+            if (headerContent) {
+                const headerStyles = window.getComputedStyle(headerContent);
+                const isGrid = headerStyles.display === 'grid';
+                checks += `<div class="check-item ${isGrid ? 'success' : 'warning'}">`;
+                checks += `Header usando Grid: ${isGrid ? '✅' : '❌ (usando ' + headerStyles.display + ')'}`;
+                checks += `</div>`;
+            }
+            
+            if (mainNav) {
+                const navStyles = window.getComputedStyle(mainNav);
+                const isCentered = navStyles.gridColumn === '2' || navStyles.justifySelf === 'center';
+                checks += `<div class="check-item ${isCentered ? 'success' : 'warning'}">`;
+                checks += `Menu centralizado: ${isCentered ? '✅' : '❌'}`;
+                checks += `</div>`;
+            }
+            
+            debugInfo.innerHTML = debug;
+            checkList.innerHTML = checks;
+            cssInfo.innerHTML = css;
+            
+        }, 1000);
+    </script>
+</body>
+</html>

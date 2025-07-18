@@ -1,0 +1,234 @@
+/* CSS SIMPLES E DIRETO PARA MENU APENAS TEXTO */
+
+/* Fundo azul do header */
+.global-header {
+    background: #5865F2 !important;
+    background-color: #5865F2 !important;
+    background-image: none !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    height: 60px !important;
+}
+
+/* Container do header */
+.header-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 20px !important;
+    height: 60px !important;
+    position: relative !important;
+}
+
+/* Seção da logo */
+.logo-section {
+    flex: 0 0 auto !important;
+    width: 200px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+/* Menu principal - centralizado */
+.main-nav {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 10 !important;
+}
+
+/* Seção do usuário */
+.user-section {
+    flex: 0 0 auto !important;
+    width: 200px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+}
+
+/* ITENS DO MENU - APENAS TEXTO SIMPLES */
+.nav-link,
+.main-nav .nav-link,
+.main-nav a,
+a.nav-link,
+.nav-link span,
+.main-nav span,
+button.nav-link,
+[class*="nav-link"],
+.main-nav [class*="link"],
+.main-nav button {
+    /* Remover TODOS os efeitos visuais */
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+
+    /* Texto simples */
+    color: white !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+
+    /* Posicionamento */
+    display: inline-block !important;
+    padding: 8px 12px !important;
+    margin: 0 !important;
+    vertical-align: middle !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    line-height: 1.4 !important;
+
+    /* Remover TODOS os efeitos de transição e transformação */
+    transition: color 0.2s ease !important;
+    transform: none !important;
+    animation: none !important;
+
+    /* Cursor */
+    cursor: pointer !important;
+}
+
+/* HOVER SIMPLES - SEM ZOOM, SEM MOVIMENTO */
+.nav-link:hover,
+.main-nav .nav-link:hover,
+.main-nav a:hover,
+a.nav-link:hover,
+.nav-link span:hover,
+.main-nav span:hover,
+button.nav-link:hover,
+[class*="nav-link"]:hover,
+.main-nav [class*="link"]:hover,
+.main-nav button:hover {
+    /* Manter fundo transparente */
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    /* Apenas mudar cor para dourado */
+    color: #FFD700 !important;
+
+    /* SEM efeitos de movimento ou zoom */
+    transform: none !important;
+    scale: none !important;
+    transition: color 0.2s ease !important;
+    animation: none !important;
+    text-shadow: none !important;
+}
+
+/* FORÇAR remoção de qualquer estilo que possa estar sendo aplicado */
+.nav-link:focus,
+.nav-link:active,
+.nav-link.active,
+.main-nav .nav-link:focus,
+.main-nav .nav-link:active,
+.main-nav .nav-link.active {
+    background: none !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transform: none !important;
+    scale: none !important;
+    animation: none !important;
+}
+
+/* Remover qualquer pseudo-elemento que possa estar criando bordas */
+.nav-link::before,
+.nav-link::after,
+.main-nav .nav-link::before,
+.main-nav .nav-link::after,
+.main-nav *::before,
+.main-nav *::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Garantir que não há estilos herdados */
+.nav-link *,
+.main-nav * {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* FORÇA BRUTA - Remover qualquer estilo de qualquer elemento dentro do menu */
+.main-nav > *,
+.main-nav > * > *,
+.main-nav > * > * > * {
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+    color: white !important;
+    text-decoration: none !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+/* FORÇA BRUTA - Hover para qualquer elemento dentro do menu */
+.main-nav > *:hover,
+.main-nav > * > *:hover,
+.main-nav > * > * > *:hover {
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #FFD700 !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+/* Responsividade simples */
+@media (max-width: 900px) {
+    .main-nav {
+        gap: 15px !important;
+    }
+    
+    .nav-link {
+        font-size: 14px !important;
+        padding: 6px 10px !important;
+    }
+    
+    .logo-section,
+    .user-section {
+        width: 150px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .main-nav {
+        gap: 10px !important;
+    }
+    
+    .nav-link {
+        font-size: 13px !important;
+        padding: 5px 8px !important;
+    }
+    
+    .logo-section,
+    .user-section {
+        width: 120px !important;
+    }
+}

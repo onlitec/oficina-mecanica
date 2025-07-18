@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Simples - Menu Centralizado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding-top: 80px;
+        }
+        
+        .test-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .test-box {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .center-guide {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100vh;
+            background: red;
+            transform: translateX(-50%);
+            z-index: 10000;
+            opacity: 0.5;
+        }
+        
+        .center-guide::before {
+            content: "CENTRO";
+            position: absolute;
+            top: 100px;
+            left: 5px;
+            color: red;
+            font-weight: bold;
+            font-size: 12px;
+            background: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .success {
+            background: #e8f5e9;
+            border: 1px solid #4caf50;
+        }
+        
+        .error {
+            background: #ffebee;
+            border: 1px solid #f44336;
+        }
+        
+        .warning {
+            background: #fff3e0;
+            border: 1px solid #ff9800;
+        }
+        
+        button {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background: #1976d2;
+        }
+        
+        .manual-center {
+            background: #ff5722;
+        }
+        
+        .manual-center:hover {
+            background: #d84315;
+        }
+    </style>
+</head>
+<body>
+    <!-- Linha guia para mostrar o centro -->
+    <div class="center-guide"></div>
+    
+    <div class="test-content">
+        <div class="test-box">
+            <h1>🎯 Teste Simples de Centralização</h1>
+            <p>Esta página testa especificamente a centralização do menu.</p>
+            <p><strong>A linha vermelha mostra o centro exato da tela.</strong></p>
+        </div>
+        
+        <div class="test-box">
+            <h3>📊 Status do Menu</h3>
+            <div id="menuStatus" class="info">Carregando...</div>
+        </div>
+        
+        <div class="test-box">
+            <h3>🔧 Ações de Teste</h3>
+            <button onclick="testMenuCenter()">🔍 Verificar Centralização</button>
+            <button onclick="forceCenter()" class="manual-center">🎯 Forçar Centralização</button>
+            <button onclick="showMenuInfo()">📋 Info do Menu</button>
+            <button onclick="clearCache()">🗑️ Limpar Cache</button>
+        </div>
+        
+        <div class="test-box">
+            <h3>📈 Resultados</h3>
+            <div id="results" class="info">Clique em "Verificar Centralização" para começar.</div>
+        </div>
+        
+        <div class="test-box">
+            <h3>🛠️ Console</h3>
+            <div id="console" class="info" style="font-family: monospace; text-align: left; max-height: 200px; overflow-y: auto;">
+                Logs aparecerão aqui...
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/global-menu.js"></script>
+    <script src="/js/logo-manager.js"></script>
+    <script src="/force-center-menu.js"></script>
+    
+    <script>
+        let consoleDiv = document.getElementById('console');
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? 'red' : type === 'success' ? 'green' : type === 'warning' ? 'orange' : 'black';
+            consoleDiv.innerHTML += `<div style="color: ${color};">[${timestamp}] ${message}</div>`;
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+            console.log(message);
+        }
+        
+        function testMenuCenter() {
+            log('🔍 Iniciando teste de centralização...', 'info');
+            
+            const mainNav = document.querySelector('.main-nav');
+            const headerContent = document.querySelector('.header-content');
+            const results = document.getElementById('results');
+            
+            if (!mainNav) {
+                log('❌ Elemento .main-nav não encontrado!', 'error');
+                results.innerHTML = '<div class="error">❌ Menu não carregado</div>';
+                return;
+            }
+            
+            if (!headerContent) {
+                log('❌ Elemento .header-content não encontrado!', 'error');
+                results.innerHTML = '<div class="error">❌ Header não encontrado</div>';
+                return;
+            }
+            
+            const navRect = mainNav.getBoundingClientRect();
+            const headerRect = headerContent.getBoundingClientRect();
+            const windowCenter = window.innerWidth / 2;
+            
+            const navCenter = navRect.left + navRect.width / 2;
+            const headerCenter = headerRect.left + headerRect.width / 2;
+            const offsetFromWindow = Math.abs(navCenter - windowCenter);
+            const offsetFromHeader = Math.abs(navCenter - headerCenter);
+            
+            log(`📊 Nav center: ${navCenter.toFixed(1)}px`, 'info');
+            log(`📊 Header center: ${headerCenter.toFixed(1)}px`, 'info');
+            log(`📊 Window center: ${windowCenter.toFixed(1)}px`, 'info');
+            log(`📊 Offset from header: ${offsetFromHeader.toFixed(1)}px`, 'info');
+            log(`📊 Offset from window: ${offsetFromWindow.toFixed(1)}px`, 'info');
+            
+            let resultHtml = '';
+            
+            if (offsetFromHeader <= 5) {
+                resultHtml = '<div class="success">✅ Menu perfeitamente centralizado!</div>';
+                log('✅ Menu perfeitamente centralizado!', 'success');
+            } else if (offsetFromHeader <= 20) {
+                resultHtml = '<div class="warning">⚠️ Menu quase centralizado</div>';
+                log('⚠️ Menu quase centralizado', 'warning');
+            } else {
+                resultHtml = '<div class="error">❌ Menu não está centralizado</div>';
+                log('❌ Menu não está centralizado', 'error');
+            }
+            
+            resultHtml += `<p>Offset do header: ${offsetFromHeader.toFixed(1)}px</p>`;
+            resultHtml += `<p>Offset da janela: ${offsetFromWindow.toFixed(1)}px</p>`;
+            
+            results.innerHTML = resultHtml;
+        }
+        
+        function forceCenter() {
+            log('🎯 Forçando centralização manual...', 'info');
+            
+            if (typeof forceCenterMenuEmergency === 'function') {
+                forceCenterMenuEmergency();
+                log('✅ Função de emergência executada', 'success');
+            } else {
+                log('❌ Função de emergência não disponível', 'error');
+            }
+            
+            setTimeout(testMenuCenter, 500);
+        }
+        
+        function showMenuInfo() {
+            const mainNav = document.querySelector('.main-nav');
+            if (!mainNav) {
+                log('❌ Menu não encontrado', 'error');
+                return;
+            }
+            
+            const styles = window.getComputedStyle(mainNav);
+            log('📋 Informações do menu:', 'info');
+            log(`   Position: ${styles.position}`, 'info');
+            log(`   Left: ${styles.left}`, 'info');
+            log(`   Top: ${styles.top}`, 'info');
+            log(`   Transform: ${styles.transform}`, 'info');
+            log(`   Display: ${styles.display}`, 'info');
+            log(`   Z-index: ${styles.zIndex}`, 'info');
+        }
+        
+        function clearCache() {
+            log('🗑️ Limpando cache...', 'info');
+            location.reload(true);
+        }
+        
+        // Auto-teste após carregamento
+        setTimeout(() => {
+            log('🚀 Página carregada, executando teste automático...', 'info');
+            testMenuCenter();
+        }, 2000);
+        
+        // Atualizar status
+        setTimeout(() => {
+            const menuStatus = document.getElementById('menuStatus');
+            const globalHeader = document.querySelector('.global-header');
+            const mainNav = document.querySelector('.main-nav');
+            
+            let status = '';
+            if (globalHeader) {
+                status += '✅ Header global carregado<br>';
+            } else {
+                status += '❌ Header global não carregado<br>';
+            }
+            
+            if (mainNav) {
+                status += '✅ Menu principal carregado<br>';
+            } else {
+                status += '❌ Menu principal não carregado<br>';
+            }
+            
+            menuStatus.innerHTML = status;
+        }, 1000);
+    </script>
+</body>
+</html>
