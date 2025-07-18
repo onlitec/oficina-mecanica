@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug CEP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .auto-filled {
+            background-color: #d4edda !important;
+            border-color: #28a745 !important;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .debug {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Debug CEP - Teste Direto</h1>
+        <p>Esta página testa a busca de CEP de forma isolada para identificar problemas.</p>
+        
+        <div class="form-group">
+            <label for="zipCode">CEP:</label>
+            <input type="text" id="zipCode" placeholder="Digite o CEP (ex: 01310100)" maxlength="8">
+        </div>
+        
+        <div class="form-group">
+            <label for="street">Rua:</label>
+            <input type="text" id="street" readonly>
+        </div>
+        
+        <div class="form-group">
+            <label for="neighborhood">Bairro:</label>
+            <input type="text" id="neighborhood" readonly>
+        </div>
+        
+        <div class="form-group">
+            <label for="city">Cidade:</label>
+            <input type="text" id="city" readonly>
+        </div>
+        
+        <div class="form-group">
+            <label for="state">Estado:</label>
+            <input type="text" id="state" readonly>
+        </div>
+        
+        <button onclick="testCEP('01310100')">Teste: 01310100 (SP)</button>
+        <button onclick="testCEP('20040020')">Teste: 20040020 (RJ)</button>
+        <button onclick="testCEP('30112000')">Teste: 30112000 (MG)</button>
+        <button onclick="clearAll()">Limpar</button>
+        
+        <div id="status"></div>
+        <div id="debug" class="debug"></div>
+    </div>
+
+    <script>
+        let debugLog = [];
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            debugLog.push(logMessage);
+            console.log(logMessage);
+            updateDebugDisplay();
+        }
+        
+        function updateDebugDisplay() {
+            const debugDiv = document.getElementById('debug');
+            debugDiv.innerHTML = debugLog.join('<br>');
+            debugDiv.scrollTop = debugDiv.scrollHeight;
+        }
+        
+        function setStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = message;
+            statusDiv.className = `status ${type}`;
+        }
+        
+        async function searchCEP(cep) {
+            log(`🔍 Iniciando busca para CEP: ${cep}`);
+            setStatus('🔄 Buscando CEP...', 'info');
+            
+            // Limpar campos
+            ['street', 'neighborhood', 'city', 'state'].forEach(id => {
+                const field = document.getElementById(id);
+                field.value = '';
+                field.classList.remove('auto-filled');
+            });
+            
+            try {
+                const url = `https://viacep.com.br/ws/${cep}/json/`;
+                log(`🌐 URL da requisição: ${url}`);
+                
+                log('📡 Fazendo requisição fetch...');
+                const response = await fetch(url);
+                log(`📡 Resposta recebida - Status: ${response.status}, OK: ${response.ok}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                log('📦 Convertendo resposta para JSON...');
+                const data = await response.json();
+                log(`📦 Dados recebidos: ${JSON.stringify(data, null, 2)}`);
+                
+                if (data.erro) {
+                    log('❌ API retornou erro: CEP não encontrado');
+                    setStatus('❌ CEP não encontrado', 'error');
+                    return;
+                }
+                
+                // Preencher campos
+                log('✅ Preenchendo campos...');
+                
+                if (data.logradouro) {
+                    document.getElementById('street').value = data.logradouro;
+                    document.getElementById('street').classList.add('auto-filled');
+                    log(`📍 Rua preenchida: ${data.logradouro}`);
+                }
+                
+                if (data.bairro) {
+                    document.getElementById('neighborhood').value = data.bairro;
+                    document.getElementById('neighborhood').classList.add('auto-filled');
+                    log(`🏘️ Bairro preenchido: ${data.bairro}`);
+                }
+                
+                if (data.localidade) {
+                    document.getElementById('city').value = data.localidade;
+                    document.getElementById('city').classList.add('auto-filled');
+                    log(`🏙️ Cidade preenchida: ${data.localidade}`);
+                }
+                
+                if (data.uf) {
+                    document.getElementById('state').value = data.uf;
+                    document.getElementById('state').classList.add('auto-filled');
+                    log(`🗺️ Estado preenchido: ${data.uf}`);
+                }
+                
+                setStatus(`✅ Endereço encontrado: ${data.localidade}/${data.uf}`, 'success');
+                log('🎉 Busca concluída com sucesso!');
+                
+            } catch (error) {
+                log(`❌ Erro na busca: ${error.message}`);
+                log(`❌ Stack trace: ${error.stack}`);
+                setStatus(`❌ Erro: ${error.message}`, 'error');
+            }
+        }
+        
+        function testCEP(cep) {
+            log(`🧪 Teste iniciado para CEP: ${cep}`);
+            document.getElementById('zipCode').value = cep;
+            searchCEP(cep);
+        }
+        
+        function clearAll() {
+            log('🧹 Limpando todos os campos');
+            ['zipCode', 'street', 'neighborhood', 'city', 'state'].forEach(id => {
+                const field = document.getElementById(id);
+                field.value = '';
+                field.classList.remove('auto-filled');
+            });
+            document.getElementById('status').innerHTML = '';
+            debugLog = [];
+            updateDebugDisplay();
+        }
+        
+        // Event listener para input manual
+        document.getElementById('zipCode').addEventListener('input', function(e) {
+            const value = e.target.value.replace(/\D/g, '');
+            log(`⌨️ Input detectado: ${value}`);
+            
+            if (value.length === 8) {
+                log('✅ CEP completo detectado, iniciando busca...');
+                setTimeout(() => {
+                    searchCEP(value);
+                }, 500);
+            }
+        });
+        
+        // Log inicial
+        document.addEventListener('DOMContentLoaded', function() {
+            log('🚀 Página carregada e pronta para teste');
+            log('📋 Instruções:');
+            log('   1. Digite um CEP de 8 dígitos no campo');
+            log('   2. Ou clique em um dos botões de teste');
+            log('   3. Acompanhe o debug abaixo');
+        });
+    </script>
+</body>
+</html>

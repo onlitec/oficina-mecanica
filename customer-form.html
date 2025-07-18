@@ -696,16 +696,19 @@
             });
         }
 
-        // Buscar CEP com feedback visual
+        // Buscar CEP - versão simplificada
         async function searchZipCode(zipCode) {
             console.log('🔍 Iniciando busca de CEP:', zipCode);
             const cleanZip = zipCode.replace(/\D/g, '');
-            console.log('🔍 CEP limpo:', cleanZip);
+
+            if (cleanZip.length !== 8) {
+                console.log('❌ CEP inválido:', cleanZip);
+                return;
+            }
 
             const zipCodeIcon = document.getElementById('zipCodeIcon');
             const zipCodeLoading = document.getElementById('zipCodeLoading');
             const zipCodeFeedback = document.getElementById('zipCodeFeedback');
-            const addressFields = ['street', 'neighborhood', 'city', 'state'];
 
             console.log('🔍 Elementos encontrados:', {
                 zipCodeIcon: !!zipCodeIcon,
@@ -742,129 +745,73 @@
 
             try {
                 // Mostrar loading
-                console.log('🔄 Mostrando loading...');
-                zipCodeIcon.style.display = 'none';
-                zipCodeLoading.style.display = 'block';
-                zipCodeFeedback.textContent = 'Buscando endereço...';
-                zipCodeFeedback.className = 'input-feedback info';
-
-                let data = null;
-                let url = `https://viacep.com.br/ws/${cleanZip}/json/`;
-                console.log('🌐 Fazendo requisição para:', url);
-
-                try {
-                    const response = await fetch(url, {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json',
-                        }
-                    });
-                    console.log('📡 Resposta recebida:', response.status, response.ok);
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                    }
-
-                    data = await response.json();
-                    console.log('📦 Dados recebidos:', data);
-                } catch (apiError) {
-                    console.warn('⚠️ Erro na API ViaCEP, tentando API alternativa...', apiError);
-
-                    // Tentar API alternativa
-                    try {
-                        url = `https://brasilapi.com.br/api/cep/v1/${cleanZip}`;
-                        console.log('🌐 Tentando API alternativa:', url);
-
-                        const altResponse = await fetch(url);
-                        if (altResponse.ok) {
-                            const altData = await altResponse.json();
-                            // Converter formato da BrasilAPI para ViaCEP
-                            data = {
-                                logradouro: altData.street,
-                                bairro: altData.neighborhood,
-                                localidade: altData.city,
-                                uf: altData.state,
-                                erro: false
-                            };
-                            console.log('📦 Dados da API alternativa:', data);
-                        } else {
-                            throw apiError; // Re-throw original error
-                        }
-                    } catch (altError) {
-                        console.error('❌ Ambas APIs falharam:', altError);
-                        throw apiError; // Re-throw original error
-                    }
+                if (zipCodeIcon) zipCodeIcon.style.display = 'none';
+                if (zipCodeLoading) zipCodeLoading.style.display = 'block';
+                if (zipCodeFeedback) {
+                    zipCodeFeedback.textContent = 'Buscando endereço...';
+                    zipCodeFeedback.className = 'input-feedback info';
                 }
 
+                const url = `https://viacep.com.br/ws/${cleanZip}/json/`;
+                console.log('🌐 Fazendo requisição para:', url);
+
+                const response = await fetch(url);
+                console.log('📡 Resposta recebida:', response.status);
+
+                const data = await response.json();
+                console.log('📦 Dados recebidos:', data);
+
                 // Esconder loading
-                zipCodeLoading.style.display = 'none';
-                zipCodeIcon.style.display = 'block';
+                if (zipCodeLoading) zipCodeLoading.style.display = 'none';
+                if (zipCodeIcon) zipCodeIcon.style.display = 'block';
 
                 if (data.erro) {
-                    zipCodeFeedback.textContent = 'CEP não encontrado';
-                    zipCodeFeedback.className = 'input-feedback error';
-                    zipCodeIcon.textContent = '❌';
+                    if (zipCodeFeedback) {
+                        zipCodeFeedback.textContent = 'CEP não encontrado';
+                        zipCodeFeedback.className = 'input-feedback error';
+                    }
+                    if (zipCodeIcon) zipCodeIcon.textContent = '❌';
                 } else {
                     // Preencher campos
+                    console.log('✅ Preenchendo campos...');
+
                     const streetField = document.getElementById('street');
                     const neighborhoodField = document.getElementById('neighborhood');
                     const cityField = document.getElementById('city');
                     const stateField = document.getElementById('state');
 
-                    if (data.logradouro) {
+                    if (streetField && data.logradouro) {
                         streetField.value = data.logradouro;
                         streetField.classList.add('auto-filled');
+                        console.log('📍 Rua preenchida:', data.logradouro);
                     }
 
-                    if (data.bairro) {
+                    if (neighborhoodField && data.bairro) {
                         neighborhoodField.value = data.bairro;
                         neighborhoodField.classList.add('auto-filled');
+                        console.log('🏘️ Bairro preenchido:', data.bairro);
                     }
 
-                    if (data.localidade) {
+                    if (cityField && data.localidade) {
                         cityField.value = data.localidade;
                         cityField.classList.add('auto-filled');
+                        console.log('🏙️ Cidade preenchida:', data.localidade);
                     }
 
-                    if (data.uf) {
-                        // Para campo select, verificar se a opção existe
-                        const stateOption = stateField.querySelector(`option[value="${data.uf}"]`);
-                        if (stateOption) {
-                            stateField.value = data.uf;
-                            stateField.classList.add('auto-filled');
-                        } else {
-                            console.warn(`Estado ${data.uf} não encontrado no select`);
-                        }
+                    if (stateField && data.uf) {
+                        stateField.value = data.uf;
+                        stateField.classList.add('auto-filled');
+                        console.log('🗺️ Estado preenchido:', data.uf);
                     }
 
-                    // Feedback de sucesso detalhado
-                    const filledFields = [];
-                    if (data.logradouro) filledFields.push('Rua');
-                    if (data.bairro) filledFields.push('Bairro');
-                    if (data.localidade) filledFields.push('Cidade');
-                    if (data.uf) filledFields.push('Estado');
+                    // Feedback de sucesso
+                    if (zipCodeFeedback) {
+                        zipCodeFeedback.textContent = `✅ Endereço encontrado: ${data.localidade}/${data.uf}`;
+                        zipCodeFeedback.className = 'input-feedback success';
+                    }
+                    if (zipCodeIcon) zipCodeIcon.textContent = '✅';
 
-                    zipCodeFeedback.textContent = `✅ ${filledFields.join(', ')} preenchidos automaticamente - ${data.localidade}/${data.uf}`;
-                    zipCodeFeedback.className = 'input-feedback success';
-                    zipCodeIcon.textContent = '✅';
-
-                    // Animação visual nos campos preenchidos
-                    ['street', 'neighborhood', 'city', 'state'].forEach(fieldId => {
-                        const field = document.getElementById(fieldId);
-                        if (field && field.value) {
-                            // Efeito de destaque
-                            field.style.transition = 'all 0.3s ease';
-                            field.style.transform = 'scale(1.02)';
-                            setTimeout(() => {
-                                field.style.transform = 'scale(1)';
-                            }, 300);
-                        }
-                    });
-
-                    // Focar no campo número após animação
-                    setTimeout(() => {
-                        document.getElementById('number').focus();
-                    }, 400);
+                    console.log('🎉 Busca concluída com sucesso!');
                 }
             } catch (error) {
                 console.error('Erro ao buscar CEP:', error);
