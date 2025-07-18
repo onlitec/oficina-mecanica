@@ -116,13 +116,19 @@ class GlobalMenu {
                 }
 
                 .header-content {
-                    max-width: 1000px;
+                    max-width: 1200px;
+                    width: 100%;
                     margin: 0 auto;
-                    display: flex;
+                    display: grid;
+                    grid-template-columns: 1fr auto 1fr;
                     align-items: center;
-                    justify-content: space-between;
                     padding: 12px 20px;
                     gap: 20px;
+                    box-sizing: border-box;
+                }
+
+                .logo {
+                    justify-self: start;
                 }
 
 
@@ -131,6 +137,7 @@ class GlobalMenu {
                     display: flex;
                     gap: 20px;
                     align-items: center;
+                    justify-self: center;
                 }
 
                 .nav-link {
@@ -159,6 +166,7 @@ class GlobalMenu {
                     display: flex;
                     align-items: center;
                     gap: 15px;
+                    justify-self: end;
                 }
 
                 .settings-btn {
@@ -233,10 +241,12 @@ class GlobalMenu {
                         max-width: 100%;
                         padding: 10px 15px;
                         gap: 15px;
+                        grid-template-columns: auto 1fr auto;
                     }
 
                     .main-nav {
                         gap: 15px;
+                        justify-self: center;
                     }
 
                     .nav-link {
@@ -259,6 +269,7 @@ class GlobalMenu {
                     .header-content {
                         padding: 8px 12px;
                         gap: 10px;
+                        grid-template-columns: auto 1fr auto;
                     }
 
                     .logo a {
@@ -267,6 +278,7 @@ class GlobalMenu {
 
                     .main-nav {
                         gap: 8px;
+                        justify-self: center;
                     }
 
                     .nav-link {
@@ -288,8 +300,27 @@ class GlobalMenu {
 
                 @media (max-width: 400px) {
                     .header-content {
-                        padding: 6px 8px;
+                        display: flex;
+                        flex-direction: column;
+                        padding: 10px 8px;
                         gap: 8px;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .logo {
+                        order: 1;
+                    }
+
+                    .main-nav {
+                        order: 2;
+                        justify-content: center;
+                        flex-wrap: wrap;
+                    }
+
+                    .user-section {
+                        order: 3;
+                        justify-content: center;
                     }
 
                     .logo a {
