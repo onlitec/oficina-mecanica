@@ -427,8 +427,8 @@
                         <h3 class="section-title">Informações do Sistema</h3>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label class="form-label">Nome do Aplicativo</label>
-                                <input type="text" class="form-input" id="appName" name="appName" placeholder="Ex: Oficina Mecânica">
+                                <label class="form-label">Nome da Empresa</label>
+                                <input type="text" class="form-input" id="appName" name="appName" placeholder="Ex: Oficina do João">
                             </div>
                             
                             <div class="form-group">
@@ -1188,6 +1188,20 @@
                     if (result.success) {
                         showSuccess('Configurações salvas com sucesso!');
                         loadSettings();
+
+                        // Notificar outras páginas sobre a atualização das configurações
+                        window.dispatchEvent(new CustomEvent('settingsUpdated', {
+                            detail: {
+                                companyName: data.appName,
+                                appName: data.appName
+                            }
+                        }));
+
+                        // Notificar logo manager se houver mudança no nome da empresa
+                        if (window.logoManager && data.appName) {
+                            window.logoManager.companyName = data.appName;
+                            window.logoManager.updateAllLogos();
+                        }
                     } else {
                         showError(result.error || 'Erro ao salvar configurações');
                     }

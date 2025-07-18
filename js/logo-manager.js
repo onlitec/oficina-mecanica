@@ -25,13 +25,14 @@ class LogoManager {
             
             if (data.success && data.data) {
                 this.logoUrl = data.data.logoUrl;
-                this.companyName = data.data.companyName || 'Oficina';
-                
+                // Usar appName (Nome da Empresa) como prioridade, depois companyName, depois padrão
+                this.companyName = data.data.appName || data.data.companyName || 'Oficina';
+
                 console.log('✅ Configurações carregadas:', {
                     logoUrl: this.logoUrl,
                     companyName: this.companyName
                 });
-                
+
                 this.isLoaded = true;
                 this.updateAllLogos();
             } else {

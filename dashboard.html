@@ -426,8 +426,8 @@
     
     <div class="container">
         <div class="welcome">
-            <h1>Bem-vindo ao Dashboard!</h1>
-            <p>Sistema de Gestão de Oficina Mecânica - Painel de Controle</p>
+            <h1 id="welcomeTitle">Bem-vindo ao Dashboard!</h1>
+            <p id="welcomeSubtitle">Sistema de Gestão de Oficina Mecânica - Painel de Controle</p>
         </div>
         
         <div class="stats">
@@ -934,10 +934,50 @@
             });
         }
 
+        // Carregar configurações da empresa
+        async function loadCompanySettings() {
+            try {
+                const response = await fetch('/api/settings/system');
+                const data = await response.json();
+
+                if (data.success && data.data) {
+                    const companyName = data.data.appName || data.data.companyName || 'Oficina Mecânica';
+
+                    // Atualizar título de boas-vindas
+                    const welcomeTitle = document.getElementById('welcomeTitle');
+                    const welcomeSubtitle = document.getElementById('welcomeSubtitle');
+
+                    if (welcomeTitle) {
+                        welcomeTitle.textContent = `Bem-vindo à ${companyName}`;
+                    }
+
+                    if (welcomeSubtitle) {
+                        welcomeSubtitle.textContent = 'Sistema de Gestão de Oficina Mecânica - Painel de Controle';
+                    }
+
+                    // Atualizar título da página
+                    document.title = `Dashboard - ${companyName}`;
+
+                    console.log('✅ Configurações da empresa carregadas:', companyName);
+                } else {
+                    console.log('⚠️ Usando nome padrão da empresa');
+                }
+            } catch (error) {
+                console.error('❌ Erro ao carregar configurações da empresa:', error);
+            }
+        }
+
+        // Escutar mudanças nas configurações
+        window.addEventListener('settingsUpdated', function(event) {
+            console.log('🔄 Configurações atualizadas, recarregando nome da empresa...');
+            loadCompanySettings();
+        });
+
         // Inicializar página
         document.addEventListener('DOMContentLoaded', function() {
             loadStats();
             setupSearchEvents();
+            loadCompanySettings();
         });
     </script>
     <script src="/js/logo-manager.js"></script>
