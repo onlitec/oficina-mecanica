@@ -144,21 +144,19 @@ class GlobalMenu {
                     max-width: 1200px;
                     width: 100%;
                     margin: 0 auto;
-                    display: flex;
+                    display: grid;
+                    grid-template-columns: 1fr auto 1fr;
                     align-items: center;
-                    justify-content: center;
                     padding: 12px 24px;
                     gap: 20px;
                     box-sizing: border-box;
-                    position: relative;
                 }
 
                 .logo-section {
-                    position: absolute;
-                    left: 24px;
                     display: flex;
                     align-items: center;
                     gap: 12px;
+                    justify-self: start;
                 }
 
                 .company-name {
@@ -173,14 +171,14 @@ class GlobalMenu {
                     gap: 20px;
                     align-items: center;
                     justify-content: center;
+                    justify-self: center;
                 }
 
                 .user-section {
-                    position: absolute;
-                    right: 24px;
                     display: flex;
                     align-items: center;
                     gap: 15px;
+                    justify-self: end;
                 }
 
                 .nav-link {
@@ -279,14 +277,7 @@ class GlobalMenu {
                         max-width: 100%;
                         padding: 10px 15px;
                         gap: 15px;
-                    }
-
-                    .logo-section {
-                        left: 15px;
-                    }
-
-                    .user-section {
-                        right: 15px;
+                        grid-template-columns: auto 1fr auto;
                     }
 
                     .company-name {
@@ -317,18 +308,7 @@ class GlobalMenu {
                     .header-content {
                         padding: 8px 12px;
                         gap: 10px;
-                        flex-direction: column;
-                        justify-content: center;
-                    }
-
-                    .logo-section {
-                        position: static;
-                        order: 1;
-                    }
-
-                    .user-section {
-                        position: static;
-                        order: 3;
+                        grid-template-columns: auto 1fr auto;
                     }
 
                     .company-name {
@@ -336,7 +316,6 @@ class GlobalMenu {
                     }
 
                     .main-nav {
-                        order: 2;
                         gap: 8px;
                         flex-wrap: wrap;
                         justify-content: center;
@@ -373,7 +352,7 @@ class GlobalMenu {
                         justify-content: center;
                     }
 
-                    .logo {
+                    .logo-section {
                         order: 1;
                     }
 
