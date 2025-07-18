@@ -146,17 +146,19 @@ class GlobalMenu {
                     margin: 0 auto;
                     display: flex;
                     align-items: center;
-                    justify-content: space-between;
-                    padding: 12px 20px;
+                    justify-content: center;
+                    padding: 12px 24px;
                     gap: 20px;
                     box-sizing: border-box;
+                    position: relative;
                 }
 
                 .logo-section {
+                    position: absolute;
+                    left: 24px;
                     display: flex;
                     align-items: center;
                     gap: 12px;
-                    flex: 0 0 auto;
                 }
 
                 .company-name {
@@ -171,14 +173,14 @@ class GlobalMenu {
                     gap: 20px;
                     align-items: center;
                     justify-content: center;
-                    flex: 1;
                 }
 
                 .user-section {
+                    position: absolute;
+                    right: 24px;
                     display: flex;
                     align-items: center;
                     gap: 15px;
-                    flex: 0 0 auto;
                 }
 
                 .nav-link {
@@ -279,6 +281,14 @@ class GlobalMenu {
                         gap: 15px;
                     }
 
+                    .logo-section {
+                        left: 15px;
+                    }
+
+                    .user-section {
+                        right: 15px;
+                    }
+
                     .company-name {
                         font-size: 1em;
                     }
@@ -308,10 +318,17 @@ class GlobalMenu {
                         padding: 8px 12px;
                         gap: 10px;
                         flex-direction: column;
+                        justify-content: center;
                     }
 
                     .logo-section {
+                        position: static;
                         order: 1;
+                    }
+
+                    .user-section {
+                        position: static;
+                        order: 3;
                     }
 
                     .company-name {
