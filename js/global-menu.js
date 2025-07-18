@@ -47,7 +47,7 @@ class GlobalMenu {
             <div class="global-header">
                 <div class="header-content">
                     <div class="logo">
-                        <!-- Logo será inserido pelo fix-logo.js -->
+                        <!-- Logo será inserido pelo logo-manager.js -->
                     </div>
                     
                     <nav class="main-nav">
@@ -92,7 +92,12 @@ class GlobalMenu {
         `;
 
         document.body.insertAdjacentHTML('afterbegin', menuHTML);
-        console.log('Global Menu loaded - Version:', this.version, '- Ready for logo fix');
+        console.log('Global Menu loaded - Version:', this.version, '- Ready for logo manager');
+
+        // Notificar logo manager que o menu está pronto
+        if (window.logoManager) {
+            setTimeout(() => window.logoManager.updateAllLogos(), 100);
+        }
     }
 
     // Add clean styles

@@ -695,6 +695,7 @@
         </div>
     </div>
     
+    <script src="/js/logo-manager.js"></script>
     <script src="/js/global-menu.js"></script>
     <script>
         let currentSettings = {};
@@ -887,6 +888,16 @@
                     if (preview && data.data.logoUrl) {
                         preview.src = data.data.logoUrl;
                     }
+
+                    // Notificar logo manager sobre a atualização
+                    if (window.logoManager) {
+                        window.logoManager.updateLogo(data.data.logoUrl);
+                    }
+
+                    // Disparar evento global para outras páginas
+                    window.dispatchEvent(new CustomEvent('logoUpdated', {
+                        detail: { logoUrl: data.data.logoUrl }
+                    }));
 
                     // Esconder botão de upload
                     uploadBtn.style.display = 'none';
