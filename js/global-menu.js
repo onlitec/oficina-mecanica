@@ -144,19 +144,19 @@ class GlobalMenu {
                     max-width: 1200px;
                     width: 100%;
                     margin: 0 auto;
-                    display: grid;
-                    grid-template-columns: 1fr auto 1fr;
+                    display: flex;
                     align-items: center;
                     padding: 12px 24px;
-                    gap: 20px;
                     box-sizing: border-box;
+                    position: relative;
+                    justify-content: space-between;
                 }
 
                 .logo-section {
                     display: flex;
                     align-items: center;
                     gap: 12px;
-                    justify-self: start;
+                    flex: 0 0 auto;
                 }
 
                 .company-name {
@@ -171,14 +171,17 @@ class GlobalMenu {
                     gap: 20px;
                     align-items: center;
                     justify-content: center;
-                    justify-self: center;
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
                 }
 
                 .user-section {
                     display: flex;
                     align-items: center;
                     gap: 15px;
-                    justify-self: end;
+                    flex: 0 0 auto;
                 }
 
                 .nav-link {
@@ -276,16 +279,14 @@ class GlobalMenu {
                     .header-content {
                         max-width: 100%;
                         padding: 10px 15px;
-                        gap: 15px;
-                        grid-template-columns: auto 1fr auto;
-                    }
-
-                    .company-name {
-                        font-size: 1em;
                     }
 
                     .main-nav {
                         gap: 15px;
+                    }
+
+                    .company-name {
+                        font-size: 1em;
                     }
 
                     .nav-link {
@@ -307,18 +308,17 @@ class GlobalMenu {
                 @media (max-width: 600px) {
                     .header-content {
                         padding: 8px 12px;
-                        gap: 10px;
-                        grid-template-columns: auto 1fr auto;
-                    }
-
-                    .company-name {
-                        font-size: 0.9em;
                     }
 
                     .main-nav {
                         gap: 8px;
                         flex-wrap: wrap;
                         justify-content: center;
+                    }
+
+                    .company-name {
+                        font-size: 0.9em;
+                    }
                     }
 
                     .user-section {
@@ -357,6 +357,8 @@ class GlobalMenu {
                     }
 
                     .main-nav {
+                        position: static;
+                        transform: none;
                         order: 2;
                         justify-content: center;
                         flex-wrap: wrap;
