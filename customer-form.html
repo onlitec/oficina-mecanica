@@ -561,13 +561,13 @@
                 companyFields.classList.add('hidden');
                 cpfCnpjLabel.textContent = 'CPF';
                 cpfCnpjInput.placeholder = '000.000.000-00';
-                cpfCnpjInput.maxLength = 14;
+                cpfCnpjInput.removeAttribute('maxLength'); // Remover maxLength para permitir máscara
             } else {
                 individualFields.classList.add('hidden');
                 companyFields.classList.remove('hidden');
                 cpfCnpjLabel.textContent = 'CNPJ';
                 cpfCnpjInput.placeholder = '00.000.000/0000-00';
-                cpfCnpjInput.maxLength = 18;
+                cpfCnpjInput.removeAttribute('maxLength'); // Remover maxLength para permitir máscara
             }
             
             // Limpar validações
@@ -585,20 +585,30 @@
             cpfCnpjInput.addEventListener('input', function(e) {
                 let value = e.target.value.replace(/\D/g, '');
                 const type = document.querySelector('input[name="type"]:checked').value;
-                
+
                 if (type === 'INDIVIDUAL') {
-                    // CPF: 000.000.000-00
+                    // CPF: 000.000.000-00 (limitar a 11 dígitos)
+                    if (value.length > 11) {
+                        value = value.substring(0, 11);
+                    }
+
+                    // Aplicar máscara do CPF
                     value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                    value = value.replace(/(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
+                    value = value.replace(/(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
                 } else {
-                    // CNPJ: 00.000.000/0000-00
+                    // CNPJ: 00.000.000/0000-00 (limitar a 14 dígitos)
+                    if (value.length > 14) {
+                        value = value.substring(0, 14);
+                    }
+
+                    // Aplicar máscara do CNPJ
                     value = value.replace(/(\d{2})(\d)/, '$1.$2');
-                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                    value = value.replace(/(\d{3})(\d)/, '$1/$2');
-                    value = value.replace(/(\d{4})(\d{1,2})$/, '$1-$2');
+                    value = value.replace(/(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+                    value = value.replace(/(\d{2})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3/$4');
+                    value = value.replace(/(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d{1,2})/, '$1.$2.$3/$4-$5');
                 }
-                
+
                 e.target.value = value;
             });
             
