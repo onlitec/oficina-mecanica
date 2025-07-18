@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "NODE_OPTIONS='' nodemon src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "lint": "echo \"Lint check not configured yet\"",
