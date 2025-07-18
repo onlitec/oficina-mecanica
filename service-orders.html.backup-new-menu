@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordens de Serviço - Sistema de Gestão de Oficina Mecânica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        /* Header styles removed - now handled by global-menu.js */
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 2em;
+            color: #333;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .btn-success {
+            background: #28a745;
+        }
+        
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+        
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.9em;
+        }
+        
+        .filters {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .filters-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group select {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .orders-table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .badge-open {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .badge-diagnosing {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .badge-waiting-approval {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+        
+        .badge-approved {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .badge-waiting-parts {
+            background: #fff8e1;
+            color: #f9a825;
+        }
+        
+        .badge-in-progress {
+            background: #e1f5fe;
+            color: #0277bd;
+        }
+        
+        .badge-waiting-payment {
+            background: #fce4ec;
+            color: #ad1457;
+        }
+        
+        .badge-completed {
+            background: #e8f5e8;
+            color: #1b5e20;
+        }
+        
+        .badge-cancelled {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .badge-low {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .badge-normal {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .badge-high {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .badge-urgent {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .pagination button:hover {
+            background: #f8f9fa;
+        }
+        
+        .pagination button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .order-number {
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .customer-info {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .vehicle-info {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .filters-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+            
+            table {
+                font-size: 0.9em;
+            }
+            
+            th, td {
+                padding: 10px;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Global menu will be inserted here by global-menu.js -->
+    
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">🔧 Ordens de Serviço</h1>
+            <a href="/service-order-form.html" class="btn btn-success">+ Nova Ordem de Serviço</a>
+        </div>
+        
+        <div class="filters">
+            <div class="filters-row">
+                <div class="form-group">
+                    <label for="search">Buscar:</label>
+                    <input type="text" id="search" placeholder="Número, cliente, placa...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select id="status">
+                        <option value="">Todos</option>
+                        <option value="OPEN">Aberta</option>
+                        <option value="DIAGNOSING">Em Diagnóstico</option>
+                        <option value="WAITING_APPROVAL">Aguardando Aprovação</option>
+                        <option value="APPROVED">Aprovada</option>
+                        <option value="WAITING_PARTS">Aguardando Peças</option>
+                        <option value="IN_PROGRESS">Em Execução</option>
+                        <option value="WAITING_PAYMENT">Aguardando Pagamento</option>
+                        <option value="COMPLETED">Concluída</option>
+                        <option value="CANCELLED">Cancelada</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="priority">Prioridade:</label>
+                    <select id="priority">
+                        <option value="">Todas</option>
+                        <option value="LOW">Baixa</option>
+                        <option value="NORMAL">Normal</option>
+                        <option value="HIGH">Alta</option>
+                        <option value="URGENT">Urgente</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button class="btn" onclick="loadServiceOrders()">🔍 Buscar</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="orders-table">
+            <div id="loading" class="loading">Carregando ordens de serviço...</div>
+            <div id="error" class="error" style="display: none;"></div>
+            
+            <table id="ordersTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Cliente</th>
+                        <th>Veículo</th>
+                        <th>Reclamação</th>
+                        <th>Status</th>
+                        <th>Prioridade</th>
+                        <th>Criada em</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersBody">
+                </tbody>
+            </table>
+            
+            <div id="empty" class="empty" style="display: none;">
+                <p>Nenhuma ordem de serviço encontrada.</p>
+                <a href="/service-order-form.html" class="btn btn-success">+ Criar Primeira Ordem</a>
+            </div>
+        </div>
+        
+        <div id="pagination" class="pagination" style="display: none;"></div>
+    </div>
+    
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+        
+        // Verificar autenticação
+        function checkAuth() {
+            const user = localStorage.getItem('user');
+            if (!user) {
+                window.location.href = '/login.html';
+                return null;
+            }
+            return JSON.parse(user);
+        }
+        
+        // Logout
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = '/login.html';
+        }
+        
+        // Carregar dados do usuário
+        function loadUserInfo() {
+            const user = checkAuth();
+            if (user) {
+                document.getElementById('userName').textContent = `${user.name} (${user.role})`;
+            }
+        }
+        
+        // Carregar ordens de serviço
+        async function loadServiceOrders(page = 1) {
+            try {
+                showLoading();
+                
+                const search = document.getElementById('search').value;
+                const status = document.getElementById('status').value;
+                const priority = document.getElementById('priority').value;
+                
+                const params = new URLSearchParams({
+                    page: page.toString(),
+                    limit: '10'
+                });
+                
+                if (search) params.append('search', search);
+                if (status) params.append('status', status);
+                if (priority) params.append('priority', priority);
+                
+                const response = await fetch(`/api/service-orders?${params}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayServiceOrders(data.data);
+                    displayPagination(data.pagination);
+                    currentPage = data.pagination.page;
+                    totalPages = data.pagination.pages;
+                } else {
+                    showError(data.error || 'Erro ao carregar ordens de serviço');
+                }
+            } catch (error) {
+                showError('Erro de conexão: ' + error.message);
+            }
+        }
+        
+        // Exibir ordens na tabela
+        function displayServiceOrders(orders) {
+            const tbody = document.getElementById('ordersBody');
+            
+            if (orders.length === 0) {
+                showEmpty();
+                return;
+            }
+            
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td>
+                        <div class="order-number">${order.number}</div>
+                        <div class="customer-info">Criada por: ${order.createdBy.name}</div>
+                    </td>
+                    <td>
+                        <div>${order.customer.name}</div>
+                        <div class="customer-info">${order.customer.phone || ''}</div>
+                    </td>
+                    <td>
+                        <div>${order.vehicle.brand} ${order.vehicle.model}</div>
+                        <div class="vehicle-info">${order.vehicle.plate} - ${order.vehicle.year}</div>
+                    </td>
+                    <td>
+                        <div title="${order.customerComplaint || 'Sem reclamação'}">${truncateText(order.customerComplaint || 'Sem reclamação', 30)}</div>
+                    </td>
+                    <td>
+                        <span class="badge badge-${order.status.toLowerCase().replace('_', '-')}">
+                            ${getStatusLabel(order.status)}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge badge-${order.priority.toLowerCase()}">
+                            ${getPriorityLabel(order.priority)}
+                        </span>
+                    </td>
+                    <td>${formatDate(order.createdAt)}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn btn-sm" onclick="viewOrder('${order.id}')" title="Visualizar">👁️</button>
+                            <button class="btn btn-sm btn-warning" onclick="editOrder('${order.id}')" title="Editar">✏️</button>
+                            <button class="btn btn-sm" onclick="updateStatus('${order.id}')" title="Atualizar Status">🔄</button>
+                            ${order.status !== 'COMPLETED' ? `<button class="btn btn-sm btn-danger" onclick="deleteOrder('${order.id}', '${order.number}')" title="Excluir">🗑️</button>` : ''}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            
+            showTable();
+        }
+        
+        // Funções auxiliares
+        function getStatusLabel(status) {
+            const labels = {
+                'OPEN': 'Aberta',
+                'DIAGNOSING': 'Em Diagnóstico',
+                'WAITING_APPROVAL': 'Aguardando Aprovação',
+                'APPROVED': 'Aprovada',
+                'WAITING_PARTS': 'Aguardando Peças',
+                'IN_PROGRESS': 'Em Execução',
+                'WAITING_PAYMENT': 'Aguardando Pagamento',
+                'COMPLETED': 'Concluída',
+                'CANCELLED': 'Cancelada'
+            };
+            return labels[status] || status;
+        }
+        
+        function getPriorityLabel(priority) {
+            const labels = {
+                'LOW': 'Baixa',
+                'NORMAL': 'Normal',
+                'HIGH': 'Alta',
+                'URGENT': 'Urgente'
+            };
+            return labels[priority] || priority;
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR') + ' ' + date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        function truncateText(text, maxLength) {
+            if (text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        }
+        
+        // Exibir paginação
+        function displayPagination(pagination) {
+            const paginationDiv = document.getElementById('pagination');
+            
+            if (pagination.pages <= 1) {
+                paginationDiv.style.display = 'none';
+                return;
+            }
+            
+            let paginationHTML = '';
+            
+            if (pagination.page > 1) {
+                paginationHTML += `<button onclick="loadServiceOrders(${pagination.page - 1})">« Anterior</button>`;
+            }
+            
+            for (let i = 1; i <= pagination.pages; i++) {
+                const active = i === pagination.page ? 'active' : '';
+                paginationHTML += `<button class="${active}" onclick="loadServiceOrders(${i})">${i}</button>`;
+            }
+            
+            if (pagination.page < pagination.pages) {
+                paginationHTML += `<button onclick="loadServiceOrders(${pagination.page + 1})">Próximo »</button>`;
+            }
+            
+            paginationDiv.innerHTML = paginationHTML;
+            paginationDiv.style.display = 'flex';
+        }
+        
+        // Ações
+        function viewOrder(id) {
+            window.location.href = `/service-order-view.html?id=${id}`;
+        }
+        
+        function editOrder(id) {
+            window.location.href = `/service-order-form.html?id=${id}`;
+        }
+        
+        function updateStatus(id) {
+            // Implementar modal de atualização de status
+            const newStatus = prompt('Novo status:\n\nOPEN - Aberta\nDIAGNOSING - Em Diagnóstico\nWAITING_APPROVAL - Aguardando Aprovação\nAPPROVED - Aprovada\nWAITING_PARTS - Aguardando Peças\nIN_PROGRESS - Em Execução\nWAITING_PAYMENT - Aguardando Pagamento\nCOMPLETED - Concluída\nCANCELLED - Cancelada');
+            
+            if (newStatus) {
+                updateOrderStatus(id, newStatus);
+            }
+        }
+        
+        async function updateOrderStatus(id, status) {
+            try {
+                const response = await fetch(`/api/service-orders/${id}/status`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ status }),
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Status atualizado com sucesso!');
+                    loadServiceOrders(currentPage);
+                } else {
+                    alert('Erro: ' + data.error);
+                }
+            } catch (error) {
+                alert('Erro de conexão: ' + error.message);
+            }
+        }
+        
+        async function deleteOrder(id, number) {
+            if (!confirm(`Tem certeza que deseja excluir a ordem de serviço "${number}"?`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/service-orders/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Ordem de serviço excluída com sucesso!');
+                    loadServiceOrders(currentPage);
+                } else {
+                    alert('Erro: ' + data.error);
+                }
+            } catch (error) {
+                alert('Erro de conexão: ' + error.message);
+            }
+        }
+        
+        // Estados da interface
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('ordersTable').style.display = 'none';
+            document.getElementById('empty').style.display = 'none';
+            document.getElementById('pagination').style.display = 'none';
+        }
+        
+        function showError(message) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+            document.getElementById('error').textContent = message;
+            document.getElementById('ordersTable').style.display = 'none';
+            document.getElementById('empty').style.display = 'none';
+            document.getElementById('pagination').style.display = 'none';
+        }
+        
+        function showTable() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('ordersTable').style.display = 'table';
+            document.getElementById('empty').style.display = 'none';
+        }
+        
+        function showEmpty() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('ordersTable').style.display = 'none';
+            document.getElementById('empty').style.display = 'block';
+            document.getElementById('pagination').style.display = 'none';
+        }
+        
+        // Event listeners
+        document.getElementById('search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loadServiceOrders(1);
+            }
+        });
+        
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            loadUserInfo();
+            loadServiceOrders();
+        });
+    </script>
+    <script src="/js/logo-manager.js"></script>
+    <script src="/js/global-menu.js"></script>
+</body>
+</html>

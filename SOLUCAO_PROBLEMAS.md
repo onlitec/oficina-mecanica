@@ -43,18 +43,18 @@ sudo systemctl restart apache2
 curl http://localhost:3000/health
 
 # Testar via Apache
-curl http://localhost/health
-curl http://localhost/api/users
+curl http://toledooficina.local/health
+curl http://toledooficina.local/api/users
 ```
 
 ### 🌐 URLs de Acesso
 
 #### **✅ URLs que DEVEM funcionar**:
-- **http://localhost/** - Interface web
-- **http://localhost/health** - Health check
-- **http://localhost/api** - Info da API
-- **http://localhost/api/users** - Lista usuários
-- **http://localhost/api/customers** - Lista clientes
+- **http://toledooficina.local/** - Interface web
+- **http://toledooficina.local/health** - Health check
+- **http://toledooficina.local/api** - Info da API
+- **http://toledooficina.local/api/users** - Lista usuários
+- **http://toledooficina.local/api/customers** - Lista clientes
 
 #### **🔧 URLs diretas (Node.js)**:
 - **http://localhost:3000/health** - Health check direto
@@ -86,10 +86,10 @@ sudo systemctl status apache2
 curl http://localhost:3000/health
 
 # 3. Proxy funcionando?
-curl http://localhost/health
+curl http://toledooficina.local/health
 
 # 4. API funcionando?
-curl http://localhost/api/users
+curl http://toledooficina.local/api/users
 ```
 
 ### 📊 Logs para Diagnóstico

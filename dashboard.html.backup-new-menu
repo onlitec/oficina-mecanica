@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Oficina Mecânica</title>
+    <link rel="stylesheet" href="/menu-center-fix.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f9fafb;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .welcome {
+            margin-bottom: 32px;
+        }
+
+        .welcome h1 {
+            color: #1f2937;
+            font-size: 2.25rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .welcome p {
+            color: #6b7280;
+            font-size: 1.125rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-2px);
+        }
+
+        .stat-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-card.clients .stat-icon {
+            background: #10b981;
+        }
+
+        .stat-card.vehicles .stat-icon {
+            background: #ef4444;
+        }
+
+        .stat-card.services .stat-icon {
+            background: #f97316;
+        }
+
+        .stat-card.parts .stat-icon {
+            background: #8b5cf6;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .stat-label {
+            color: #374151;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .section-card h3 {
+            color: #1f2937;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .section-card.clients h3 {
+            color: #2563eb;
+        }
+
+        .section-card.vehicles h3 {
+            color: #dc2626;
+        }
+
+        .section-card.parts h3 {
+            color: #ea580c;
+        }
+
+        .search-form {
+            margin-bottom: 16px;
+        }
+
+        .search-form label {
+            display: block;
+            color: #374151;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .search-form input {
+            width: 100%;
+            padding: 8px 12px 8px 40px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-form input:focus {
+            outline: none;
+            ring: 2px;
+            border-color: transparent;
+        }
+
+        .search-form.clients input:focus {
+            box-shadow: 0 0 0 2px #3b82f6;
+        }
+
+        .search-form.vehicles input:focus {
+            box-shadow: 0 0 0 2px #ef4444;
+        }
+
+        .search-form.parts input:focus {
+            box-shadow: 0 0 0 2px #f97316;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: #9ca3af;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .btn-blue {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-blue:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-red {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-red:hover {
+            background: #b91c1c;
+        }
+
+        .btn-orange {
+            background: #ea580c;
+            color: white;
+        }
+
+        .btn-orange:hover {
+            background: #c2410c;
+        }
+
+        .btn-gray {
+            background: #4b5563;
+            color: white;
+        }
+
+        .btn-gray:hover {
+            background: #374151;
+        }
+
+        .btn-light {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-light:hover {
+            background: #e5e7eb;
+        }
+
+        .management-section {
+            margin-top: 24px;
+        }
+
+        .management-section h4 {
+            color: #1f2937;
+            margin-bottom: 12px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .management-section.clients h4 {
+            color: #2563eb;
+        }
+
+        .management-section.vehicles h4 {
+            color: #dc2626;
+        }
+
+        .management-section.parts h4 {
+            color: #ea580c;
+        }
+
+        .management-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .management-buttons .btn {
+            width: 100%;
+            padding: 12px 16px;
+            justify-content: center;
+        }
+
+        .results-area {
+            margin-top: 20px;
+            padding: 16px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .results-title {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .results-count {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .result-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .result-item:hover {
+            border-color: #d1d5db;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .result-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .result-item-title {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 0.95rem;
+        }
+
+        .result-item-id {
+            font-size: 0.75rem;
+            color: #6b7280;
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .result-item-details {
+            font-size: 0.875rem;
+            color: #4b5563;
+            line-height: 1.4;
+        }
+
+        .result-item-meta {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Global menu will be inserted here by global-menu.js -->
+    
+    <div class="container">
+        <div class="welcome">
+            <h1 id="welcomeTitle">Bem-vindo ao Dashboard!</h1>
+            <p id="welcomeSubtitle">Sistema de Gestão de Oficina Mecânica - Painel de Controle</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card clients">
+                <div class="stat-card-header">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-number" id="customersCount">-</div>
+                </div>
+                <div class="stat-label">Clientes</div>
+            </div>
+
+            <div class="stat-card vehicles">
+                <div class="stat-card-header">
+                    <div class="stat-icon">🚗</div>
+                    <div class="stat-number" id="vehiclesCount">-</div>
+                </div>
+                <div class="stat-label">Veículos</div>
+            </div>
+
+            <div class="stat-card services">
+                <div class="stat-card-header">
+                    <div class="stat-icon">🔧</div>
+                    <div class="stat-number" id="servicesCount">-</div>
+                </div>
+                <div class="stat-label">Serviços</div>
+            </div>
+
+            <div class="stat-card parts">
+                <div class="stat-card-header">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-number" id="partsCount">-</div>
+                </div>
+                <div class="stat-label">Peças</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Buscar Clientes -->
+            <div class="section-card clients">
+                <h3>👥 Buscar Clientes</h3>
+                <div class="search-form clients">
+                    <label for="clientName">Nome do Cliente</label>
+                    <div class="search-input-wrapper">
+                        <input type="text" id="clientName" placeholder="Digite o nome do cliente...">
+                        <div class="search-icon">🔍</div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-blue" onclick="searchClients()">🔍 Buscar</button>
+                        <button class="btn btn-gray" onclick="listAllClients()">📋 Listar</button>
+                    </div>
+                </div>
+                <div id="clientsResults" class="results-area" style="display: none;"></div>
+            </div>
+
+            <!-- Buscar Veículos -->
+            <div class="section-card vehicles">
+                <h3>🚗 Buscar Veículos</h3>
+                <div class="search-form vehicles">
+                    <label for="vehiclePlate">Placa do Veículo</label>
+                    <div class="search-input-wrapper">
+                        <input type="text" id="vehiclePlate" placeholder="Digite a placa do veículo...">
+                        <div class="search-icon">🔍</div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-red" onclick="searchVehicles()">🔍 Buscar</button>
+                        <button class="btn btn-gray" onclick="listAllVehicles()">📋 Listar</button>
+                    </div>
+                </div>
+                <div id="vehiclesResults" class="results-area" style="display: none;"></div>
+            </div>
+
+            <!-- Buscar Peças -->
+            <div class="section-card parts">
+                <h3>📦 Buscar Peças</h3>
+                <div class="search-form parts">
+                    <label for="partModel">Modelo da Peça</label>
+                    <div class="search-input-wrapper">
+                        <input type="text" id="partModel" placeholder="Digite o modelo da peça...">
+                        <div class="search-icon">🔍</div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-orange" onclick="searchParts()">🔍 Buscar</button>
+                        <button class="btn btn-gray" onclick="listAllParts()">📋 Listar</button>
+                    </div>
+                </div>
+                <div id="partsResults" class="results-area" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Seções de Gerenciamento -->
+        <div class="main-content">
+            <!-- Gerenciar Clientes -->
+            <div class="section-card clients">
+                <div class="management-section clients">
+                    <h4>👥 Gerenciar Clientes</h4>
+                    <div class="management-buttons">
+                        <button class="btn btn-blue" onclick="addClient()">👤 Adicionar Cliente</button>
+                        <button class="btn btn-light" onclick="listClients()">📋 Listar Clientes</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gerenciar Veículos -->
+            <div class="section-card vehicles">
+                <div class="management-section vehicles">
+                    <h4>🚗 Gerenciar Veículos</h4>
+                    <div class="management-buttons">
+                        <button class="btn btn-red" onclick="addVehicle()">🚗 Adicionar Veículo</button>
+                        <button class="btn btn-light" onclick="listVehicles()">📋 Listar Veículos</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gerenciar Peças -->
+            <div class="section-card parts">
+                <div class="management-section parts">
+                    <h4>📦 Gerenciar Peças</h4>
+                    <div class="management-buttons">
+                        <button class="btn btn-orange" onclick="addPart()">📦 Adicionar Peça</button>
+                        <button class="btn btn-light" onclick="listParts()">📋 Listar Peças</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script>
+        // Verificar se está logado (usando o sistema global)
+        function checkAuth() {
+            return auth.requireAuth() ? auth.getUser() : null;
+        }
+
+        // Logout (usando o sistema global)
+        function logout() {
+            auth.logout();
+        }
+
+        // Funções da API
+        async function apiCall(endpoint) {
+            try {
+                const response = await fetch(endpoint);
+                return await response.json();
+            } catch (error) {
+                throw new Error(`Erro na API: ${error.message}`);
+            }
+        }
+
+        // Carregar estatísticas
+        async function loadStats() {
+            try {
+                const customers = await apiCall('/api/customers');
+
+                document.getElementById('customersCount').textContent = customers.count || customers.data?.length || 0;
+
+                // Calcular veículos dos dados dos clientes
+                let vehiclesCount = 0;
+                if (customers.data) {
+                    customers.data.forEach(customer => {
+                        vehiclesCount += customer.vehicles?.length || 0;
+                    });
+                }
+                document.getElementById('vehiclesCount').textContent = vehiclesCount;
+                document.getElementById('servicesCount').textContent = '12'; // Exemplo
+                document.getElementById('partsCount').textContent = '45'; // Exemplo
+            } catch (error) {
+                console.error('Erro ao carregar estatísticas:', error);
+                // Valores padrão em caso de erro
+                document.getElementById('customersCount').textContent = '0';
+                document.getElementById('vehiclesCount').textContent = '0';
+                document.getElementById('servicesCount').textContent = '0';
+                document.getElementById('partsCount').textContent = '0';
+            }
+        }
+
+        // Funções auxiliares para exibição de resultados
+        function showLoading(containerId) {
+            const container = document.getElementById(containerId);
+            container.style.display = 'block';
+            container.innerHTML = '<div class="loading-spinner">🔄 Carregando...</div>';
+        }
+
+        function showError(containerId, message) {
+            const container = document.getElementById(containerId);
+            container.style.display = 'block';
+            container.innerHTML = `<div class="error-message">❌ ${message}</div>`;
+        }
+
+        function showNoResults(containerId, message) {
+            const container = document.getElementById(containerId);
+            container.style.display = 'block';
+            container.innerHTML = `<div class="no-results">📭 ${message}</div>`;
+        }
+
+        // Funções de busca
+        async function searchClients() {
+            const name = document.getElementById('clientName').value;
+            if (!name.trim()) {
+                alert('Digite o nome do cliente para buscar');
+                return;
+            }
+
+            showLoading('clientsResults');
+
+            try {
+                const response = await apiCall('/api/customers');
+                const clients = response.data || response;
+
+                // Filtrar clientes por nome
+                const filteredClients = clients.filter(client =>
+                    client.name.toLowerCase().includes(name.toLowerCase())
+                );
+
+                displayClientsResults(filteredClients, `Resultados da busca por "${name}"`);
+            } catch (error) {
+                showError('clientsResults', 'Erro ao buscar clientes: ' + error.message);
+            }
+        }
+
+        async function searchVehicles() {
+            const plate = document.getElementById('vehiclePlate').value;
+            if (!plate.trim()) {
+                alert('Digite a placa do veículo para buscar');
+                return;
+            }
+
+            showLoading('vehiclesResults');
+
+            try {
+                const response = await apiCall('/api/customers');
+                const clients = response.data || response;
+
+                // Buscar veículos em todos os clientes
+                const allVehicles = [];
+                clients.forEach(client => {
+                    if (client.vehicles) {
+                        client.vehicles.forEach(vehicle => {
+                            if (vehicle.plate.toLowerCase().includes(plate.toLowerCase())) {
+                                allVehicles.push({
+                                    ...vehicle,
+                                    ownerName: client.name,
+                                    ownerId: client.id
+                                });
+                            }
+                        });
+                    }
+                });
+
+                displayVehiclesResults(allVehicles, `Resultados da busca por placa "${plate}"`);
+            } catch (error) {
+                showError('vehiclesResults', 'Erro ao buscar veículos: ' + error.message);
+            }
+        }
+
+        async function searchParts() {
+            const model = document.getElementById('partModel').value;
+            if (!model.trim()) {
+                alert('Digite o modelo da peça para buscar');
+                return;
+            }
+
+            showLoading('partsResults');
+
+            try {
+                // Simular busca de peças (implementar quando API estiver disponível)
+                const mockParts = [
+                    { id: 1, name: 'Filtro de Óleo', model: 'FO-123', brand: 'Mann', price: 25.90, stock: 15 },
+                    { id: 2, name: 'Pastilha de Freio', model: 'PF-456', brand: 'Bosch', price: 89.90, stock: 8 },
+                    { id: 3, name: 'Vela de Ignição', model: 'VI-789', brand: 'NGK', price: 12.50, stock: 25 }
+                ];
+
+                const filteredParts = mockParts.filter(part =>
+                    part.name.toLowerCase().includes(model.toLowerCase()) ||
+                    part.model.toLowerCase().includes(model.toLowerCase())
+                );
+
+                displayPartsResults(filteredParts, `Resultados da busca por "${model}"`);
+            } catch (error) {
+                showError('partsResults', 'Erro ao buscar peças: ' + error.message);
+            }
+        }
+
+        // Funções de listagem
+        async function listAllClients() {
+            showLoading('clientsResults');
+
+            try {
+                const response = await apiCall('/api/customers');
+                const clients = response.data || response;
+                displayClientsResults(clients, 'Todos os Clientes');
+            } catch (error) {
+                showError('clientsResults', 'Erro ao carregar clientes: ' + error.message);
+            }
+        }
+
+        async function listAllVehicles() {
+            showLoading('vehiclesResults');
+
+            try {
+                const response = await apiCall('/api/customers');
+                const clients = response.data || response;
+
+                // Coletar todos os veículos
+                const allVehicles = [];
+                clients.forEach(client => {
+                    if (client.vehicles) {
+                        client.vehicles.forEach(vehicle => {
+                            allVehicles.push({
+                                ...vehicle,
+                                ownerName: client.name,
+                                ownerId: client.id
+                            });
+                        });
+                    }
+                });
+
+                displayVehiclesResults(allVehicles, 'Todos os Veículos');
+            } catch (error) {
+                showError('vehiclesResults', 'Erro ao carregar veículos: ' + error.message);
+            }
+        }
+
+        async function listAllParts() {
+            showLoading('partsResults');
+
+            try {
+                // Simular listagem de peças (implementar quando API estiver disponível)
+                const mockParts = [
+                    { id: 1, name: 'Filtro de Óleo', model: 'FO-123', brand: 'Mann', price: 25.90, stock: 15 },
+                    { id: 2, name: 'Pastilha de Freio', model: 'PF-456', brand: 'Bosch', price: 89.90, stock: 8 },
+                    { id: 3, name: 'Vela de Ignição', model: 'VI-789', brand: 'NGK', price: 12.50, stock: 25 },
+                    { id: 4, name: 'Óleo Motor 5W30', model: 'OM-101', brand: 'Castrol', price: 45.90, stock: 12 },
+                    { id: 5, name: 'Correia Dentada', model: 'CD-202', brand: 'Gates', price: 78.50, stock: 6 }
+                ];
+
+                displayPartsResults(mockParts, 'Todas as Peças');
+            } catch (error) {
+                showError('partsResults', 'Erro ao carregar peças: ' + error.message);
+            }
+        }
+
+        // Funções de exibição de resultados
+        function displayClientsResults(clients, title) {
+            const container = document.getElementById('clientsResults');
+
+            if (!clients || clients.length === 0) {
+                showNoResults('clientsResults', 'Nenhum cliente encontrado');
+                return;
+            }
+
+            let html = `
+                <div class="results-header">
+                    <div class="results-title">${title}</div>
+                    <div class="results-count">${clients.length} resultado(s)</div>
+                </div>
+            `;
+
+            clients.forEach(client => {
+                html += `
+                    <div class="result-item">
+                        <div class="result-item-header">
+                            <div class="result-item-title">${client.name}</div>
+                            <div class="result-item-id">ID: ${client.id}</div>
+                        </div>
+                        <div class="result-item-details">
+                            📧 ${client.email}<br>
+                            📱 ${client.phone}<br>
+                            📍 ${client.address || 'Endereço não informado'}
+                        </div>
+                        <div class="result-item-meta">
+                            <span>🚗 ${client.vehicles?.length || 0} veículo(s)</span>
+                            <span>📅 Cadastrado em ${new Date(client.created_at || Date.now()).toLocaleDateString('pt-BR')}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            container.style.display = 'block';
+        }
+
+        function displayVehiclesResults(vehicles, title) {
+            const container = document.getElementById('vehiclesResults');
+
+            if (!vehicles || vehicles.length === 0) {
+                showNoResults('vehiclesResults', 'Nenhum veículo encontrado');
+                return;
+            }
+
+            let html = `
+                <div class="results-header">
+                    <div class="results-title">${title}</div>
+                    <div class="results-count">${vehicles.length} resultado(s)</div>
+                </div>
+            `;
+
+            vehicles.forEach(vehicle => {
+                html += `
+                    <div class="result-item">
+                        <div class="result-item-header">
+                            <div class="result-item-title">${vehicle.brand} ${vehicle.model}</div>
+                            <div class="result-item-id">${vehicle.plate}</div>
+                        </div>
+                        <div class="result-item-details">
+                            🏷️ ${vehicle.year || 'Ano não informado'}<br>
+                            👤 Proprietário: ${vehicle.ownerName}<br>
+                            🔧 ${vehicle.engine || 'Motor não informado'}
+                        </div>
+                        <div class="result-item-meta">
+                            <span>🆔 Cliente ID: ${vehicle.ownerId}</span>
+                            <span>🎨 ${vehicle.color || 'Cor não informada'}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            container.style.display = 'block';
+        }
+
+        function displayPartsResults(parts, title) {
+            const container = document.getElementById('partsResults');
+
+            if (!parts || parts.length === 0) {
+                showNoResults('partsResults', 'Nenhuma peça encontrada');
+                return;
+            }
+
+            let html = `
+                <div class="results-header">
+                    <div class="results-title">${title}</div>
+                    <div class="results-count">${parts.length} resultado(s)</div>
+                </div>
+            `;
+
+            parts.forEach(part => {
+                const stockStatus = part.stock < 10 ? '🔴' : part.stock < 20 ? '🟡' : '🟢';
+                html += `
+                    <div class="result-item">
+                        <div class="result-item-header">
+                            <div class="result-item-title">${part.name}</div>
+                            <div class="result-item-id">${part.model}</div>
+                        </div>
+                        <div class="result-item-details">
+                            🏭 Marca: ${part.brand}<br>
+                            💰 Preço: R$ ${part.price.toFixed(2)}<br>
+                            📦 Estoque: ${stockStatus} ${part.stock} unidades
+                        </div>
+                        <div class="result-item-meta">
+                            <span>🆔 ID: ${part.id}</span>
+                            <span>${part.stock < 10 ? '⚠️ Estoque baixo' : '✅ Disponível'}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            container.style.display = 'block';
+        }
+
+        // Funções de gerenciamento (mantidas para redirecionamento)
+        function addClient() {
+            window.location.href = '/customers.html?action=add';
+        }
+
+        function listClients() {
+            listAllClients(); // Usar a função local em vez de redirecionar
+        }
+
+        function addVehicle() {
+            alert('Funcionalidade de adicionar veículo será implementada em breve');
+        }
+
+        function listVehicles() {
+            listAllVehicles(); // Usar a função local em vez de redirecionar
+        }
+
+        function addPart() {
+            window.location.href = '/parts.html?action=add';
+        }
+
+        function listParts() {
+            listAllParts(); // Usar a função local em vez de redirecionar
+        }
+
+        // Adicionar eventos de teclado para busca
+        function setupSearchEvents() {
+            document.getElementById('clientName').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchClients();
+                }
+            });
+
+            document.getElementById('vehiclePlate').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchVehicles();
+                }
+            });
+
+            document.getElementById('partModel').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchParts();
+                }
+            });
+        }
+
+        // Carregar configurações da empresa
+        async function loadCompanySettings() {
+            try {
+                const response = await fetch('/api/settings/system');
+                const data = await response.json();
+
+                if (data.success && data.data) {
+                    const companyName = data.data.appName || data.data.companyName || 'Oficina Mecânica';
+
+                    // Atualizar título de boas-vindas
+                    const welcomeTitle = document.getElementById('welcomeTitle');
+                    const welcomeSubtitle = document.getElementById('welcomeSubtitle');
+
+                    if (welcomeTitle) {
+                        welcomeTitle.textContent = `Bem-vindo à ${companyName}`;
+                    }
+
+                    if (welcomeSubtitle) {
+                        welcomeSubtitle.textContent = 'Sistema de Gestão de Oficina Mecânica - Painel de Controle';
+                    }
+
+                    // Atualizar título da página
+                    document.title = `Dashboard - ${companyName}`;
+
+                    console.log('✅ Configurações da empresa carregadas:', companyName);
+                } else {
+                    console.log('⚠️ Usando nome padrão da empresa');
+                }
+            } catch (error) {
+                console.error('❌ Erro ao carregar configurações da empresa:', error);
+            }
+        }
+
+        // Escutar mudanças nas configurações
+        window.addEventListener('settingsUpdated', function(event) {
+            console.log('🔄 Configurações atualizadas, recarregando nome da empresa...');
+            loadCompanySettings();
+        });
+
+        // Inicializar página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+            setupSearchEvents();
+            loadCompanySettings();
+        });
+    </script>
+    <script src="/js/logo-manager.js"></script>
+    <script src="/js/global-menu.js"></script>
+    <script src="/force-center-menu.js"></script>
+    <script src="/fix-menu-overlap.js"></script>
+    <script src="/force-menu-size.js"></script>
+    <script src="/debug-menu-styles.js"></script>
+</body>
+</html>

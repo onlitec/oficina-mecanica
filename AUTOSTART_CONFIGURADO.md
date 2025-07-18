@@ -24,7 +24,7 @@
     ↓
 🚀 Node.js inicia automaticamente (porta 3000)
     ↓
-✅ Sistema funcionando em http://localhost/
+✅ Sistema funcionando em http://toledooficina.local/
 ```
 
 ### 🎯 **Não precisa mais fazer nada!**
@@ -37,7 +37,7 @@ cd /var/www/html
 
 #### **✅ AGORA (Automático):**
 - **Liga o computador** → Sistema já funciona!
-- **Acessa http://localhost/** → Já está rodando!
+- **Acessa http://toledooficina.local/** → Já está rodando!
 
 ### 🔍 **Verificar Status dos Serviços:**
 
@@ -54,11 +54,11 @@ journalctl -u oficina-mecanica -f
 
 ### 🌐 **URLs Funcionando Automaticamente:**
 
-- **http://localhost/** - Interface web
-- **http://localhost/health** - Health check
-- **http://localhost/api** - API info
-- **http://localhost/api/users** - Lista usuários
-- **http://localhost/api/customers** - Lista clientes
+- **http://toledooficina.local/** - Interface web
+- **http://toledooficina.local/health** - Health check
+- **http://toledooficina.local/api** - API info
+- **http://toledooficina.local/api/users** - Lista usuários
+- **http://toledooficina.local/api/customers** - Lista clientes
 
 ### 🛠️ **Comandos Úteis (se precisar):**
 
@@ -95,7 +95,7 @@ sudo systemctl disable oficina-mecanica
 echo "=== TESTE AUTOSTART ===" && \
 systemctl is-active nginx && \
 systemctl is-active oficina-mecanica && \
-curl -s http://localhost/health | grep "OK" && \
+curl -s http://toledooficina.local/health | grep "OK" && \
 echo "✅ TUDO FUNCIONANDO AUTOMATICAMENTE!"
 ```
 

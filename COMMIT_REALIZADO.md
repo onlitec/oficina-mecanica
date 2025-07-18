@@ -84,16 +84,16 @@
 - `http://localhost/settings.html` → Configurações
 
 #### **📊 Módulos:**
-- `http://localhost/customers.html` → Clientes
-- `http://localhost/service-orders.html` → Ordens
-- `http://localhost/parts.html` → Peças
-- `http://localhost/quotes.html` → Orçamentos
-- `http://localhost/financial.html` → Financeiro
-- `http://localhost/analytics.html` → Analytics
+- `http://toledooficina.local/customers.html` → Clientes
+- `http://toledooficina.local/service-orders.html` → Ordens
+- `http://toledooficina.local/parts.html` → Peças
+- `http://toledooficina.local/quotes.html` → Orçamentos
+- `http://toledooficina.local/financial.html` → Financeiro
+- `http://toledooficina.local/analytics.html` → Analytics
 
 #### **🔧 API:**
-- `http://localhost/api` → Informações da API
-- `http://localhost/health` → Health Check
+- `http://toledooficina.local/api` → Informações da API
+- `http://toledooficina.local/health` → Health Check
 - `http://toledooficina.local/api` → API via virtual host
 
 ### 📋 **Arquivos de Documentação Criados:**

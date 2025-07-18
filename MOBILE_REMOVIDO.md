@@ -75,15 +75,15 @@ const url = event.notification.data.url || '/dashboard.html';
 ## 🌐 **NAVEGAÇÃO ATUAL:**
 
 ### **🔗 URLs Principais Funcionando:**
-- ✅ **Dashboard:** http://localhost/dashboard.html
-- ✅ **Orçamentos:** http://localhost/quotes.html
-- ✅ **Analytics:** http://localhost/analytics.html
-- ✅ **Email:** http://localhost/email-config.html
-- ✅ **Configurações:** http://localhost/settings.html
+- ✅ **Dashboard:** http://toledooficina.local/dashboard.html
+- ✅ **Orçamentos:** http://toledooficina.local/quotes.html
+- ✅ **Analytics:** http://toledooficina.local/analytics.html
+- ✅ **Email:** http://toledooficina.local/email-config.html
+- ✅ **Configurações:** http://toledooficina.local/settings.html
 
 ### **❌ URLs Mobile Removidas (404):**
-- ❌ **http://localhost/mobile.html** - 404 Not Found
-- ❌ **http://localhost/mobile-customers.html** - 404 Not Found
+- ❌ **http://toledooficina.local/mobile.html** - 404 Not Found
+- ❌ **http://toledooficina.local/mobile-customers.html** - 404 Not Found
 - ❌ **http://localhost/mobile-orders.html** - 404 Not Found
 
 ---

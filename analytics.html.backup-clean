@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="stylesheet" href="/simple-menu-fix.css">
+    <link rel="stylesheet" href="/menu-center-fix.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Analytics Avançado - Sistema de Gestão de Oficina Mecânica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        /* Header styles removed - now handled by global-menu.js */
+    <script src="/simple-menu-fix.js"></script>
+    <script src="/force-menu-size.js"></script>
+    <script src="/debug-menu-styles.js"></script>
+    <script src="/emergency-menu-fix.js"></script>
+        
+        
+        
+        
+        
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 2em;
+            color: #333;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .period-selector {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .period-row {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-label {
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .form-input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .metric-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .metric-label {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .metric-change {
+            font-size: 0.9em;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+        
+        .metric-change.positive {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .metric-change.negative {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .metric-change.neutral {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        
+        .charts-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .chart-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .chart-container {
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: 8px;
+            color: #666;
+        }
+        
+        .insights-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .insights-grid {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .insight-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .insight-card.positive {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .insight-card.negative {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .insight-card.warning {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        
+        .insight-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .insight-title {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .insight-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .insight-message {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .insight-recommendation {
+            font-size: 0.9em;
+            color: #555;
+            font-style: italic;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .status-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .status-item {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .status-count {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .status-label {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .period-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Global menu will be inserted here by global-menu.js -->
+    <script src="/simple-menu-fix.js"></script>
+    <script src="/force-menu-size.js"></script>
+    <script src="/debug-menu-styles.js"></script>
+    <script src="/emergency-menu-fix.js"></script>
+    
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">📊 Analytics Avançado</h1>
+            <div>
+                <a href="/dashboard.html" class="btn btn-secondary">← Voltar</a>
+                <button class="btn" onclick="refreshData()">🔄 Atualizar</button>
+            </div>
+        </div>
+        
+        <!-- Seletor de Período -->
+        <div class="period-selector">
+            <div class="period-row">
+                <div class="form-group">
+                    <label class="form-label">Data Inicial</label>
+                    <input type="date" class="form-input" id="startDate">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Data Final</label>
+                    <input type="date" class="form-input" id="endDate">
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn" onclick="loadAnalytics()">📊 Analisar</button>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-secondary" onclick="setQuickPeriod(7)">7 dias</button>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-secondary" onclick="setQuickPeriod(30)">30 dias</button>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-secondary" onclick="setQuickPeriod(90)">90 dias</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Métricas Principais -->
+        <div class="metrics-grid" id="metricsGrid">
+            <div class="loading">
+                <span class="loading-spinner"></span>
+                Carregando métricas...
+            </div>
+        </div>
+        
+        <!-- Gráficos -->
+        <div class="charts-section">
+            <div class="chart-card">
+                <div class="chart-title">📋 Orçamentos por Status</div>
+                <div class="chart-container" id="quotesChart">
+                    <div class="loading">
+                        <span class="loading-spinner"></span>
+                        Carregando gráfico...
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-card">
+                <div class="chart-title">🔄 Funil de Conversão</div>
+                <div class="chart-container" id="conversionChart">
+                    <div class="loading">
+                        <span class="loading-spinner"></span>
+                        Carregando gráfico...
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Insights Automáticos -->
+        <div class="insights-section">
+            <div class="section-title">
+                🧠 Insights Automáticos
+            </div>
+            
+            <div class="insights-grid" id="insightsContainer">
+                <div class="loading">
+                    <span class="loading-spinner"></span>
+                    Gerando insights...
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentUser = null;
+        let analyticsData = null;
+        
+        // Verificar autenticação
+        function checkAuth() {
+            const user = localStorage.getItem('user');
+            if (!user) {
+                window.location.href = '/login.html';
+                return null;
+            }
+            return JSON.parse(user);
+        }
+        
+        // Logout
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = '/login.html';
+        }
+        
+        // Carregar dados do usuário
+        function loadUserInfo() {
+            currentUser = checkAuth();
+            if (currentUser) {
+                document.getElementById('userName').textContent = `${currentUser.name} (${currentUser.role})`;
+            }
+        }
+        
+        // Definir período rápido
+        function setQuickPeriod(days) {
+            const endDate = new Date();
+            const startDate = new Date();
+            startDate.setDate(startDate.getDate() - days);
+            
+            document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
+            document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
+            
+            loadAnalytics();
+        }
+        
+        // Carregar analytics
+        async function loadAnalytics() {
+            try {
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                
+                const params = new URLSearchParams();
+                if (startDate) params.append('startDate', startDate);
+                if (endDate) params.append('endDate', endDate);
+                
+                const response = await fetch(`/api/analytics/dashboard?${params}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    analyticsData = data.data;
+                    displayMetrics(analyticsData);
+                    displayCharts(analyticsData);
+                    loadInsights();
+                } else {
+                    showError('Erro ao carregar analytics');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar analytics:', error);
+                showError('Erro de conexão');
+            }
+        }
+        
+        // Exibir métricas
+        function displayMetrics(data) {
+            const container = document.getElementById('metricsGrid');
+            
+            container.innerHTML = `
+                <div class="metric-card">
+                    <div class="metric-icon">📋</div>
+                    <div class="metric-value">${data.quotes.total}</div>
+                    <div class="metric-label">Orçamentos Criados</div>
+                    <div class="status-breakdown">
+                        ${Object.entries(data.quotes.byStatus).map(([status, count]) => `
+                            <div class="status-item">
+                                <div class="status-count">${count}</div>
+                                <div class="status-label">${getStatusLabel(status)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">🔄</div>
+                    <div class="metric-value">${data.conversion.overallConversionRate}%</div>
+                    <div class="metric-label">Taxa de Conversão</div>
+                    <div class="metric-change ${data.conversion.overallConversionRate > 50 ? 'positive' : 'neutral'}">
+                        ${data.conversion.quotesConverted}/${data.conversion.quotesCreated} convertidos
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">✅</div>
+                    <div class="metric-value">${data.conversion.approvalRate}%</div>
+                    <div class="metric-label">Taxa de Aprovação</div>
+                    <div class="metric-change ${data.conversion.approvalRate > 70 ? 'positive' : 'neutral'}">
+                        ${data.conversion.quotesApproved}/${data.conversion.quotesCreated} aprovados
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">🛠️</div>
+                    <div class="metric-value">${data.sales.totalOrders}</div>
+                    <div class="metric-label">Ordens de Serviço</div>
+                    <div class="metric-change ${data.sales.completionRate > 80 ? 'positive' : 'neutral'}">
+                        ${data.sales.completionRate}% concluídas
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Exibir gráficos
+        function displayCharts(data) {
+            // Gráfico de orçamentos por status
+            const quotesChart = document.getElementById('quotesChart');
+            const statusData = data.quotes.byStatus;
+            
+            if (Object.keys(statusData).length > 0) {
+                quotesChart.innerHTML = `
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; width: 100%;">
+                        ${Object.entries(statusData).map(([status, count]) => `
+                            <div style="text-align: center; padding: 15px; background: ${getStatusColor(status)}; border-radius: 8px; color: white;">
+                                <div style="font-size: 1.5em; font-weight: bold;">${count}</div>
+                                <div style="font-size: 0.8em; margin-top: 5px;">${getStatusLabel(status)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                quotesChart.innerHTML = '<div style="color: #666;">Nenhum dado disponível</div>';
+            }
+            
+            // Gráfico de funil de conversão
+            const conversionChart = document.getElementById('conversionChart');
+            const conversionData = [
+                { label: 'Criados', value: data.conversion.quotesCreated, color: '#667eea' },
+                { label: 'Aprovados', value: data.conversion.quotesApproved, color: '#28a745' },
+                { label: 'Convertidos', value: data.conversion.quotesConverted, color: '#17a2b8' }
+            ];
+            
+            const maxValue = Math.max(...conversionData.map(d => d.value));
+            
+            conversionChart.innerHTML = `
+                <div style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
+                    ${conversionData.map(item => `
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="min-width: 80px; font-size: 0.9em; color: #666;">${item.label}</div>
+                            <div style="flex: 1; background: #f0f0f0; border-radius: 10px; height: 20px; position: relative;">
+                                <div style="background: ${item.color}; height: 100%; border-radius: 10px; width: ${maxValue > 0 ? (item.value / maxValue) * 100 : 0}%;"></div>
+                            </div>
+                            <div style="min-width: 30px; font-weight: bold; color: ${item.color};">${item.value}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        // Carregar insights
+        async function loadInsights() {
+            try {
+                const response = await fetch('/api/analytics/insights');
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayInsights(data.data.insights);
+                } else {
+                    showError('Erro ao carregar insights');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar insights:', error);
+                showError('Erro de conexão');
+            }
+        }
+        
+        // Exibir insights
+        function displayInsights(insights) {
+            const container = document.getElementById('insightsContainer');
+            
+            if (insights.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <div style="font-size: 3em; margin-bottom: 15px;">🤖</div>
+                        <h3>Nenhum insight disponível</h3>
+                        <p>Continue usando o sistema para gerar insights automáticos</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = insights.map(insight => `
+                <div class="insight-card ${insight.type}">
+                    <div class="insight-header">
+                        <div class="insight-title">${insight.title}</div>
+                        <div class="insight-value">${insight.value}</div>
+                    </div>
+                    <div class="insight-message">${insight.message}</div>
+                    ${insight.recommendation ? `<div class="insight-recommendation">💡 ${insight.recommendation}</div>` : ''}
+                </div>
+            `).join('');
+        }
+        
+        // Atualizar dados
+        function refreshData() {
+            loadAnalytics();
+        }
+        
+        // Funções auxiliares
+        function getStatusLabel(status) {
+            const labels = {
+                'DRAFT': 'Rascunho',
+                'SENT': 'Enviado',
+                'VIEWED': 'Visualizado',
+                'APPROVED': 'Aprovado',
+                'REJECTED': 'Rejeitado',
+                'EXPIRED': 'Expirado',
+                'CONVERTED': 'Convertido'
+            };
+            return labels[status] || status;
+        }
+        
+        function getStatusColor(status) {
+            const colors = {
+                'DRAFT': '#6c757d',
+                'SENT': '#17a2b8',
+                'VIEWED': '#28a745',
+                'APPROVED': '#28a745',
+                'REJECTED': '#dc3545',
+                'EXPIRED': '#dc3545',
+                'CONVERTED': '#667eea'
+            };
+            return colors[status] || '#6c757d';
+        }
+        
+        function showError(message) {
+            alert(message);
+        }
+        
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserInfo();
+            
+            // Definir período padrão (últimos 30 dias)
+            setQuickPeriod(30);
+        });
+    </script>
+    <script src="/js/logo-manager.js"></script>
+    <script src="/js/global-menu.js"></script>
+    <script src="/simple-menu-fix.js"></script>
+    <script src="/force-menu-size.js"></script>
+    <script src="/debug-menu-styles.js"></script>
+    <script src="/emergency-menu-fix.js"></script>
+</body>
+</html>

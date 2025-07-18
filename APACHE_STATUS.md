@@ -31,7 +31,7 @@
 ### 🌍 **URLs de Acesso**
 
 #### **🏠 Página Principal**
-- **http://localhost/** - Interface web principal
+- **http://toledooficina.local/** - Interface web principal
 
 #### **🔧 API Endpoints (via Apache)**
 - **http://localhost/health** - Health check

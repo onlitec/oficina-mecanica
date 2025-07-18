@@ -1,0 +1,286 @@
+/* CORREÇÃO DEFINITIVA PARA CENTRALIZAÇÃO E LAYOUT DO MENU */
+/* Este arquivo força a centralização do menu com máxima prioridade */
+
+/* CSS PARA ITENS DO MENU APENAS TEXTO - SEM BORDAS */
+.nav-link,
+.main-nav .nav-link,
+.main-nav a,
+a.nav-link,
+[class*="nav-link"],
+.global-header .nav-link,
+.header-content .nav-link {
+    padding: 8px 16px !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    min-height: auto !important;
+    line-height: 1.4 !important;
+    display: inline-block !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    color: white !important;
+    text-decoration: none !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+    vertical-align: middle !important;
+    transition: all 0.3s ease !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    max-width: none !important;
+    min-width: auto !important;
+    width: auto !important;
+    height: auto !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.nav-link:hover,
+.main-nav .nav-link:hover,
+.main-nav a:hover,
+a.nav-link:hover,
+[class*="nav-link"]:hover {
+    background: transparent !important;
+    color: #FFD700 !important;
+    text-shadow: 0 0 8px rgba(255,215,0,0.6) !important;
+    transform: scale(1.05) !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Seletores múltiplos para garantir que pegue o elemento */
+.global-header .main-nav,
+.main-nav,
+nav.main-nav,
+.header-content .main-nav,
+div.main-nav,
+[class*="main-nav"] {
+    /* Posicionamento absoluto forçado */
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+
+    /* Layout flexbox com espaçamento controlado */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 24px !important;
+    flex-wrap: nowrap !important;
+
+    /* Z-index alto para ficar por cima */
+    z-index: 99999 !important;
+
+    /* Reset de propriedades que podem interferir */
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    float: none !important;
+    clear: none !important;
+
+    /* Reset de grid/flexbox parent */
+    grid-column: unset !important;
+    grid-row: unset !important;
+    justify-self: unset !important;
+    align-self: unset !important;
+    flex: none !important;
+
+    /* Reset de transforms adicionais */
+    translate: none !important;
+    rotate: none !important;
+    scale: none !important;
+
+    /* Garantir visibilidade */
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+}
+
+/* CORREÇÃO ESPECÍFICA PARA OS LINKS DO MENU */
+.main-nav .nav-link,
+.nav-link {
+    padding: 8px 12px !important;
+    margin: 0 !important;
+    font-size: 0.9em !important;
+    white-space: nowrap !important;
+    display: inline-block !important;
+    text-decoration: none !important;
+    border-radius: 6px !important;
+    transition: all 0.3s ease !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 140px !important;
+    font-weight: 500 !important;
+    min-height: 36px !important;
+    line-height: 1.2 !important;
+}
+
+/* CORREÇÃO PARA SEÇÃO DO USUÁRIO */
+.user-section {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex: 0 0 auto !important;
+    min-width: 180px !important;
+    max-width: 220px !important;
+    justify-content: flex-end !important;
+    overflow: hidden !important;
+    padding-right: 8px !important;
+}
+
+.user-info {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    max-width: 100px !important;
+    overflow: hidden !important;
+    margin-right: 6px !important;
+}
+
+.user-name {
+    font-size: 0.75em !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.user-role {
+    font-size: 0.6em !important;
+    opacity: 0.8 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.1 !important;
+}
+
+.settings-btn {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 0.9em !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+}
+
+.logout-btn {
+    padding: 4px 8px !important;
+    font-size: 0.7em !important;
+    border-radius: 12px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+}
+
+/* Garantir que o container pai tenha position relative */
+.global-header,
+.global-header .header-content,
+.header-content {
+    position: relative !important;
+    overflow: visible !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 6px 12px !important;
+}
+
+/* Específico para o header global */
+.global-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+}
+
+/* Forçar centralização em qualquer resolução */
+@media screen and (min-width: 1px) {
+    .main-nav {
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+    }
+}
+
+/* Centralização para telas pequenas */
+@media screen and (max-width: 768px) {
+    .main-nav {
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+    }
+}
+
+/* Centralização para telas muito pequenas */
+@media screen and (max-width: 480px) {
+    .main-nav {
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+}
+
+/* Fallback usando CSS Grid se flexbox falhar */
+.header-content {
+    display: grid !important;
+    grid-template-columns: 1fr auto 1fr !important;
+    align-items: center !important;
+}
+
+.logo-section {
+    grid-column: 1 !important;
+    justify-self: start !important;
+}
+
+.user-section {
+    grid-column: 3 !important;
+    justify-self: end !important;
+}
+
+/* Mas o menu ainda fica absoluto no centro */
+.main-nav {
+    grid-column: 2 !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+/* Correção para elementos que podem estar interferindo */
+* {
+    box-sizing: border-box !important;
+}
+
+/* Garantir que não há margin/padding interferindo no body */
+body {
+    margin: 0 !important;
+    padding-top: 70px !important;
+}
+
+/* Debug: adicionar borda temporária para visualizar */
+/*
+.main-nav {
+    border: 2px solid red !important;
+    background: rgba(255, 0, 0, 0.1) !important;
+}
+*/
