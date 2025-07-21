@@ -8,6 +8,7 @@ Type=simple
 User=alfreire
 WorkingDirectory=/var/www/html
 Environment=NODE_ENV=production
+Environment=NODE_OPTIONS=
 Environment=PATH=/home/alfreire/.nvm/versions/node/v18.20.8/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ExecStart=/home/alfreire/.nvm/versions/node/v18.20.8/bin/node dist/index.js
 Restart=always
