@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "NODE_OPTIONS='' nodemon src/index.ts",
+    "dev": "unset NODE_OPTIONS && nodemon src/index.ts",
     "build": "tsc",
-    "start": "NODE_OPTIONS='' node dist/index.js",
+    "start": "unset NODE_OPTIONS && node dist/index.js",
     "lint": "echo \"Lint check not configured yet\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:migrate": "NODE_OPTIONS='' npx prisma migrate dev",
