@@ -36,11 +36,13 @@ cd /var/www/html
 # Verificar se as dependências estão instaladas
 if [ ! -d "node_modules" ]; then
     echo "📦 Instalando dependências..."
+    unset NODE_OPTIONS
     npm install
 fi
 
 # Iniciar a aplicação
 echo "🚀 Iniciando aplicação Node.js..."
+unset NODE_OPTIONS
 echo ""
 echo "📊 URLs disponíveis:"
 echo "   🏠 Interface Web: http://localhost/"
