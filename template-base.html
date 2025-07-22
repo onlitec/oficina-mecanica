@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{PAGE_TITLE}} - Oficina Mecânica</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-layout">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="/" class="logo">
+                <span class="logo-icon">🚗</span>
+                <span>Minha Oficina</span>
+            </a>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/dashboard.html" class="nav-link {{DASHBOARD_ACTIVE}}">
+                            <span>📊</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/customers.html" class="nav-link {{CUSTOMERS_ACTIVE}}">
+                            <span>👥</span>
+                            Clientes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/service-orders.html" class="nav-link {{ORDERS_ACTIVE}}">
+                            <span>🔧</span>
+                            Ordens de Serviço
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/parts.html" class="nav-link {{PARTS_ACTIVE}}">
+                            <span>⚙️</span>
+                            Peças
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/financial.html" class="nav-link {{FINANCIAL_ACTIVE}}">
+                            <span>💰</span>
+                            Financeiro
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/reports.html" class="nav-link {{REPORTS_ACTIVE}}">
+                            <span>📈</span>
+                            Relatórios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/settings.html" class="nav-link {{SETTINGS_ACTIVE}}">
+                            <span>⚙️</span>
+                            Configurações
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="user-menu">
+                <div class="user-info" onclick="toggleUserMenu()">
+                    <div class="user-avatar">U</div>
+                    <span id="userName">Usuário</span>
+                    <span>▼</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {{CONTENT}}
+    </main>
+
+    <!-- Scripts -->
+    <script src="/js/auth.js"></script>
+    <script src="/js/logo-manager.js"></script>
+    <script src="/modelo2-features.js"></script>
+    
+    <script>
+        // Verificar autenticação
+        const auth = new AuthManager();
+        if (!auth.isAuthenticated()) {
+            window.location.href = '/login.html';
+        }
+
+        // Atualizar nome do usuário
+        const user = auth.getUser();
+        if (user) {
+            document.getElementById('userName').textContent = user.name || user.email;
+            document.querySelector('.user-avatar').textContent = (user.name || user.email).charAt(0).toUpperCase();
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const confirmed = confirm('Deseja fazer logout?');
+            if (confirmed) {
+                auth.logout();
+                window.location.href = '/login.html';
+            }
+        }
+
+        // Funções da API
+        async function apiCall(endpoint) {
+            try {
+                const response = await fetch(endpoint);
+                return await response.json();
+            } catch (error) {
+                throw new Error(`Erro na API: ${error.message}`);
+            }
+        }
+
+        // Funções auxiliares
+        function showLoading(containerId) {
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.style.display = 'block';
+                container.innerHTML = '<div style="text-align: center; padding: 1rem; color: var(--text-secondary);"><div class="loading-spinner"></div> Carregando...</div>';
+            }
+        }
+
+        function showError(containerId, message) {
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.style.display = 'block';
+                container.innerHTML = `<div style="text-align: center; padding: 1rem; color: var(--error-color); background: rgba(239, 68, 68, 0.1); border-radius: var(--radius-md);">❌ ${message}</div>`;
+            }
+        }
+
+        function showSuccess(containerId, message) {
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.style.display = 'block';
+                container.innerHTML = `<div style="text-align: center; padding: 1rem; color: var(--success-color); background: rgba(16, 185, 129, 0.1); border-radius: var(--radius-md);">✅ ${message}</div>`;
+            }
+        }
+
+        {{CUSTOM_SCRIPTS}}
+    </script>
+</body>
+</html>

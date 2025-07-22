@@ -3,543 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes - Sistema de Gestão de Oficina Mecânica</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f8f9fa;
-            min-height: 100vh;
-        }
-        
-        /* Header styles removed - now handled by global-menu.js */
-    <script src="/modelo2-features.js"></script>
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
-        
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .page-title {
-            font-size: 2em;
-            color: #333;
-        }
-        
-        .btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            text-decoration: none;
-            display: inline-block;
-            transition: background 0.3s ease;
-        }
-        
-        .btn:hover {
-            background: #5a6fd8;
-        }
-        
-        .btn-success {
-            background: #28a745;
-        }
-        
-        .btn-success:hover {
-            background: #1e7e34;
-        }
-        
-        .btn-danger {
-            background: #dc3545;
-        }
-        
-        .btn-danger:hover {
-            background: #c82333;
-        }
-        
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 0.9em;
-        }
-        
-        .filters {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .filters-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            align-items: end;
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .form-group label {
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .form-group input,
-        .form-group select {
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .customers-table {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        
-        th {
-            background: #f8f9fa;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        tr:hover {
-            background: #f8f9fa;
-        }
-        
-        .badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            font-weight: bold;
-        }
-        
-        .badge-individual {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-        
-        .badge-company {
-            background: #f3e5f5;
-            color: #7b1fa2;
-        }
-        
-        .badge-active {
-            background: #e8f5e8;
-            color: #2e7d32;
-        }
-        
-        .badge-inactive {
-            background: #ffebee;
-            color: #c62828;
-        }
-        
-        .actions {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .pagination button {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            background: white;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        
-        .pagination button:hover {
-            background: #f8f9fa;
-        }
-        
-        .pagination button.active {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-        
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-        }
-        
-        .empty {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-        
-        @media (max-width: 768px) {
-            .filters-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .page-header {
-                flex-direction: column;
-                gap: 15px;
-                align-items: stretch;
-            }
-            
-            table {
-                font-size: 0.9em;
-            }
-            
-            th, td {
-                padding: 10px;
-            }
-        }
-    </style>
+    <title>Clientes - Oficina Mecânica</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- Global menu will be inserted here by global-menu.js -->
+<body class="dashboard-layout">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="/" class="logo">
+                <span class="logo-icon">🚗</span>
+                <span>Minha Oficina</span>
+            </a>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/dashboard.html" class="nav-link">
+                            <span>📊</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/customers.html" class="nav-link active">
+                            <span>👥</span>
+                            Clientes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/service-orders.html" class="nav-link">
+                            <span>🔧</span>
+                            Ordens de Serviço
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/parts.html" class="nav-link">
+                            <span>⚙️</span>
+                            Peças
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/financial.html" class="nav-link">
+                            <span>💰</span>
+                            Financeiro
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/reports.html" class="nav-link">
+                            <span>📈</span>
+                            Relatórios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/settings.html" class="nav-link">
+                            <span>⚙️</span>
+                            Configurações
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="user-menu">
+                <div class="user-info" onclick="toggleUserMenu()">
+                    <div class="user-avatar">U</div>
+                    <span id="userName">Usuário</span>
+                    <span>▼</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h1 class="card-title">
+                        <span>👥</span>
+                        Gestão de Clientes
+                    </h1>
+                    <p class="card-subtitle">Gerencie todos os clientes da oficina</p>
+                </div>
+                <a href="/customer-form.html" class="btn btn-primary">
+                    <span>➕</span>
+                    Novo Cliente
+                </a>
+            </div>
+        </div>
+
+        <!-- Filtros e Busca -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span>🔍</span>
+                    Buscar Clientes
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="searchName" class="form-label">Nome do Cliente</label>
+                        <input type="text" id="searchName" class="form-input" placeholder="Digite o nome do cliente">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchEmail" class="form-label">Email</label>
+                        <input type="email" id="searchEmail" class="form-input" placeholder="Digite o email">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="searchPhone" class="form-label">Telefone</label>
+                        <input type="text" id="searchPhone" class="form-input" placeholder="Digite o telefone">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchType" class="form-label">Tipo</label>
+                        <select id="searchType" class="form-input">
+                            <option value="">Todos</option>
+                            <option value="INDIVIDUAL">Pessoa Física</option>
+                            <option value="COMPANY">Pessoa Jurídica</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <button onclick="searchCustomers()" class="btn btn-primary">
+                        <span>🔍</span>
+                        Buscar
+                    </button>
+                    <button onclick="clearSearch()" class="btn btn-secondary">
+                        <span>🗑️</span>
+                        Limpar
+                    </button>
+                    <button onclick="loadCustomers()" class="btn btn-success">
+                        <span>📋</span>
+                        Listar Todos
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Clientes -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span>📋</span>
+                    Lista de Clientes
+                </h2>
+                <div class="card-subtitle">
+                    Total: <span id="totalCustomers">0</span> clientes
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="loadingMessage" style="display: none;">
+                    <div style="text-align: center; padding: 2rem;">
+                        <div class="loading-spinner"></div>
+                        <p style="margin-top: 1rem; color: var(--text-secondary);">Carregando clientes...</p>
+                    </div>
+                </div>
+                
+                <div id="errorMessage" style="display: none;"></div>
+                
+                <div id="customersContainer">
+                    <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                        <p>Clique em "Listar Todos" para carregar os clientes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="/js/auth.js"></script>
+    <script src="/js/logo-manager.js"></script>
     <script src="/modelo2-features.js"></script>
-    
-    <div class="container">
-        <div class="page-header">
-            <h1 class="page-title">👥 Clientes</h1>
-            <a href="/customer-form.html" class="btn btn-success">+ Novo Cliente</a>
-        </div>
-        
-        <div class="filters">
-            <div class="filters-row">
-                <div class="form-group">
-                    <label for="search">Buscar:</label>
-                    <input type="text" id="search" placeholder="Nome, email, CPF/CNPJ, telefone...">
-                </div>
-                
-                <div class="form-group">
-                    <label for="type">Tipo:</label>
-                    <select id="type">
-                        <option value="">Todos</option>
-                        <option value="INDIVIDUAL">Pessoa Física</option>
-                        <option value="COMPANY">Pessoa Jurídica</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="status">Status:</label>
-                    <select id="status">
-                        <option value="">Todos</option>
-                        <option value="ACTIVE">Ativo</option>
-                        <option value="INACTIVE">Inativo</option>
-                        <option value="BLOCKED">Bloqueado</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <button class="btn" onclick="loadCustomers()">🔍 Buscar</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="customers-table">
-            <div id="loading" class="loading">Carregando clientes...</div>
-            <div id="error" class="error" style="display: none;"></div>
-            
-            <table id="customersTable" style="display: none;">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Tipo</th>
-                        <th>CPF/CNPJ</th>
-                        <th>Email</th>
-                        <th>Telefone</th>
-                        <th>Veículos</th>
-                        <th>Status</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="customersBody">
-                </tbody>
-            </table>
-            
-            <div id="empty" class="empty" style="display: none;">
-                <p>Nenhum cliente encontrado.</p>
-                <a href="/customer-form.html" class="btn btn-success">+ Cadastrar Primeiro Cliente</a>
-            </div>
-        </div>
-        
-        <div id="pagination" class="pagination" style="display: none;"></div>
-    </div>
     
     <script>
-        let currentPage = 1;
-        let totalPages = 1;
-        
         // Verificar autenticação
-        function checkAuth() {
-            const user = localStorage.getItem('user');
-            if (!user) {
-                window.location.href = '/login.html';
-                return null;
-            }
-            return JSON.parse(user);
-        }
-        
-        // Logout
-        function logout() {
-            localStorage.removeItem('user');
+        const auth = new AuthManager();
+        if (!auth.isAuthenticated()) {
             window.location.href = '/login.html';
         }
-        
-        // Carregar clientes
-        async function loadCustomers(page = 1) {
-            try {
-                showLoading();
-                
-                const search = document.getElementById('search').value;
-                const type = document.getElementById('type').value;
-                const status = document.getElementById('status').value;
-                
-                const params = new URLSearchParams({
-                    page: page.toString(),
-                    limit: '10'
-                });
-                
-                if (search) params.append('search', search);
-                if (type) params.append('type', type);
-                if (status) params.append('status', status);
-                
-                const response = await fetch(`/api/customers?${params}`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    displayCustomers(data.data);
-                    displayPagination(data.pagination);
-                    currentPage = data.pagination.page;
-                    totalPages = data.pagination.pages;
-                } else {
-                    showError(data.error || 'Erro ao carregar clientes');
-                }
-            } catch (error) {
-                showError('Erro de conexão: ' + error.message);
+
+        // Atualizar nome do usuário
+        const user = auth.getUser();
+        if (user) {
+            document.getElementById('userName').textContent = user.name || user.email;
+            document.querySelector('.user-avatar').textContent = (user.name || user.email).charAt(0).toUpperCase();
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const confirmed = confirm('Deseja fazer logout?');
+            if (confirmed) {
+                auth.logout();
+                window.location.href = '/login.html';
             }
         }
-        
-        // Exibir clientes na tabela
+
+        // Funções da API
+        async function apiCall(endpoint) {
+            try {
+                const response = await fetch(endpoint);
+                return await response.json();
+            } catch (error) {
+                throw new Error(`Erro na API: ${error.message}`);
+            }
+        }
+
+        // Carregar clientes
+        async function loadCustomers() {
+            showLoading();
+            try {
+                const response = await apiCall('/api/customers');
+                const customers = response.data || response;
+                displayCustomers(customers);
+                document.getElementById('totalCustomers').textContent = customers.length;
+            } catch (error) {
+                showError('Erro ao carregar clientes: ' + error.message);
+            }
+        }
+
+        // Buscar clientes
+        async function searchCustomers() {
+            const name = document.getElementById('searchName').value;
+            const email = document.getElementById('searchEmail').value;
+            const phone = document.getElementById('searchPhone').value;
+            const type = document.getElementById('searchType').value;
+
+            if (!name && !email && !phone && !type) {
+                alert('Digite pelo menos um critério de busca');
+                return;
+            }
+
+            showLoading();
+            try {
+                const response = await apiCall('/api/customers');
+                const customers = response.data || response;
+                
+                const filtered = customers.filter(customer => {
+                    return (!name || customer.name.toLowerCase().includes(name.toLowerCase())) &&
+                           (!email || customer.email?.toLowerCase().includes(email.toLowerCase())) &&
+                           (!phone || customer.phone?.includes(phone)) &&
+                           (!type || customer.type === type);
+                });
+
+                displayCustomers(filtered);
+                document.getElementById('totalCustomers').textContent = filtered.length;
+            } catch (error) {
+                showError('Erro ao buscar clientes: ' + error.message);
+            }
+        }
+
+        // Limpar busca
+        function clearSearch() {
+            document.getElementById('searchName').value = '';
+            document.getElementById('searchEmail').value = '';
+            document.getElementById('searchPhone').value = '';
+            document.getElementById('searchType').value = '';
+            document.getElementById('customersContainer').innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-secondary);"><p>Clique em "Listar Todos" para carregar os clientes</p></div>';
+            document.getElementById('totalCustomers').textContent = '0';
+        }
+
+        // Exibir clientes
         function displayCustomers(customers) {
-            const tbody = document.getElementById('customersBody');
+            const container = document.getElementById('customersContainer');
             
             if (customers.length === 0) {
-                showEmpty();
+                container.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-secondary);"><p>Nenhum cliente encontrado</p></div>';
                 return;
             }
+
+            let html = '<div class="stats-grid">';
             
-            tbody.innerHTML = customers.map(customer => `
-                <tr>
-                    <td>${customer.name}</td>
-                    <td>
-                        <span class="badge badge-${customer.type.toLowerCase()}">
-                            ${customer.type === 'INDIVIDUAL' ? 'Pessoa Física' : 'Pessoa Jurídica'}
-                        </span>
-                    </td>
-                    <td>${formatCpfCnpj(customer.cpfCnpj)}</td>
-                    <td>${customer.email || '-'}</td>
-                    <td>${customer.phone || '-'}</td>
-                    <td>${customer.vehicles?.length || 0}</td>
-                    <td>
-                        <span class="badge badge-${customer.status.toLowerCase()}">
-                            ${getStatusLabel(customer.status)}
-                        </span>
-                    </td>
-                    <td>
-                        <div class="actions">
-                            <button class="btn btn-sm" onclick="viewCustomer('${customer.id}')">👁️</button>
-                            <button class="btn btn-sm" onclick="editCustomer('${customer.id}')">✏️</button>
-                            <button class="btn btn-sm btn-danger" onclick="deleteCustomer('${customer.id}', '${customer.name}')">🗑️</button>
+            customers.forEach(customer => {
+                html += `
+                    <div class="card" style="margin-bottom: 0;">
+                        <div class="card-body" style="padding: var(--space-4);">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-3);">
+                                <div>
+                                    <h3 style="font-size: var(--font-size-lg); font-weight: 600; margin-bottom: var(--space-1);">${customer.name}</h3>
+                                    <span class="badge ${customer.type === 'INDIVIDUAL' ? 'badge-primary' : 'badge-secondary'}">${customer.type === 'INDIVIDUAL' ? 'Pessoa Física' : 'Pessoa Jurídica'}</span>
+                                </div>
+                                <div style="display: flex; gap: var(--space-2);">
+                                    <a href="/customer-form.html?id=${customer.id}" class="btn btn-sm btn-secondary">✏️ Editar</a>
+                                    <a href="/service-order-form.html?customerId=${customer.id}" class="btn btn-sm btn-primary">🔧 Nova OS</a>
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); font-size: var(--font-size-sm); color: var(--text-secondary);">
+                                <div><strong>Email:</strong> ${customer.email || 'Não informado'}</div>
+                                <div><strong>Telefone:</strong> ${customer.phone || 'Não informado'}</div>
+                                <div><strong>CPF/CNPJ:</strong> ${customer.cpfCnpj || 'Não informado'}</div>
+                                <div><strong>Veículos:</strong> ${customer.vehicles ? customer.vehicles.length : 0}</div>
+                            </div>
                         </div>
-                    </td>
-                </tr>
-            `).join('');
+                    </div>
+                `;
+            });
             
-            showTable();
+            html += '</div>';
+            container.innerHTML = html;
         }
-        
-        // Exibir paginação
-        function displayPagination(pagination) {
-            const paginationDiv = document.getElementById('pagination');
-            
-            if (pagination.pages <= 1) {
-                paginationDiv.style.display = 'none';
-                return;
-            }
-            
-            let paginationHTML = '';
-            
-            // Botão anterior
-            if (pagination.page > 1) {
-                paginationHTML += `<button onclick="loadCustomers(${pagination.page - 1})">« Anterior</button>`;
-            }
-            
-            // Números das páginas
-            for (let i = 1; i <= pagination.pages; i++) {
-                const active = i === pagination.page ? 'active' : '';
-                paginationHTML += `<button class="${active}" onclick="loadCustomers(${i})">${i}</button>`;
-            }
-            
-            // Botão próximo
-            if (pagination.page < pagination.pages) {
-                paginationHTML += `<button onclick="loadCustomers(${pagination.page + 1})">Próximo »</button>`;
-            }
-            
-            paginationDiv.innerHTML = paginationHTML;
-            paginationDiv.style.display = 'flex';
-        }
-        
+
         // Funções auxiliares
-        function formatCpfCnpj(cpfCnpj) {
-            if (!cpfCnpj) return '-';
-            if (cpfCnpj.length === 11) {
-                return cpfCnpj.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-            } else if (cpfCnpj.length === 14) {
-                return cpfCnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
-            }
-            return cpfCnpj;
-        }
-        
-        function getStatusLabel(status) {
-            const labels = {
-                'ACTIVE': 'Ativo',
-                'INACTIVE': 'Inativo',
-                'BLOCKED': 'Bloqueado'
-            };
-            return labels[status] || status;
-        }
-        
-        // Ações
-        function viewCustomer(id) {
-            window.location.href = `/customer-view.html?id=${id}`;
-        }
-        
-        function editCustomer(id) {
-            window.location.href = `/customer-form.html?id=${id}`;
-        }
-        
-        async function deleteCustomer(id, name) {
-            if (!confirm(`Tem certeza que deseja excluir o cliente "${name}"?`)) {
-                return;
-            }
-            
-            try {
-                const response = await fetch(`/api/customers/${id}`, {
-                    method: 'DELETE'
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    alert('Cliente excluído com sucesso!');
-                    loadCustomers(currentPage);
-                } else {
-                    alert('Erro: ' + data.error);
-                }
-            } catch (error) {
-                alert('Erro de conexão: ' + error.message);
-            }
-        }
-        
-        // Estados da interface
         function showLoading() {
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('error').style.display = 'none';
-            document.getElementById('customersTable').style.display = 'none';
-            document.getElementById('empty').style.display = 'none';
-            document.getElementById('pagination').style.display = 'none';
+            document.getElementById('loadingMessage').style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('customersContainer').innerHTML = '';
         }
-        
+
         function showError(message) {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').style.display = 'block';
-            document.getElementById('error').textContent = message;
-            document.getElementById('customersTable').style.display = 'none';
-            document.getElementById('empty').style.display = 'none';
-            document.getElementById('pagination').style.display = 'none';
+            document.getElementById('loadingMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'block';
+            document.getElementById('errorMessage').innerHTML = `<div style="text-align: center; padding: 1rem; color: var(--error-color); background: rgba(239, 68, 68, 0.1); border-radius: var(--radius-md);">❌ ${message}</div>`;
         }
-        
-        function showTable() {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').style.display = 'none';
-            document.getElementById('customersTable').style.display = 'table';
-            document.getElementById('empty').style.display = 'none';
-        }
-        
-        function showEmpty() {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').style.display = 'none';
-            document.getElementById('customersTable').style.display = 'none';
-            document.getElementById('empty').style.display = 'block';
-            document.getElementById('pagination').style.display = 'none';
-        }
-        
-        // Event listeners
-        document.getElementById('search').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                loadCustomers(1);
-            }
-        });
-        
-        // Inicializar
-        document.addEventListener('DOMContentLoaded', function() {
-            checkAuth();
+
+        // Carregar clientes ao inicializar
+        document.addEventListener('DOMContentLoaded', () => {
             loadCustomers();
         });
     </script>
-    <script src="/js/logo-manager.js"></script>
-    <script src="/js/global-menu.js"></script>
-    <script src="/modelo2-features.js"></script>
 </body>
 </html>
