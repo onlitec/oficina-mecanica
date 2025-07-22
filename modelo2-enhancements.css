@@ -1,0 +1,288 @@
+/* MELHORIAS ADICIONAIS PARA O MODELO2 */
+
+/* Melhorias no Header */
+.global-header {
+    transition: all 0.3s ease !important;
+}
+
+.global-header:hover {
+    box-shadow: 0 15px 25px -5px rgba(59, 130, 246, 0.08) !important;
+}
+
+/* Logo com animação sutil */
+.logo-section .logo {
+    transition: all 0.3s ease !important;
+}
+
+.logo-section .logo:hover {
+    transform: scale(1.05) !important;
+    box-shadow: 0 6px 12px -2px rgba(37, 99, 235, 0.3) !important;
+}
+
+/* Menu com indicador ativo melhorado */
+.main-nav .nav-link.active::before {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -2px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 20px !important;
+    height: 2px !important;
+    background: #2563eb !important;
+    border-radius: 1px !important;
+}
+
+.main-nav .nav-link {
+    position: relative !important;
+}
+
+/* Avatar com status online */
+.user-avatar::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: 2px !important;
+    right: 2px !important;
+    width: 8px !important;
+    height: 8px !important;
+    background: #10b981 !important;
+    border: 2px solid white !important;
+    border-radius: 50% !important;
+}
+
+/* Cards com gradiente sutil */
+.card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+}
+
+.card:hover {
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%) !important;
+}
+
+/* Botões com gradiente */
+.btn-primary {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    border: none !important;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+    box-shadow: 0 8px 15px -3px rgba(37, 99, 235, 0.4) !important;
+}
+
+/* Inputs com foco melhorado */
+.form-control:focus {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Tabelas com zebra stripes sutis */
+.modern-table tbody tr:nth-child(even) {
+    background: rgba(248, 250, 252, 0.5) !important;
+}
+
+.modern-table tbody tr:hover {
+    background: rgba(37, 99, 235, 0.05) !important;
+    transform: scale(1.001) !important;
+}
+
+/* Badges modernos */
+.badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 0.25rem 0.75rem !important;
+    font-size: 0.75rem !important;
+    font-weight: 500 !important;
+    border-radius: 9999px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+.badge-success {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    color: white !important;
+}
+
+.badge-warning {
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    color: white !important;
+}
+
+.badge-error {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    color: white !important;
+}
+
+.badge-info {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+    color: white !important;
+}
+
+/* Loading spinner elegante */
+.loading-spinner {
+    width: 24px !important;
+    height: 24px !important;
+    border: 2px solid #e5e7eb !important;
+    border-top: 2px solid #2563eb !important;
+    border-radius: 50% !important;
+    animation: spin 1s linear infinite !important;
+    display: inline-block !important;
+    margin: 0 0.5rem !important;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Tooltips elegantes */
+.tooltip {
+    position: relative !important;
+    display: inline-block !important;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden !important;
+    width: 120px !important;
+    background: #1f2937 !important;
+    color: white !important;
+    text-align: center !important;
+    border-radius: 6px !important;
+    padding: 5px 8px !important;
+    position: absolute !important;
+    z-index: 1000 !important;
+    bottom: 125% !important;
+    left: 50% !important;
+    margin-left: -60px !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s !important;
+    font-size: 0.75rem !important;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Breadcrumb elegante */
+.breadcrumb {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    margin-bottom: 1.5rem !important;
+    padding: 0.75rem 1rem !important;
+    background: white !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+.breadcrumb-item {
+    color: #6b7280 !important;
+    text-decoration: none !important;
+    font-size: 0.875rem !important;
+    transition: color 0.2s ease !important;
+}
+
+.breadcrumb-item:hover {
+    color: #2563eb !important;
+}
+
+.breadcrumb-item.active {
+    color: #1f2937 !important;
+    font-weight: 500 !important;
+}
+
+.breadcrumb-separator {
+    color: #d1d5db !important;
+    font-size: 0.75rem !important;
+}
+
+/* Alertas modernos */
+.alert {
+    padding: 1rem 1.25rem !important;
+    border-radius: 0.75rem !important;
+    margin-bottom: 1rem !important;
+    border-left: 4px solid !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05)) !important;
+    border-color: #10b981 !important;
+    color: #065f46 !important;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05)) !important;
+    border-color: #f59e0b !important;
+    color: #92400e !important;
+}
+
+.alert-error {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)) !important;
+    border-color: #ef4444 !important;
+    color: #991b1b !important;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(29, 78, 216, 0.05)) !important;
+    border-color: #2563eb !important;
+    color: #1e40af !important;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 6px !important;
+    height: 6px !important;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9 !important;
+    border-radius: 3px !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
+    border-radius: 3px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8 !important;
+}
+
+/* Animações suaves */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.5s ease-out !important;
+}
+
+/* Responsividade melhorada */
+@media (max-width: 640px) {
+    .card {
+        margin: 0 -0.5rem 1rem -0.5rem !important;
+        border-radius: 0.5rem !important;
+    }
+    
+    .table-container {
+        margin: 0 -0.5rem 1rem -0.5rem !important;
+        border-radius: 0.5rem !important;
+    }
+    
+    .breadcrumb {
+        margin: 0 -0.5rem 1rem -0.5rem !important;
+        border-radius: 0.5rem !important;
+    }
+}

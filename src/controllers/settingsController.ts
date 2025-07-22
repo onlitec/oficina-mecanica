@@ -91,7 +91,8 @@ export const updateSystemSettings = async (req: Request, res: Response): Promise
       companyCnpj,
       timezone,
       currency,
-      language
+      language,
+      themeUrl
     } = req.body;
 
     // Buscar configurações existentes
@@ -114,6 +115,7 @@ export const updateSystemSettings = async (req: Request, res: Response): Promise
           timezone,
           currency,
           language,
+          themeUrl,
           updatedAt: new Date()
         }
       });
@@ -132,7 +134,8 @@ export const updateSystemSettings = async (req: Request, res: Response): Promise
           companyCnpj,
           timezone,
           currency,
-          language
+          language,
+          themeUrl
         }
       });
     }

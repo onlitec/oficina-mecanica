@@ -1,0 +1,459 @@
+/* DESIGN SYSTEM PADRONIZADO - DIMENSÕES E POSICIONAMENTO */
+
+/* VARIÁVEIS CSS PARA PADRONIZAÇÃO */
+:root {
+    /* ESPAÇAMENTOS PADRONIZADOS (baseado em 8px grid) */
+    --space-1: 0.25rem;   /* 4px */
+    --space-2: 0.5rem;    /* 8px */
+    --space-3: 0.75rem;   /* 12px */
+    --space-4: 1rem;      /* 16px */
+    --space-5: 1.25rem;   /* 20px */
+    --space-6: 1.5rem;    /* 24px */
+    --space-8: 2rem;      /* 32px */
+    --space-10: 2.5rem;   /* 40px */
+    --space-12: 3rem;     /* 48px */
+    --space-16: 4rem;     /* 64px */
+    --space-20: 5rem;     /* 80px */
+    
+    /* LARGURAS PADRONIZADAS */
+    --width-xs: 20rem;    /* 320px */
+    --width-sm: 24rem;    /* 384px */
+    --width-md: 28rem;    /* 448px */
+    --width-lg: 32rem;    /* 512px */
+    --width-xl: 36rem;    /* 576px */
+    --width-2xl: 42rem;   /* 672px */
+    --width-3xl: 48rem;   /* 768px */
+    --width-4xl: 56rem;   /* 896px */
+    --width-5xl: 64rem;   /* 1024px */
+    --width-6xl: 72rem;   /* 1152px */
+    --width-7xl: 80rem;   /* 1280px */
+    
+    /* ALTURAS PADRONIZADAS */
+    --height-header: 4rem;     /* 64px */
+    --height-button: 2.5rem;   /* 40px */
+    --height-input: 2.5rem;    /* 40px */
+    --height-card-header: 4rem; /* 64px */
+    
+    /* BORDAS PADRONIZADAS */
+    --radius-sm: 0.25rem;   /* 4px */
+    --radius-md: 0.375rem;  /* 6px */
+    --radius-lg: 0.5rem;    /* 8px */
+    --radius-xl: 0.75rem;   /* 12px */
+    --radius-2xl: 1rem;     /* 16px */
+    --radius-3xl: 1.5rem;   /* 24px */
+    
+    /* SOMBRAS PADRONIZADAS */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* RESET E BASE PADRONIZADA */
+* {
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    background: #f8fafc !important;
+    color: #1f2937 !important;
+    line-height: 1.6 !important;
+    font-size: 14px !important;
+}
+
+/* HEADER PADRONIZADO */
+.global-header {
+    height: var(--height-header) !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.5) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+.header-content {
+    max-width: var(--width-7xl) !important;
+    margin: 0 auto !important;
+    padding: 0 var(--space-6) !important;
+    height: var(--height-header) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* LOGO SECTION PADRONIZADA */
+.logo-section {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--space-3) !important;
+    flex: 0 0 auto !important;
+    min-width: var(--width-xs) !important;
+}
+
+.logo-section .logo {
+    width: var(--space-10) !important;
+    height: var(--space-10) !important;
+    border-radius: var(--radius-xl) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: linear-gradient(135deg, #2563eb, #4f46e5) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+.logo-section .company-name {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    color: #1f2937 !important;
+}
+
+/* MENU PRINCIPAL PADRONIZADO */
+.main-nav {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: var(--space-2) !important;
+    flex: 1 !important;
+    max-width: var(--width-4xl) !important;
+    margin: 0 var(--space-8) !important;
+}
+
+.main-nav .nav-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: var(--space-2) var(--space-4) !important;
+    height: var(--space-10) !important;
+    min-width: var(--space-20) !important;
+    color: #6b7280 !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+    border-radius: var(--radius-lg) !important;
+    transition: all 0.2s ease !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+}
+
+.main-nav .nav-link:hover {
+    background: rgba(59, 130, 246, 0.1) !important;
+    color: #2563eb !important;
+    transform: translateY(-1px) !important;
+}
+
+.main-nav .nav-link.active {
+    background: #2563eb !important;
+    color: white !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* USER SECTION PADRONIZADA */
+.user-section {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--space-3) !important;
+    flex: 0 0 auto !important;
+    min-width: var(--width-xs) !important;
+    justify-content: flex-end !important;
+}
+
+.user-avatar {
+    width: var(--space-8) !important;
+    height: var(--space-8) !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #2563eb, #4f46e5) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: white !important;
+    font-weight: 600 !important;
+    font-size: 0.75rem !important;
+}
+
+/* CONTEÚDO PRINCIPAL PADRONIZADO */
+.main-content,
+.container,
+.page-container {
+    margin-top: var(--height-header) !important;
+    padding: var(--space-8) var(--space-6) !important;
+    max-width: var(--width-7xl) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    min-height: calc(100vh - var(--height-header)) !important;
+}
+
+/* CARDS PADRONIZADOS */
+.card {
+    background: white !important;
+    border-radius: var(--radius-2xl) !important;
+    box-shadow: var(--shadow-md) !important;
+    border: 1px solid #e5e7eb !important;
+    overflow: hidden !important;
+    margin-bottom: var(--space-6) !important;
+}
+
+.card-header {
+    padding: var(--space-6) !important;
+    background: linear-gradient(135deg, #f8fafc, #ffffff) !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    height: var(--height-card-header) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.card-title {
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    color: #1f2937 !important;
+    margin: 0 !important;
+}
+
+.card-body {
+    padding: var(--space-6) !important;
+}
+
+/* BOTÕES PADRONIZADOS */
+.btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: var(--space-2) !important;
+    padding: 0 var(--space-4) !important;
+    height: var(--height-button) !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    border-radius: var(--radius-lg) !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    min-width: var(--space-20) !important;
+}
+
+.btn-primary {
+    background: #2563eb !important;
+    color: white !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+.btn-secondary {
+    background: #f3f4f6 !important;
+    color: #374151 !important;
+    border: 1px solid #d1d5db !important;
+}
+
+.btn-secondary:hover {
+    background: #e5e7eb !important;
+    border-color: #9ca3af !important;
+}
+
+/* FORMULÁRIOS PADRONIZADOS */
+.form-container {
+    background: white !important;
+    border-radius: var(--radius-2xl) !important;
+    box-shadow: var(--shadow-md) !important;
+    border: 1px solid #e5e7eb !important;
+    padding: var(--space-6) !important;
+    margin-bottom: var(--space-6) !important;
+}
+
+.form-group {
+    margin-bottom: var(--space-5) !important;
+}
+
+.form-label {
+    display: block !important;
+    margin-bottom: var(--space-2) !important;
+    font-weight: 500 !important;
+    color: #374151 !important;
+    font-size: 0.875rem !important;
+}
+
+.form-control {
+    width: 100% !important;
+    height: var(--height-input) !important;
+    padding: 0 var(--space-3) !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: var(--radius-lg) !important;
+    font-size: 0.875rem !important;
+    transition: all 0.2s ease !important;
+    background: white !important;
+}
+
+.form-control:focus {
+    outline: none !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+}
+
+/* TABELAS PADRONIZADAS */
+.table-container {
+    background: white !important;
+    border-radius: var(--radius-2xl) !important;
+    box-shadow: var(--shadow-md) !important;
+    border: 1px solid #e5e7eb !important;
+    overflow: hidden !important;
+    margin-bottom: var(--space-6) !important;
+}
+
+.table-header {
+    padding: var(--space-6) !important;
+    background: linear-gradient(135deg, #f8fafc, #ffffff) !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    height: var(--height-card-header) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.table-title {
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    color: #1f2937 !important;
+}
+
+.modern-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+.modern-table th {
+    background: #f9fafb !important;
+    padding: var(--space-3) var(--space-4) !important;
+    text-align: left !important;
+    font-weight: 600 !important;
+    color: #374151 !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    font-size: 0.875rem !important;
+    height: var(--space-12) !important;
+}
+
+.modern-table td {
+    padding: var(--space-3) var(--space-4) !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+    color: #6b7280 !important;
+    height: var(--space-12) !important;
+    vertical-align: middle !important;
+}
+
+.modern-table tr:hover {
+    background: #f9fafb !important;
+}
+
+/* GRID SYSTEM PADRONIZADO */
+.grid {
+    display: grid !important;
+    gap: var(--space-6) !important;
+}
+
+.grid-cols-1 { grid-template-columns: repeat(1, 1fr) !important; }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr) !important; }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr) !important; }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr) !important; }
+
+/* RESPONSIVIDADE PADRONIZADA */
+@media (max-width: 1024px) {
+    .header-content {
+        padding: 0 var(--space-4) !important;
+    }
+    
+    .main-content,
+    .container,
+    .page-container {
+        padding: var(--space-6) var(--space-4) !important;
+    }
+    
+    .main-nav {
+        margin: 0 var(--space-4) !important;
+        gap: var(--space-1) !important;
+    }
+    
+    .main-nav .nav-link {
+        padding: var(--space-2) var(--space-3) !important;
+        min-width: var(--space-16) !important;
+        font-size: 0.8rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        padding: 0 var(--space-3) !important;
+    }
+    
+    .main-content,
+    .container,
+    .page-container {
+        padding: var(--space-4) var(--space-3) !important;
+    }
+    
+    .logo-section,
+    .user-section {
+        min-width: var(--width-sm) !important;
+    }
+    
+    .main-nav {
+        margin: 0 var(--space-2) !important;
+    }
+    
+    .main-nav .nav-link {
+        padding: var(--space-1) var(--space-2) !important;
+        min-width: var(--space-12) !important;
+        font-size: 0.75rem !important;
+    }
+    
+    .card-header,
+    .card-body {
+        padding: var(--space-4) !important;
+    }
+    
+    .grid-cols-2,
+    .grid-cols-3,
+    .grid-cols-4 {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* UTILITÁRIOS DE ESPAÇAMENTO */
+.p-0 { padding: 0 !important; }
+.p-1 { padding: var(--space-1) !important; }
+.p-2 { padding: var(--space-2) !important; }
+.p-3 { padding: var(--space-3) !important; }
+.p-4 { padding: var(--space-4) !important; }
+.p-5 { padding: var(--space-5) !important; }
+.p-6 { padding: var(--space-6) !important; }
+.p-8 { padding: var(--space-8) !important; }
+
+.m-0 { margin: 0 !important; }
+.m-1 { margin: var(--space-1) !important; }
+.m-2 { margin: var(--space-2) !important; }
+.m-3 { margin: var(--space-3) !important; }
+.m-4 { margin: var(--space-4) !important; }
+.m-5 { margin: var(--space-5) !important; }
+.m-6 { margin: var(--space-6) !important; }
+.m-8 { margin: var(--space-8) !important; }
+
+.mb-0 { margin-bottom: 0 !important; }
+.mb-1 { margin-bottom: var(--space-1) !important; }
+.mb-2 { margin-bottom: var(--space-2) !important; }
+.mb-3 { margin-bottom: var(--space-3) !important; }
+.mb-4 { margin-bottom: var(--space-4) !important; }
+.mb-5 { margin-bottom: var(--space-5) !important; }
+.mb-6 { margin-bottom: var(--space-6) !important; }
+.mb-8 { margin-bottom: var(--space-8) !important; }

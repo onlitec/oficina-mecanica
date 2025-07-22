@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Gestão de Oficina Mecânica</title>
-    <style>
+    <link rel="stylesheet" href="/styles/main.css">
+    <script src="/js/global-menu.js" defer></script>
+    <script src="/js/auth.js" defer></script>
+    <script src="/js/main.js" defer></script>
+    <!-- CSS moved to styles/main.css
         * {
             margin: 0;
             padding: 0;
@@ -147,26 +151,59 @@
         .btn-success:hover {
             background: #1e7e34;
         }
-    </style>
+    
+    /* Media queries para responsividade */
+    @media (max-width: 768px) {
+        .container {
+            padding: 20px;
+            width: 95%;
+        }
+        h1 {
+            font-size: 2em;
+        }
+        .logo {
+            font-size: 2.5em;
+        }
+    }
+    @media (max-width: 480px) {
+        .container {
+            padding: 15px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 1.8em;
+        }
+        .logo {
+            font-size: 2em;
+        }
+        .subtitle {
+            font-size: 1em;
+        }
+    }
+    -->
 </head>
 <body>
     <!-- Global menu will be inserted here by global-menu.js -->
-    <div class="container">
-        <div class="logo">🚗</div>
+
+    <main class="container">
+        <header class="intro">
+        <div class="logo" role="img" aria-label="Logo de oficina">🚗</div>
         <h1>Sistema de Gestão de Oficina Mecânica</h1>
         <p class="subtitle">Sistema completo para gestão de oficinas mecânicas</p>
+        </header>
         
-        <div class="status">
+        <section class="status" role="status" aria-live="polite">
             <h3>✅ Sistema Online e Funcionando!</h3>
             <p>Redirecionando para o dashboard...</p>
-            <div style="margin-top: 15px;">
-                <div style="width: 100%; background: #e9ecef; border-radius: 10px; height: 8px;">
-                    <div id="progressBar" style="width: 0%; background: #007bff; height: 100%; border-radius: 10px; transition: width 1s ease;"></div>
+            <div class="progress-container">
+                <div class="progress-track">
+                    <div id="progressBar" class="progress-bar"></div>
                 </div>
             </div>
-        </div>
-        
-        <div class="endpoints">
+        </section>
+
+        <section class="endpoints" aria-labelledby="endpoints-heading">
+            <h2 id="endpoints-heading">Endpoints da API</h2>
             <div class="endpoint">
                 <h4>🏥 Health Check</h4>
                 <a href="/health" target="_blank">/health</a>
@@ -190,7 +227,7 @@
                 <a href="/api/customers" target="_blank">/api/customers</a>
                 <p>Listar clientes cadastrados</p>
             </div>
-        </div>
+        </section>
         
         <div class="credentials">
             <h4>🔑 Credenciais de Teste</h4>
@@ -198,45 +235,19 @@
             <div class="cred-item">Mecânico: mecanico@oficina.com / mecanico123</div>
         </div>
         
-        <div>
+        <nav class="actions" aria-label="Ações principais">
             <a href="/dashboard.html" class="btn">📊 Acessar Dashboard</a>
             <a href="/login.html" class="btn">🔐 Fazer Login</a>
             <a href="/health" class="btn btn-success">🏥 Health Check</a>
-        </div>
+        </nav>
         
-        <div class="footer">
+        <footer class="footer">
             <p>🛠️ Desenvolvido com Node.js, TypeScript, Express, Prisma e SQLite</p>
             <p>🌐 Servido via Apache com proxy reverso</p>
-        </div>
-    </div>
+        </footer>
+    </main>
 
-    <script src="/js/auth.js"></script>
-    <script>
-        // Redirecionar sempre para o dashboard
-        // O dashboard fará a verificação de autenticação e redirecionará para login se necessário
 
-        // Animar barra de progresso
-        setTimeout(() => {
-            const progressBar = document.getElementById('progressBar');
-            if (progressBar) {
-                progressBar.style.width = '100%';
-            }
-        }, 100);
 
-        // Redirecionar para o dashboard após 1 segundo
-        setTimeout(() => {
-            window.location.href = '/dashboard.html';
-        }, 1000);
-
-        // Verificar status da API automaticamente
-        fetch('/health')
-            .then(response => response.json())
-            .then(data => {
-                console.log('API Status:', data);
-            })
-            .catch(error => {
-                console.error('Erro ao verificar API:', error);
-            });
-    </script>
 </body>
 </html>

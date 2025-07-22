@@ -21,8 +21,14 @@ app.use(morgan('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir arquivos estáticos da pasta uploads
+// Servir arquivos estáticos
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/js', express.static(path.join(__dirname, '../js')));
+app.use('/css', express.static(path.join(__dirname, '../css')));
+app.use('/styles', express.static(path.join(__dirname, '../styles')));
+app.use(express.static(path.join(__dirname, '../'), {
+  index: ['index.html']
+}));
 
 // Health check route
 app.get('/health', (req, res) => {

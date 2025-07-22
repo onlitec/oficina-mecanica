@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="stylesheet" href="/simple-menu-fix.css">
-    <link rel="stylesheet" href="/menu-center-fix.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚙️ Configurações - Sistema de Gestão de Oficina Mecânica</title>
@@ -393,7 +391,7 @@
 </head>
 <body>
     <!-- Global menu will be inserted here by global-menu.js -->
-    <script src="/simple-menu-fix.js"></script>
+    <script src="/modelo2-features.js"></script>
     
     <div class="container">
         <div class="page-header">
@@ -477,6 +475,13 @@
             <!-- Aba Aparência -->
             <div id="appearance-tab" class="tab-panel">
                 <form id="appearanceForm">
+                    <div class="form-group">
+                        <label class="form-label">URL do Tema</label>
+                        <input type="text" class="form-input" id="themeUrl" name="themeUrl" placeholder="https://exemplo.com/tema.css">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <button type="button" class="btn btn-light" id="installThemeBtn">🎨 Instalar Tema</button>
+                    </div>
                     <div class="form-section">
                         <h3 class="section-title">Logotipo da Empresa</h3>
                         <div class="form-group">
@@ -700,7 +705,9 @@
     
     <script src="/js/logo-manager.js"></script>
     <script src="/js/global-menu.js"></script>
-    <script src="/simple-menu-fix.js"></script>
+    <script src="/modelo2-features.js"></script>
+    <script src="/js/theme-manager.js"></script>
+    <script src="/js/theme-settings.js"></script>
     <script>
         let currentSettings = {};
         let editingUserId = null;
@@ -764,6 +771,7 @@
         function populateAppearanceForm(settings) {
             document.getElementById('primaryColor').value = settings.primaryColor || '#667eea';
             document.getElementById('secondaryColor').value = settings.secondaryColor || '#764ba2';
+                    document.getElementById('themeUrl').value = settings.themeUrl || '';
 
             if (settings.logoUrl) {
                 const preview = document.getElementById('logoPreview');
@@ -949,7 +957,8 @@
                 // Salvar cores
                 const colors = {
                     primaryColor: document.getElementById('primaryColor').value,
-                    secondaryColor: document.getElementById('secondaryColor').value
+                    secondaryColor: document.getElementById('secondaryColor').value,
+                    themeUrl: document.getElementById('themeUrl').value
                 };
 
                 const response = await fetch('/api/settings/system', {

@@ -1,0 +1,400 @@
+/* LAYOUT MODELO2 ADAPTADO PARA NOSSA ESTRUTURA */
+
+/* Reset e Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f8fafc;
+    color: #1f2937;
+    line-height: 1.6;
+}
+
+/* Header Modelo2 Adaptado */
+.global-header {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.5) !important;
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.05) !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    height: 64px !important;
+}
+
+.header-content {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    padding: 0 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 64px !important;
+    box-sizing: border-box !important;
+}
+
+/* Reset e Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f8fafc;
+    color: #1f2937;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Header - Adaptado do Modelo2 */
+.global-header {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.5) !important;
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.05) !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    height: 64px !important;
+}
+
+.header-content {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    padding: 0 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 64px !important;
+    box-sizing: border-box !important;
+}
+
+/* Logo Section - Adaptado */
+.logo-section {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    flex: 0 0 auto !important;
+    min-width: 200px !important;
+}
+
+.logo-section .logo {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    background: linear-gradient(135deg, #2563eb, #4f46e5) !important;
+    border-radius: 0.75rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.logo-section .logo::before {
+    content: "🔧" !important;
+    font-size: 1.5rem !important;
+    color: white !important;
+}
+
+.logo-section .company-name {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, #2563eb, #4f46e5) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    margin: 0 !important;
+}
+
+/* Menu Principal - Adaptado */
+.main-nav {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    flex: 1 !important;
+    max-width: 600px !important;
+    margin: 0 2rem !important;
+}
+
+.main-nav .nav-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.5rem 1rem !important;
+    color: #6b7280 !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+    border-radius: 0.5rem !important;
+    transition: all 0.2s ease !important;
+    position: relative !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+}
+
+.main-nav .nav-link:hover {
+    color: #2563eb !important;
+    background: rgba(37, 99, 235, 0.05) !important;
+    transform: translateY(-1px) !important;
+}
+
+.main-nav .nav-link.active {
+    color: #2563eb !important;
+    background: rgba(37, 99, 235, 0.1) !important;
+    font-weight: 600 !important;
+}
+
+/* User Section - Adaptado */
+.user-section {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    flex: 0 0 auto !important;
+    min-width: 200px !important;
+    justify-content: flex-end !important;
+}
+
+.user-info {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    color: #6b7280 !important;
+    font-size: 0.875rem !important;
+}
+
+.user-avatar {
+    width: 2rem !important;
+    height: 2rem !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #2563eb, #4f46e5) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: white !important;
+    font-weight: 600 !important;
+    font-size: 0.75rem !important;
+}
+
+.user-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+.user-actions .btn {
+    padding: 0.375rem 0.75rem !important;
+    background: transparent !important;
+    border: 1px solid #e5e7eb !important;
+    color: #6b7280 !important;
+    border-radius: 0.375rem !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.user-actions .btn:hover {
+    background: #f9fafb !important;
+    border-color: #d1d5db !important;
+    color: #374151 !important;
+}
+
+/* Conteúdo Principal */
+.main-content,
+.container,
+.page-container {
+    margin-top: 64px !important;
+    padding: 2rem !important;
+    min-height: calc(100vh - 64px) !important;
+    max-width: 1280px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    background: transparent !important;
+}
+
+/* Ajuste para body */
+body {
+    padding-top: 0 !important;
+    background: #f8fafc !important;
+}
+
+.container,
+.page-container {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+}
+
+/* Cards do Modelo2 */
+.card {
+    background: white !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid #f3f4f6 !important;
+    overflow: hidden !important;
+    transition: all 0.2s ease !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    transform: translateY(-2px) !important;
+}
+
+.card-header {
+    padding: 1.5rem !important;
+    background: #f9fafb !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+}
+
+.card-title {
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    color: #1f2937 !important;
+    margin: 0 !important;
+}
+
+.card-body {
+    padding: 1.5rem !important;
+}
+
+/* Botões do Modelo2 */
+.btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    border-radius: 0.375rem !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #2563eb, #4f46e5) !important;
+    color: white !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1d4ed8, #4338ca) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.btn-secondary {
+    background: white !important;
+    color: #6b7280 !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+.btn-secondary:hover {
+    background: #f9fafb !important;
+    border-color: #d1d5db !important;
+    color: #374151 !important;
+}
+
+/* Tabelas do Modelo2 */
+.table-container {
+    background: white !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid #f3f4f6 !important;
+    overflow: hidden !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.modern-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 0.875rem !important;
+}
+
+.modern-table th {
+    background: #f9fafb !important;
+    padding: 0.75rem 1rem !important;
+    text-align: left !important;
+    font-weight: 600 !important;
+    color: #374151 !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+.modern-table td {
+    padding: 0.75rem 1rem !important;
+    border-bottom: 1px solid #f9fafb !important;
+    color: #6b7280 !important;
+    vertical-align: middle !important;
+}
+
+.modern-table tr:hover {
+    background: #f9fafb !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .global-header {
+        height: 56px !important;
+    }
+    
+    .header-content {
+        height: 56px !important;
+        padding: 0 0.75rem !important;
+    }
+    
+    .main-content {
+        margin-top: 56px !important;
+        padding: 1rem !important;
+    }
+    
+    .logo-section,
+    .user-section {
+        min-width: 120px !important;
+    }
+    
+    .main-nav {
+        margin: 0 0.5rem !important;
+        gap: 0.25rem !important;
+    }
+    
+    .main-nav .nav-link {
+        padding: 0.375rem 0.5rem !important;
+        font-size: 0.75rem !important;
+    }
+    
+    .logo-section .company-name {
+        font-size: 1rem !important;
+    }
+}
+
+/* Remover estilos conflitantes */
+.nav-link {
+    box-shadow: none !important;
+    outline: none !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+.nav-link:focus,
+.nav-link:active {
+    box-shadow: none !important;
+    outline: none !important;
+}

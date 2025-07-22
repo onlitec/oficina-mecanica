@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema ERP Moderno - Oficina Mecânica</title>
+    <link rel="stylesheet" href="dashboard-styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Oficina Mecânica</h1>
+                        <p>Sistema de Gestão</p>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="main-nav">
+                    <button class="nav-item nav-clientes" data-section="clientes">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                        </svg>
+                        <span>Clientes</span>
+                    </button>
+                    <button class="nav-item nav-veiculos" data-section="veiculos">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM21 17a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17h10l4-8H5.5L3 7H1"></path>
+                        </svg>
+                        <span>Veículos</span>
+                    </button>
+                    <button class="nav-item nav-servicos" data-section="servicos">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span>Serviços</span>
+                    </button>
+                    <button class="nav-item nav-pecas" data-section="pecas">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M9 21V9l-6-3"></path>
+                        </svg>
+                        <span>Peças</span>
+                    </button>
+                </nav>
+
+                <!-- User Menu -->
+                <div class="user-menu">
+                    <button class="notification-btn">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM4.868 19.718A10.001 10.001 0 0115 9V7a6 6 0 00-12 0v2a10.001 10.001 0 009.868 12.718z"></path>
+                        </svg>
+                        <span class="notification-badge"></span>
+                    </button>
+                    <button class="settings-btn">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </button>
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </div>
+                        <div class="user-info">
+                            <p class="user-name">Administrador</p>
+                            <p class="user-role">ADMINISTRADOR</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h2>Bem-vindo ao Dashboard!</h2>
+                <p>Sistema de Gestão de Oficina Mecânica - Painel de Controle</p>
+            </div>
+
+            <!-- Dashboard Cards -->
+            <div class="dashboard-cards">
+                <div class="stat-card card-clientes">
+                    <div class="card-background"></div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="card-trend">
+                                <svg class="trend-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                </svg>
+                                <span>+12%</span>
+                            </div>
+                        </div>
+                        <h3 class="card-value">1,247</h3>
+                        <p class="card-title">Clientes</p>
+                    </div>
+                </div>
+
+                <div class="stat-card card-veiculos">
+                    <div class="card-background"></div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM21 17a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17h10l4-8H5.5L3 7H1"></path>
+                                </svg>
+                            </div>
+                            <div class="card-trend">
+                                <svg class="trend-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                </svg>
+                                <span>+8%</span>
+                            </div>
+                        </div>
+                        <h3 class="card-value">2,156</h3>
+                        <p class="card-title">Veículos</p>
+                    </div>
+                </div>
+
+                <div class="stat-card card-servicos">
+                    <div class="card-background"></div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="card-trend">
+                                <svg class="trend-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                </svg>
+                                <span>+24%</span>
+                            </div>
+                        </div>
+                        <h3 class="card-value">3,891</h3>
+                        <p class="card-title">Serviços</p>
+                    </div>
+                </div>
+
+                <div class="stat-card card-pecas">
+                    <div class="card-background"></div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M9 21V9l-6-3"></path>
+                                </svg>
+                            </div>
+                            <div class="card-trend">
+                                <svg class="trend-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                </svg>
+                                <span>+18%</span>
+                            </div>
+                        </div>
+                        <h3 class="card-value">15,634</h3>
+                        <p class="card-title">Peças</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Sections -->
+            <div class="search-sections">
+                <div class="search-card search-clientes">
+                    <div class="search-header">
+                        <div class="search-icon">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                            </svg>
+                        </div>
+                        <h3>Buscar Clientes</h3>
+                    </div>
+                    <div class="search-content">
+                        <div class="search-input-wrapper">
+                            <svg class="search-input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <input type="text" class="search-input" placeholder="Digite o nome do cliente..." id="search-cliente">
+                        </div>
+                        <div class="search-buttons">
+                            <button class="btn btn-primary btn-clientes">
+                                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                                Buscar
+                            </button>
+                            <button class="btn btn-secondary">
+                                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                                </svg>
+                                Listar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-card search-veiculos">
+                    <div class="search-header">
+                        <div class="search-icon">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM21 17a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17h10l4-8H5.5L3 7H1"></path>
+                            </svg>
+                        </div>
+                        <h3>Buscar Veículos</h3>
+                    </div>
+                    <div class="search-content">
+                        <div class="search-input-wrapper">
+                            <svg class="search-input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <input type="text" class="search-input" placeholder="Digite a placa do veículo..." id="search-veiculo">
+                        </div>
+                        <div class="search-buttons">
+                            <button class="btn btn-primary btn-veiculos">
+                                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                                Buscar
+                            </button>
+                            <button class="btn btn-secondary">
+                                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                                </svg>
+                                Listar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-card search-pecas">
+                    <div class="search-header">
+                        <div class="search-icon">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M9 21V9l-6-3"></path>
+                            </svg>
+                        </div>
+                        <h3>Buscar Peças</h3>
+                    </div>
+                    <div class="search-content">
+                        <div class="search-input-wrapper">
+                            <svg class="search-input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <input type="text" class="search-input" placeholder="Digite o modelo da peça..." id="search-peca">
+                        </div>
+                        <div class="search-buttons">
+                            <button class="btn btn-primary btn-pecas">
+                                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                                Buscar
+                            </button>
+                            <button class="btn btn-secondary">
+                                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                                </svg>
+                                Listar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Management Sections -->
+            <div class="management-sections">
+                <div class="management-card management-clientes">
+                    <div class="management-header">
+                        <div class="management-icon">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                            </svg>
+                        </div>
+                        <h3>Gerenciar Clientes</h3>
+                    </div>
+                    <div class="management-content">
+                        <button class="btn btn-primary btn-clientes btn-full">
+                            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            Adicionar Cliente
+                        </button>
+                        <button class="btn btn-secondary btn-full">
+                            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                            Listar Clientes
+                        </button>
+                    </div>
+                </div>
+
+                <div class="management-card management-veiculos">
+                    <div class="management-header">
+                        <div class="management-icon">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM21 17a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17h10l4-8H5.5L3 7H1"></path>
+                            </svg>
+                        </div>
+                        <h3>Gerenciar Veículos</h3>
+                    </div>
+                    <div class="management-content">
+                        <button class="btn btn-primary btn-veiculos btn-full">
+                            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            Adicionar Veículo
+                        </button>
+                        <button class="btn btn-secondary btn-full">
+                            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                            Listar Veículos
+                        </button>
+                    </div>
+                </div>
+
+                <div class="management-card management-pecas">
+                    <div class="management-header">
+                        <div class="management-icon">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M9 21V9l-6-3"></path>
+                            </svg>
+                        </div>
+                        <h3>Gerenciar Peças</h3>
+                    </div>
+                    <div class="management-content">
+                        <button class="btn btn-primary btn-pecas btn-full">
+                            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            Adicionar Peça
+                        </button>
+                        <button class="btn btn-secondary btn-full">
+                            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                            Listar Peças
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats Footer -->
+            <div class="quick-stats">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-value">42</p>
+                        <p class="stat-label">Serviços Hoje</p>
+                    </div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-value">R$ 28.450</p>
+                        <p class="stat-label">Faturamento Mensal</p>
+                    </div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-value">98.5%</p>
+                        <p class="stat-label">Satisfação Clientes</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="dashboard-script.js"></script>
+</body>
+</html>

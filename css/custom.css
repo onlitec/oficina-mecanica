@@ -1,0 +1,54 @@
+/* CSS Customizado para Layout Moderno */
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 1rem;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.welcome {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.stats .stat-card {
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  padding: 1.5rem;
+  background-color: #fff;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.management-section {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  margin-bottom: 1.5rem;
+}
+
+.main-content {
+  margin-top: 2rem;
+}

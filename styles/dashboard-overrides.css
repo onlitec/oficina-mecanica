@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+  --font-sans: 'Inter', sans-serif;
+  --color-bg: #f3f4f6;
+  --color-card: #ffffff;
+  --color-primary: #3b82f6;
+  --color-secondary: #10b981;
+  --color-accent: #f97316;
+  --color-text: #1f2937;
+  --border-radius: 12px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+}
+
+.stat-card,
+.section-card {
+  background: var(--color-card) !important;
+  border-radius: var(--border-radius) !important;
+  padding: 1.5rem !important;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.stat-card:hover,
+.section-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+.stat-icon {
+  font-size: 2rem !important;
+  line-height: 1;
+}
+
+.welcome h1 {
+  font-size: 2.5rem !important;
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.welcome p {
+  color: var(--color-text);
+}
+
+.btn {
+  font-weight: 600;
+  border-radius: var(--border-radius);
+  transition: background .3s ease, transform .2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.results-area {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Custom scrollbar */
+.results-area::-webkit-scrollbar {
+  width: 6px;
+}
+.results-area::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: var(--border-radius);
+}
+.results-area::-webkit-scrollbar-track {
+  background: transparent;
+}
