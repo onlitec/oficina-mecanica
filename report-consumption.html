@@ -80,54 +80,60 @@
         <!-- Page Header -->
         <div class="card">
             <div class="card-header">
-                <h1 class="card-title">
-                    <span>📊</span>
-                    Relatório de Consumo
-                </h1>
+                <div>
+                    <h1 class="card-title">
+                        <span>📊</span>
+                        Relatório de Consumo de Peças
+                    </h1>
+                    <p class="card-subtitle">Análise do consumo de peças por período</p>
+                </div>
+                <a href="/reports.html" class="btn btn-secondary">
+                    <span>←</span>
+                    Voltar
+                </a>
             </div>
         </div>
-    <!-- Global menu will be inserted here by global-menu.js -->
-    <script src="/force-menu-size.js"></script>
-        </div>
-    </div>
-    
-    <div class="card"><div class="card-body">
-        <div class="page-header">
-            <h1 class="page-title">📈 Relatório de Consumo de Peças</h1>
-            <a href="/reports.html" class="btn btn-secondary">← Voltar</a>
-        </div>
-        
+
         <!-- Filtros -->
-        <div class="filters">
-            <div class="filters-row">
-                <div class="form-group">
-                    <label for="startDate">Data Inicial:</label>
-                    <input type="date" id="startDate">
-                </div>
-                
-                <div class="form-group">
-                    <label for="endDate">Data Final:</label>
-                    <input type="date" id="endDate">
-                </div>
-                
-                <div class="form-group">
-                    <label for="limit">Quantidade:</label>
-                    <select id="limit">
-                        <option value="5">Top 5</option>
-                        <option value="10" selected>Top 10</option>
-                        <option value="20">Top 20</option>
-                        <option value="50">Top 50</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <button class="btn" onclick="loadReport()">🔍 Atualizar</button>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span>🔍</span>
+                    Filtros do Relatório
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startDate" class="form-label">Data Inicial</label>
+                        <input type="date" id="startDate" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endDate" class="form-label">Data Final</label>
+                        <input type="date" id="endDate" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="limit" class="form-label">Quantidade</label>
+                        <select id="limit" class="form-input">
+                            <option value="5">Top 5</option>
+                            <option value="10" selected>Top 10</option>
+                            <option value="20">Top 20</option>
+                            <option value="50">Top 50</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <button class="btn btn-secondary" onclick="downloadReportPDF()">📄 Baixar PDF</button>
+                <div class="form-row">
+                    <button class="btn btn-primary" onclick="loadReport()">
+                        <span>🔍</span>
+                        Gerar Relatório
+                    </button>
+                    <button class="btn btn-secondary" onclick="downloadReportPDF()">
+                        <span>📄</span>
+                        Baixar PDF
+                    </button>
                 </div>
             </div>
         </div>

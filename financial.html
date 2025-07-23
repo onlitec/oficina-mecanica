@@ -80,193 +80,427 @@
         <!-- Page Header -->
         <div class="card">
             <div class="card-header">
-                <h1 class="card-title">
-                    <span>💰</span>
-                    Financeiro
-                </h1>
-            </div>
-        </div>
-    <!-- Global menu will be inserted here by global-menu.js -->
-    <script src="/modelo2-features.js"></script>
-        </div>
-    </div>
-    
-    <div class="card"><div class="card-body">
-        <div class="page-header">
-            <h1 class="page-title">💰 Gestão Financeira</h1>
-            <p class="page-subtitle">Controle de faturamento, pagamentos e fluxo de caixa</p>
-        </div>
-        
-        <!-- Filtros -->
-        <div class="filters">
-            <div class="filters-row">
-                <div class="form-group">
-                    <label for="startDate">Data Inicial:</label>
-                    <input type="date" id="startDate">
+                <div>
+                    <h1 class="card-title">
+                        <span>💰</span>
+                        Gestão Financeira
+                    </h1>
+                    <p class="card-subtitle">Controle de faturamento, pagamentos e fluxo de caixa</p>
                 </div>
-                
-                <div class="form-group">
-                    <label for="endDate">Data Final:</label>
-                    <input type="date" id="endDate">
-                </div>
-                
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <button class="btn" onclick="loadDashboard()">🔍 Atualizar</button>
+                <div style="display: flex; gap: var(--space-3);">
+                    <a href="/invoices.html" class="btn btn-secondary">
+                        <span>📄</span>
+                        Ver Faturas
+                    </a>
+                    <a href="/service-order-form.html" class="btn btn-primary">
+                        <span>➕</span>
+                        Nova OS
+                    </a>
                 </div>
             </div>
         </div>
-        
-        <!-- Ações Rápidas -->
-        <div class="quick-actions">
-            <a href="/invoices.html" class="btn">📄 Ver Todas as Faturas</a>
-            <a href="/service-orders.html" class="btn btn-success">➕ Nova Ordem de Serviço</a>
+
+        <!-- Filtros de Período -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span>📅</span>
+                    Período de Análise
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startDate" class="form-label">Data Inicial</label>
+                        <input type="date" id="startDate" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endDate" class="form-label">Data Final</label>
+                        <input type="date" id="endDate" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quickPeriod" class="form-label">Período Rápido</label>
+                        <select id="quickPeriod" class="form-input" onchange="setQuickPeriod()">
+                            <option value="">Personalizado</option>
+                            <option value="today">Hoje</option>
+                            <option value="week">Esta Semana</option>
+                            <option value="month">Este Mês</option>
+                            <option value="quarter">Este Trimestre</option>
+                            <option value="year">Este Ano</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-top: var(--space-4);">
+                    <button class="btn btn-primary" onclick="loadDashboard()">
+                        <span>🔍</span>
+                        Atualizar Dashboard
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportFinancialReport()">
+                        <span>📊</span>
+                        Exportar Relatório
+                    </button>
+                </div>
+            </div>
         </div>
-        
-        <div id="loading" class="loading">Carregando dashboard financeiro...</div>
-        <div id="error" class="error" style="display: none;"></div>
-        
-        <div id="content" style="display: none;">
+
+        <!-- Loading State -->
+        <div id="loadingState" style="display: none;">
+            <div class="card">
+                <div class="card-body">
+                    <div style="text-align: center; padding: var(--space-6); color: var(--text-secondary);">
+                        <div class="loading-spinner" style="margin-bottom: var(--space-3);"></div>
+                        <p>Carregando dashboard financeiro...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" style="display: none;">
+            <div class="card">
+                <div class="card-body">
+                    <div style="text-align: center; padding: var(--space-6); color: var(--error-color);">
+                        <div style="font-size: 3rem; margin-bottom: var(--space-3);">❌</div>
+                        <h3 style="margin-bottom: var(--space-2);">Erro ao carregar dados</h3>
+                        <p id="errorMessage" style="margin-bottom: var(--space-4);">Erro desconhecido</p>
+                        <button class="btn btn-primary" onclick="loadDashboard()">
+                            <span>🔄</span>
+                            Tentar Novamente
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div id="dashboardContent" style="display: none;">
             <!-- Informações do Período -->
-            <div class="period-info" id="periodInfo"></div>
-            
-            <!-- Dashboard de Métricas -->
-            <div class="dashboard-grid">
-                <div class="metric-card">
-                    <div class="metric-icon">📊</div>
-                    <div class="metric-value" id="totalInvoices">0</div>
-                    <div class="metric-label">Total de Faturas</div>
-                </div>
-                
-                <div class="metric-card">
-                    <div class="metric-icon">💰</div>
-                    <div class="metric-value revenue" id="totalRevenue">R$ 0,00</div>
-                    <div class="metric-label">Receita Total</div>
-                </div>
-                
-                <div class="metric-card">
-                    <div class="metric-icon">⏳</div>
-                    <div class="metric-value pending" id="totalPending">R$ 0,00</div>
-                    <div class="metric-label">Valores Pendentes</div>
-                </div>
-                
-                <div class="metric-card">
-                    <div class="metric-icon">📈</div>
-                    <div class="metric-value" id="averageInvoice">R$ 0,00</div>
-                    <div class="metric-label">Valor Médio por Fatura</div>
-                </div>
-            </div>
-            
-            <!-- Gráfico de Receita -->
-            <div class="chart-card">
-                <h3 class="chart-title">📈 Receita Diária</h3>
-                <div class="chart-container">
-                    <canvas id="revenueChart"></canvas>
-                </div>
-            </div>
-            
-            <!-- Faturas Recentes -->
-            <div class="invoices-section">
-                <div class="invoices-card">
-                    <h3 class="section-title">📄 Faturas Recentes</h3>
-                    <div id="recentInvoices">
-                        <div class="loading">Carregando faturas...</div>
+            <div class="card" id="periodInfo" style="margin-bottom: var(--space-6); display: none;">
+                <div class="card-body">
+                    <div style="text-align: center; color: var(--text-secondary);">
+                        <span id="periodText"></span>
                     </div>
                 </div>
-                
-                <div class="invoices-card">
-                    <h3 class="section-title">⚠️ Faturas Pendentes</h3>
-                    <div id="pendingInvoices">
-                        <div class="loading">Carregando faturas pendentes...</div>
+            </div>
+
+            <!-- Métricas Principais -->
+            <div class="stats-grid" style="margin-bottom: var(--space-6);">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value" id="totalInvoices">0</div>
+                            <div class="stat-label">Total de Faturas</div>
+                        </div>
+                        <div class="stat-icon primary">📊</div>
+                    </div>
+                    <div class="stat-trend" id="invoicesTrend"></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value success" id="totalRevenue">R$ 0,00</div>
+                            <div class="stat-label">Receita Total</div>
+                        </div>
+                        <div class="stat-icon success">💰</div>
+                    </div>
+                    <div class="stat-trend" id="revenueTrend"></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value warning" id="totalPending">R$ 0,00</div>
+                            <div class="stat-label">Valores Pendentes</div>
+                        </div>
+                        <div class="stat-icon warning">⏳</div>
+                    </div>
+                    <div class="stat-trend" id="pendingTrend"></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value info" id="averageInvoice">R$ 0,00</div>
+                            <div class="stat-label">Valor Médio</div>
+                        </div>
+                        <div class="stat-icon info">📈</div>
+                    </div>
+                    <div class="stat-trend" id="averageTrend"></div>
+                </div>
+            </div>
+
+            <!-- Gráfico de Receita -->
+            <div class="card" style="margin-bottom: var(--space-6);">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>📈</span>
+                        Evolução da Receita
+                    </h2>
+                    <div>
+                        <select id="chartPeriod" class="form-input" onchange="updateChart()" style="width: auto;">
+                            <option value="daily">Diário</option>
+                            <option value="weekly">Semanal</option>
+                            <option value="monthly">Mensal</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div style="height: 300px; position: relative;">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Faturas Recentes e Pendentes -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); margin-bottom: var(--space-6);">
+                <!-- Faturas Recentes -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span>📄</span>
+                            Faturas Recentes
+                        </h2>
+                        <a href="/invoices.html" class="btn btn-sm btn-secondary">Ver Todas</a>
+                    </div>
+                    <div class="card-body">
+                        <div id="recentInvoices">
+                            <div style="text-align: center; padding: var(--space-4); color: var(--text-secondary);">
+                                <div class="loading-spinner" style="margin-bottom: var(--space-2);"></div>
+                                <p>Carregando faturas...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Faturas Pendentes -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span>⚠️</span>
+                            Faturas Pendentes
+                        </h2>
+                        <span class="badge badge-warning" id="pendingCount">0</span>
+                    </div>
+                    <div class="card-body">
+                        <div id="pendingInvoices">
+                            <div style="text-align: center; padding: var(--space-4); color: var(--text-secondary);">
+                                <div class="loading-spinner" style="margin-bottom: var(--space-2);"></div>
+                                <p>Carregando faturas pendentes...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumo de Pagamentos -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>💳</span>
+                        Resumo de Pagamentos
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4);">
+                        <div style="text-align: center; padding: var(--space-3); background: var(--bg-secondary); border-radius: var(--radius-md);">
+                            <div style="font-size: var(--font-size-lg); font-weight: 600; color: var(--success-color);" id="paidAmount">R$ 0,00</div>
+                            <div style="font-size: var(--font-size-sm); color: var(--text-secondary);">Pagos</div>
+                        </div>
+                        <div style="text-align: center; padding: var(--space-3); background: var(--bg-secondary); border-radius: var(--radius-md);">
+                            <div style="font-size: var(--font-size-lg); font-weight: 600; color: var(--warning-color);" id="overdueAmount">R$ 0,00</div>
+                            <div style="font-size: var(--font-size-sm); color: var(--text-secondary);">Em Atraso</div>
+                        </div>
+                        <div style="text-align: center; padding: var(--space-3); background: var(--bg-secondary); border-radius: var(--radius-md);">
+                            <div style="font-size: var(--font-size-lg); font-weight: 600; color: var(--info-color);" id="futureAmount">R$ 0,00</div>
+                            <div style="font-size: var(--font-size-sm); color: var(--text-secondary);">A Vencer</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
     
     <script>
         let revenueChart = null;
         
         // Verificar autenticação
-        function checkAuth() {
-            const user = localStorage.getItem('user');
-            if (!user) {
-                window.location.href = '/login.html';
-                return null;
-            }
-            return JSON.parse(user);
-        }
-        
-        // Logout
-        function logout() {
-            localStorage.removeItem('user');
+        const auth = new AuthManager();
+        if (!auth.isAuthenticated()) {
             window.location.href = '/login.html';
         }
-        
-        // Carregar dados do usuário
-        function loadUserInfo() {
-            const user = checkAuth();
-            if (user) {
-                document.getElementById('userName').textContent = `${user.name} (${user.role})`;
+
+        // Atualizar nome do usuário
+        const user = auth.getUser();
+        if (user) {
+            document.getElementById('userName').textContent = user.name || user.email;
+            document.querySelector('.user-avatar').textContent = (user.name || user.email).charAt(0).toUpperCase();
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const confirmed = confirm('Deseja fazer logout?');
+            if (confirmed) {
+                auth.logout();
+                window.location.href = '/login.html';
             }
         }
-        
+
         // Definir datas padrão (mês atual)
         function setDefaultDates() {
             const endDate = new Date();
             const startDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
-            
+
             document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
             document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
+        }
+
+        // Definir período rápido
+        function setQuickPeriod() {
+            const period = document.getElementById('quickPeriod').value;
+            const today = new Date();
+            let startDate, endDate = today;
+
+            switch (period) {
+                case 'today':
+                    startDate = today;
+                    break;
+                case 'week':
+                    startDate = new Date(today);
+                    startDate.setDate(today.getDate() - today.getDay());
+                    break;
+                case 'month':
+                    startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+                    break;
+                case 'quarter':
+                    const quarter = Math.floor(today.getMonth() / 3);
+                    startDate = new Date(today.getFullYear(), quarter * 3, 1);
+                    break;
+                case 'year':
+                    startDate = new Date(today.getFullYear(), 0, 1);
+                    break;
+                default:
+                    return;
+            }
+
+            document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
+            document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
+        }
+
+        // Exportar relatório financeiro
+        function exportFinancialReport() {
+            showInfoNotification('Funcionalidade de exportação será implementada em breve!');
         }
         
         // Carregar dashboard
         async function loadDashboard() {
             try {
                 showLoading();
-                
+
                 const startDate = document.getElementById('startDate').value;
                 const endDate = document.getElementById('endDate').value;
-                
-                const params = new URLSearchParams();
-                if (startDate) params.append('startDate', startDate);
-                if (endDate) params.append('endDate', endDate);
-                
-                const response = await fetch(`/api/financial/dashboard?${params}`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    displayDashboard(data.data);
-                    showContent();
-                } else {
-                    showError(data.error || 'Erro ao carregar dashboard');
+
+                if (!startDate || !endDate) {
+                    showError('Por favor, selecione as datas inicial e final');
+                    return;
                 }
+
+                // Simular dados para demonstração
+                const mockData = generateMockData(startDate, endDate);
+
+                // Simular delay da API
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                displayDashboard(mockData);
+                showContent();
+
             } catch (error) {
                 showError('Erro de conexão: ' + error.message);
             }
         }
+
+        // Gerar dados mock para demonstração
+        function generateMockData(startDate, endDate) {
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+
+            return {
+                totalInvoices: Math.floor(Math.random() * 50) + 20,
+                totalRevenue: (Math.random() * 50000 + 10000).toFixed(2),
+                totalPending: (Math.random() * 15000 + 2000).toFixed(2),
+                averageInvoice: (Math.random() * 2000 + 500).toFixed(2),
+                paidAmount: (Math.random() * 35000 + 8000).toFixed(2),
+                overdueAmount: (Math.random() * 5000 + 1000).toFixed(2),
+                futureAmount: (Math.random() * 10000 + 2000).toFixed(2),
+                recentInvoices: generateMockInvoices(5),
+                pendingInvoices: generateMockInvoices(3, true),
+                chartData: generateChartData(days)
+            };
+        }
+
+        // Gerar faturas mock
+        function generateMockInvoices(count, pending = false) {
+            const invoices = [];
+            const customers = ['João Silva', 'Maria Santos', 'Pedro Costa', 'Ana Oliveira', 'Carlos Souza'];
+
+            for (let i = 0; i < count; i++) {
+                invoices.push({
+                    id: Math.floor(Math.random() * 1000) + 1,
+                    number: `FAT-${String(Math.floor(Math.random() * 9999) + 1).padStart(4, '0')}`,
+                    customer: customers[Math.floor(Math.random() * customers.length)],
+                    amount: (Math.random() * 3000 + 200).toFixed(2),
+                    date: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    status: pending ? 'PENDING' : 'PAID'
+                });
+            }
+
+            return invoices;
+        }
+
+        // Gerar dados do gráfico
+        function generateChartData(days) {
+            const data = [];
+            for (let i = 0; i < Math.min(days, 30); i++) {
+                data.push({
+                    date: new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    revenue: Math.random() * 2000 + 100
+                });
+            }
+            return data.reverse();
+        }
         
         // Exibir dashboard
         function displayDashboard(data) {
-            const { period, summary, dailyRevenue, recentInvoices } = data;
-            
             // Informações do período
-            const startDate = new Date(period.startDate).toLocaleDateString('pt-BR');
-            const endDate = new Date(period.endDate).toLocaleDateString('pt-BR');
-            document.getElementById('periodInfo').textContent = 
-                `📅 Período: ${startDate} até ${endDate}`;
-            
-            // Métricas
-            document.getElementById('totalInvoices').textContent = summary.totalInvoices || 0;
-            document.getElementById('totalRevenue').textContent = formatCurrency(summary.totalRevenue);
-            document.getElementById('totalPending').textContent = formatCurrency(summary.totalPending);
-            document.getElementById('averageInvoice').textContent = formatCurrency(summary.averageInvoiceValue);
-            
+            const startDate = new Date(document.getElementById('startDate').value).toLocaleDateString('pt-BR');
+            const endDate = new Date(document.getElementById('endDate').value).toLocaleDateString('pt-BR');
+            document.getElementById('periodText').textContent = `Período: ${startDate} até ${endDate}`;
+            document.getElementById('periodInfo').style.display = 'block';
+
+            // Métricas principais
+            document.getElementById('totalInvoices').textContent = data.totalInvoices || 0;
+            document.getElementById('totalRevenue').textContent = formatCurrency(data.totalRevenue);
+            document.getElementById('totalPending').textContent = formatCurrency(data.totalPending);
+            document.getElementById('averageInvoice').textContent = formatCurrency(data.averageInvoice);
+
+            // Resumo de pagamentos
+            document.getElementById('paidAmount').textContent = formatCurrency(data.paidAmount);
+            document.getElementById('overdueAmount').textContent = formatCurrency(data.overdueAmount);
+            document.getElementById('futureAmount').textContent = formatCurrency(data.futureAmount);
+
             // Gráfico de receita
-            createRevenueChart(dailyRevenue);
-            
-            // Faturas recentes
-            displayRecentInvoices(recentInvoices);
+            createRevenueChart(data.chartData);
+
+            // Faturas
+            displayRecentInvoices(data.recentInvoices);
+            displayPendingInvoices(data.pendingInvoices);
+
+            // Atualizar contador de pendentes
+            document.getElementById('pendingCount').textContent = data.pendingInvoices.length;
         }
         
         // Criar gráfico de receita
@@ -340,47 +574,50 @@
         
         // Exibir faturas recentes
         function displayRecentInvoices(invoices) {
-            const recentContainer = document.getElementById('recentInvoices');
-            const pendingContainer = document.getElementById('pendingInvoices');
-            
-            if (invoices.length === 0) {
-                recentContainer.innerHTML = '<p style="text-align: center; color: #666;">Nenhuma fatura encontrada no período</p>';
-                pendingContainer.innerHTML = '<p style="text-align: center; color: #666;">Nenhuma fatura pendente</p>';
+            const container = document.getElementById('recentInvoices');
+
+            if (!invoices || invoices.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: var(--space-4); color: var(--text-secondary);">Nenhuma fatura encontrada no período.</div>';
                 return;
             }
-            
-            // Faturas recentes (todas)
-            recentContainer.innerHTML = invoices.slice(0, 5).map(invoice => `
-                <div class="invoice-item">
-                    <div class="invoice-info">
-                        <div class="invoice-number">#${invoice.number}</div>
-                        <div class="invoice-customer">${invoice.customer.name}</div>
-                    </div>
+
+            container.innerHTML = invoices.map(invoice => `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-3); border-bottom: 1px solid var(--bg-tertiary);">
                     <div>
-                        <div class="invoice-value">${formatCurrency(invoice.total)}</div>
-                        <span class="invoice-status status-${invoice.status.toLowerCase()}">${getStatusLabel(invoice.status)}</span>
+                        <div style="font-weight: 600; margin-bottom: var(--space-1);">${invoice.number}</div>
+                        <div style="font-size: var(--font-size-sm); color: var(--text-secondary);">${invoice.customer}</div>
+                        <div style="font-size: var(--font-size-xs); color: var(--text-secondary);">${formatDate(invoice.date)}</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-weight: 600; color: var(--success-color);">${formatCurrency(invoice.amount)}</div>
+                        <span class="badge badge-success">Pago</span>
                     </div>
                 </div>
             `).join('');
-            
-            // Faturas pendentes
-            const pending = invoices.filter(invoice => invoice.status === 'PENDING' || invoice.status === 'OVERDUE');
-            pendingContainer.innerHTML = pending.slice(0, 5).map(invoice => `
-                <div class="invoice-item">
-                    <div class="invoice-info">
-                        <div class="invoice-number">#${invoice.number}</div>
-                        <div class="invoice-customer">${invoice.customer.name}</div>
-                    </div>
-                    <div>
-                        <div class="invoice-value">${formatCurrency(invoice.total)}</div>
-                        <span class="invoice-status status-${invoice.status.toLowerCase()}">${getStatusLabel(invoice.status)}</span>
-                    </div>
-                </div>
-            `).join('');
-            
-            if (pending.length === 0) {
-                pendingContainer.innerHTML = '<p style="text-align: center; color: #666;">Nenhuma fatura pendente</p>';
+        }
+
+        // Exibir faturas pendentes
+        function displayPendingInvoices(invoices) {
+            const container = document.getElementById('pendingInvoices');
+
+            if (!invoices || invoices.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: var(--space-4); color: var(--text-secondary);">Nenhuma fatura pendente.</div>';
+                return;
             }
+
+            container.innerHTML = invoices.map(invoice => `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-3); border-bottom: 1px solid var(--bg-tertiary);">
+                    <div>
+                        <div style="font-weight: 600; margin-bottom: var(--space-1);">${invoice.number}</div>
+                        <div style="font-size: var(--font-size-sm); color: var(--text-secondary);">${invoice.customer}</div>
+                        <div style="font-size: var(--font-size-xs); color: var(--text-secondary);">${formatDate(invoice.date)}</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-weight: 600; color: var(--warning-color);">${formatCurrency(invoice.amount)}</div>
+                        <span class="badge badge-warning">Pendente</span>
+                    </div>
+                </div>
+            `).join('');
         }
         
         // Obter label do status
@@ -404,52 +641,45 @@
         
         // Estados da interface
         function showLoading() {
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('error').style.display = 'none';
-            document.getElementById('content').style.display = 'none';
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('errorState').style.display = 'none';
+            document.getElementById('dashboardContent').style.display = 'none';
         }
-        
+
         function showError(message) {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').style.display = 'block';
-            document.getElementById('error').textContent = message;
-            document.getElementById('content').style.display = 'none';
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('dashboardContent').style.display = 'none';
         }
-        
+
         function showContent() {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'none';
+            document.getElementById('dashboardContent').style.display = 'block';
         }
-        
+
+        // Função para formatar data
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('pt-BR');
+        }
+
+        // Função para atualizar gráfico
+        function updateChart() {
+            // Implementar atualização do gráfico baseado no período selecionado
+            console.log('Atualizando gráfico...');
+        }
+
         // Inicializar
         document.addEventListener('DOMContentLoaded', function() {
-            checkAuth();
-            loadUserInfo();
             setDefaultDates();
             loadDashboard();
         });
     </script>
+
+    <!-- Scripts -->
+    <script src="/js/auth.js"></script>
     <script src="/js/logo-manager.js"></script>
-    <script src="/js/auth.js"></script><script src="/js/logo-manager.js"></script><script src="/modelo2-features.js"></script>
     <script src="/modelo2-features.js"></script>
-    <script>
-        const auth = new AuthManager();
-        if (!auth.isAuthenticated()) {
-            window.location.href = "/login.html";
-        }
-        const user = auth.getUser();
-        if (user) {
-            document.getElementById("userName").textContent = user.name || user.email;
-            document.querySelector(".user-avatar").textContent = (user.name || user.email).charAt(0).toUpperCase();
-        }
-        function toggleUserMenu() {
-            const confirmed = confirm("Deseja fazer logout?");
-            if (confirmed) {
-                auth.logout();
-                window.location.href = "/login.html";
-            }
-        }
-    </script>
 </body>
 </html>

@@ -80,91 +80,180 @@
         <!-- Page Header -->
         <div class="card">
             <div class="card-header">
-                <h1 class="card-title">
-                    <span>🔧</span>
-                    Ordens de Serviço
-                </h1>
+                <div>
+                    <h1 class="card-title">
+                        <span>🔧</span>
+                        Ordens de Serviço
+                    </h1>
+                    <p class="card-subtitle">Gerencie todas as ordens de serviço da oficina</p>
+                </div>
+                <a href="/service-order-form.html" class="btn btn-primary">
+                    <span>➕</span>
+                    Nova Ordem de Serviço
+                </a>
             </div>
         </div>
-    <!-- Global menu will be inserted here by global-menu.js -->
-    <script src="/modelo2-features.js"></script>
-    
-    <div class="card"><div class="card-body">
-        <div class="page-header">
-            <h1 class="page-title">🔧 Ordens de Serviço</h1>
-            <a href="/service-order-form.html" class="btn btn-success">+ Nova Ordem de Serviço</a>
-        </div>
-        
-        <div class="filters">
-            <div class="filters-row">
-                <div class="form-group">
-                    <label for="search">Buscar:</label>
-                    <input type="text" id="search" placeholder="Número, cliente, placa...">
+
+        <!-- Estatísticas Rápidas -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value" id="totalOrders">-</div>
+                        <div class="stat-label">Total de Ordens</div>
+                    </div>
+                    <div class="stat-icon primary">🔧</div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="status">Status:</label>
-                    <select id="status">
-                        <option value="">Todos</option>
-                        <option value="OPEN">Aberta</option>
-                        <option value="DIAGNOSING">Em Diagnóstico</option>
-                        <option value="WAITING_APPROVAL">Aguardando Aprovação</option>
-                        <option value="APPROVED">Aprovada</option>
-                        <option value="WAITING_PARTS">Aguardando Peças</option>
-                        <option value="IN_PROGRESS">Em Execução</option>
-                        <option value="WAITING_PAYMENT">Aguardando Pagamento</option>
-                        <option value="COMPLETED">Concluída</option>
-                        <option value="CANCELLED">Cancelada</option>
-                    </select>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value" id="openOrders">-</div>
+                        <div class="stat-label">Abertas</div>
+                    </div>
+                    <div class="stat-icon warning">⏳</div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="priority">Prioridade:</label>
-                    <select id="priority">
-                        <option value="">Todas</option>
-                        <option value="LOW">Baixa</option>
-                        <option value="NORMAL">Normal</option>
-                        <option value="HIGH">Alta</option>
-                        <option value="URGENT">Urgente</option>
-                    </select>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value" id="inProgressOrders">-</div>
+                        <div class="stat-label">Em Execução</div>
+                    </div>
+                    <div class="stat-icon info">🔄</div>
                 </div>
-                
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <button class="btn" onclick="loadServiceOrders()">🔍 Buscar</button>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value" id="completedOrders">-</div>
+                        <div class="stat-label">Concluídas</div>
+                    </div>
+                    <div class="stat-icon success">✅</div>
                 </div>
             </div>
         </div>
-        
-        <div class="orders-table">
-            <div id="loading" class="loading">Carregando ordens de serviço...</div>
-            <div id="error" class="error" style="display: none;"></div>
-            
-            <table id="ordersTable" style="display: none;">
-                <thead>
-                    <tr>
-                        <th>Número</th>
-                        <th>Cliente</th>
-                        <th>Veículo</th>
-                        <th>Reclamação</th>
-                        <th>Status</th>
-                        <th>Prioridade</th>
-                        <th>Criada em</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="ordersBody">
-                </tbody>
-            </table>
-            
-            <div id="empty" class="empty" style="display: none;">
-                <p>Nenhuma ordem de serviço encontrada.</p>
-                <a href="/service-order-form.html" class="btn btn-success">+ Criar Primeira Ordem</a>
+
+        <!-- Filtros e Busca -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span>🔍</span>
+                    Buscar Ordens de Serviço
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="search" class="form-label">Buscar</label>
+                        <input type="text" id="search" class="form-input" placeholder="Número, cliente, placa, reclamação...">
+                    </div>
+                    <div class="form-group">
+                        <label for="status" class="form-label">Status</label>
+                        <select id="status" class="form-input">
+                            <option value="">Todos os status</option>
+                            <option value="OPEN">Aberta</option>
+                            <option value="DIAGNOSING">Em Diagnóstico</option>
+                            <option value="WAITING_APPROVAL">Aguardando Aprovação</option>
+                            <option value="APPROVED">Aprovada</option>
+                            <option value="WAITING_PARTS">Aguardando Peças</option>
+                            <option value="IN_PROGRESS">Em Execução</option>
+                            <option value="WAITING_PAYMENT">Aguardando Pagamento</option>
+                            <option value="COMPLETED">Concluída</option>
+                            <option value="CANCELLED">Cancelada</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="priority" class="form-label">Prioridade</label>
+                        <select id="priority" class="form-input">
+                            <option value="">Todas as prioridades</option>
+                            <option value="LOW">Baixa</option>
+                            <option value="NORMAL">Normal</option>
+                            <option value="HIGH">Alta</option>
+                            <option value="URGENT">Urgente</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateRange" class="form-label">Período</label>
+                        <select id="dateRange" class="form-input">
+                            <option value="">Todos os períodos</option>
+                            <option value="today">Hoje</option>
+                            <option value="week">Esta semana</option>
+                            <option value="month">Este mês</option>
+                            <option value="custom">Personalizado</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <button onclick="loadServiceOrders()" class="btn btn-primary">
+                        <span>🔍</span>
+                        Buscar
+                    </button>
+                    <button onclick="clearFilters()" class="btn btn-secondary">
+                        <span>🗑️</span>
+                        Limpar Filtros
+                    </button>
+                    <button onclick="exportOrders()" class="btn btn-success">
+                        <span>📊</span>
+                        Exportar
+                    </button>
+                </div>
             </div>
         </div>
-        
-        <div id="pagination" class="pagination" style="display: none;"></div>
-    </div>
+
+        <!-- Lista de Ordens de Serviço -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span>📋</span>
+                    Lista de Ordens de Serviço
+                </h2>
+                <div class="card-subtitle">
+                    Total: <span id="totalOrdersDisplay">0</span> ordens
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="loadingMessage" style="display: none;">
+                    <div style="text-align: center; padding: 2rem;">
+                        <div class="loading-spinner"></div>
+                        <p style="margin-top: 1rem; color: var(--text-secondary);">Carregando ordens de serviço...</p>
+                    </div>
+                </div>
+
+                <div id="errorMessage" style="display: none;"></div>
+
+                <div id="ordersContainer">
+                    <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                        <p>Clique em "Buscar" para carregar as ordens de serviço</p>
+                    </div>
+                </div>
+
+                <div id="emptyState" style="display: none; text-align: center; padding: 3rem; color: var(--text-secondary);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🔧</div>
+                    <h3 style="margin-bottom: 1rem;">Nenhuma ordem de serviço encontrada</h3>
+                    <p style="margin-bottom: 2rem;">Crie a primeira ordem de serviço para começar</p>
+                    <a href="/service-order-form.html" class="btn btn-primary">
+                        <span>➕</span>
+                        Criar Primeira Ordem
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paginação -->
+        <div id="paginationContainer" style="display: none;">
+            <div class="card">
+                <div class="card-body">
+                    <div class="pagination" id="pagination"></div>
+                </div>
+            </div>
+        </div>
+    </main>
     
     <script>
         let currentPage = 1;
@@ -194,91 +283,136 @@
             }
         }
         
+        // Funções da API
+        async function apiCall(endpoint) {
+            try {
+                const response = await fetch(endpoint);
+                return await response.json();
+            } catch (error) {
+                throw new Error(`Erro na API: ${error.message}`);
+            }
+        }
+
         // Carregar ordens de serviço
         async function loadServiceOrders(page = 1) {
+            showLoading();
             try {
-                showLoading();
-                
                 const search = document.getElementById('search').value;
                 const status = document.getElementById('status').value;
                 const priority = document.getElementById('priority').value;
-                
+                const dateRange = document.getElementById('dateRange').value;
+
                 const params = new URLSearchParams({
                     page: page.toString(),
-                    limit: '10'
+                    limit: '12'
                 });
-                
+
                 if (search) params.append('search', search);
                 if (status) params.append('status', status);
                 if (priority) params.append('priority', priority);
-                
-                const response = await fetch(`/api/service-orders?${params}`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    displayServiceOrders(data.data);
-                    displayPagination(data.pagination);
-                    currentPage = data.pagination.page;
-                    totalPages = data.pagination.pages;
-                } else {
-                    showError(data.error || 'Erro ao carregar ordens de serviço');
+                if (dateRange) params.append('dateRange', dateRange);
+
+                const response = await apiCall(`/api/service-orders?${params}`);
+                const orders = response.data || response;
+
+                displayServiceOrders(orders);
+                updateStats(orders);
+                document.getElementById('totalOrdersDisplay').textContent = orders.length;
+
+                if (response.pagination) {
+                    displayPagination(response.pagination);
                 }
             } catch (error) {
-                showError('Erro de conexão: ' + error.message);
+                showError('Erro ao carregar ordens de serviço: ' + error.message);
             }
         }
-        
-        // Exibir ordens na tabela
+
+        // Atualizar estatísticas
+        function updateStats(orders) {
+            const total = orders.length;
+            const open = orders.filter(o => ['OPEN', 'DIAGNOSING', 'WAITING_APPROVAL'].includes(o.status)).length;
+            const inProgress = orders.filter(o => ['APPROVED', 'WAITING_PARTS', 'IN_PROGRESS'].includes(o.status)).length;
+            const completed = orders.filter(o => o.status === 'COMPLETED').length;
+
+            document.getElementById('totalOrders').textContent = total;
+            document.getElementById('openOrders').textContent = open;
+            document.getElementById('inProgressOrders').textContent = inProgress;
+            document.getElementById('completedOrders').textContent = completed;
+        }
+
+        // Exibir ordens em cards
         function displayServiceOrders(orders) {
-            const tbody = document.getElementById('ordersBody');
-            
+            const container = document.getElementById('ordersContainer');
+
             if (orders.length === 0) {
                 showEmpty();
                 return;
             }
-            
-            tbody.innerHTML = orders.map(order => `
-                <tr>
-                    <td>
-                        <div class="order-number">${order.number}</div>
-                        <div class="customer-info">Criada por: ${order.createdBy.name}</div>
-                    </td>
-                    <td>
-                        <div>${order.customer.name}</div>
-                        <div class="customer-info">${order.customer.phone || ''}</div>
-                    </td>
-                    <td>
-                        <div>${order.vehicle.brand} ${order.vehicle.model}</div>
-                        <div class="vehicle-info">${order.vehicle.plate} - ${order.vehicle.year}</div>
-                    </td>
-                    <td>
-                        <div title="${order.customerComplaint || 'Sem reclamação'}">${truncateText(order.customerComplaint || 'Sem reclamação', 30)}</div>
-                    </td>
-                    <td>
-                        <span class="badge badge-${order.status.toLowerCase().replace('_', '-')}">
-                            ${getStatusLabel(order.status)}
-                        </span>
-                    </td>
-                    <td>
-                        <span class="badge badge-${order.priority.toLowerCase()}">
-                            ${getPriorityLabel(order.priority)}
-                        </span>
-                    </td>
-                    <td>${formatDate(order.createdAt)}</td>
-                    <td>
-                        <div class="actions">
-                            <button class="btn btn-sm" onclick="viewOrder('${order.id}')" title="Visualizar">👁️</button>
-                            <button class="btn btn-sm btn-warning" onclick="editOrder('${order.id}')" title="Editar">✏️</button>
-                            <button class="btn btn-sm" onclick="updateStatus('${order.id}')" title="Atualizar Status">🔄</button>
-                            ${order.status !== 'COMPLETED' ? `<button class="btn btn-sm btn-danger" onclick="deleteOrder('${order.id}', '${order.number}')" title="Excluir">🗑️</button>` : ''}
+
+            let html = '<div class="stats-grid">';
+
+            orders.forEach(order => {
+                const statusClass = getStatusClass(order.status);
+                const priorityClass = getPriorityClass(order.priority);
+                const statusLabel = getStatusLabel(order.status);
+                const priorityLabel = getPriorityLabel(order.priority);
+
+                html += `
+                    <div class="card" style="margin-bottom: 0;">
+                        <div class="card-body" style="padding: var(--space-4);">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-3);">
+                                <div>
+                                    <h3 style="font-size: var(--font-size-lg); font-weight: 600; margin-bottom: var(--space-1);">
+                                        OS #${order.number || order.id}
+                                    </h3>
+                                    <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-2);">
+                                        <span class="badge ${statusClass}">${statusLabel}</span>
+                                        <span class="badge ${priorityClass}">${priorityLabel}</span>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: var(--space-2);">
+                                    <a href="/service-order-view.html?id=${order.id}" class="btn btn-sm btn-secondary">👁️ Ver</a>
+                                    <a href="/service-order-form.html?id=${order.id}" class="btn btn-sm btn-primary">✏️ Editar</a>
+                                </div>
+                            </div>
+
+                            <div style="margin-bottom: var(--space-3);">
+                                <div style="font-weight: 600; margin-bottom: var(--space-1);">👤 ${order.customer?.name || 'Cliente não informado'}</div>
+                                <div style="font-size: var(--font-size-sm); color: var(--text-secondary);">
+                                    📞 ${order.customer?.phone || 'Telefone não informado'}
+                                </div>
+                            </div>
+
+                            <div style="margin-bottom: var(--space-3);">
+                                <div style="font-weight: 600; margin-bottom: var(--space-1);">
+                                    🚗 ${order.vehicle?.brand || ''} ${order.vehicle?.model || 'Veículo não informado'}
+                                </div>
+                                <div style="font-size: var(--font-size-sm); color: var(--text-secondary);">
+                                    🏷️ ${order.vehicle?.plate || 'Placa não informada'} • ${order.vehicle?.year || 'Ano não informado'}
+                                </div>
+                            </div>
+
+                            <div style="margin-bottom: var(--space-3);">
+                                <div style="font-weight: 600; margin-bottom: var(--space-1);">💬 Reclamação:</div>
+                                <div style="font-size: var(--font-size-sm); color: var(--text-secondary);">
+                                    ${order.customerComplaint || 'Nenhuma reclamação registrada'}
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); font-size: var(--font-size-sm); color: var(--text-secondary);">
+                                <div><strong>Criada em:</strong> ${formatDate(order.createdAt)}</div>
+                                <div><strong>Valor:</strong> ${formatCurrency(order.totalValue || 0)}</div>
+                                <div><strong>Responsável:</strong> ${order.assignedTo?.name || 'Não atribuído'}</div>
+                                <div><strong>Previsão:</strong> ${order.estimatedDate ? formatDate(order.estimatedDate) : 'Não definida'}</div>
+                            </div>
                         </div>
-                    </td>
-                </tr>
-            `).join('');
-            
-            showTable();
-        }
-        
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+
         // Funções auxiliares
         function getStatusLabel(status) {
             const labels = {
@@ -294,7 +428,22 @@
             };
             return labels[status] || status;
         }
-        
+
+        function getStatusClass(status) {
+            const classes = {
+                'OPEN': 'badge-warning',
+                'DIAGNOSING': 'badge-info',
+                'WAITING_APPROVAL': 'badge-warning',
+                'APPROVED': 'badge-success',
+                'WAITING_PARTS': 'badge-warning',
+                'IN_PROGRESS': 'badge-primary',
+                'WAITING_PAYMENT': 'badge-warning',
+                'COMPLETED': 'badge-success',
+                'CANCELLED': 'badge-error'
+            };
+            return classes[status] || 'badge-secondary';
+        }
+
         function getPriorityLabel(priority) {
             const labels = {
                 'LOW': 'Baixa',
@@ -304,176 +453,130 @@
             };
             return labels[priority] || priority;
         }
-        
+
+        function getPriorityClass(priority) {
+            const classes = {
+                'LOW': 'badge-secondary',
+                'NORMAL': 'badge-primary',
+                'HIGH': 'badge-warning',
+                'URGENT': 'badge-error'
+            };
+            return classes[priority] || 'badge-secondary';
+        }
+
         function formatDate(dateString) {
+            if (!dateString) return 'Não definida';
             const date = new Date(dateString);
-            return date.toLocaleDateString('pt-BR') + ' ' + date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            return date.toLocaleDateString('pt-BR');
         }
-        
-        function truncateText(text, maxLength) {
-            if (text.length <= maxLength) return text;
-            return text.substring(0, maxLength) + '...';
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(value || 0);
         }
-        
+
+        // Limpar filtros
+        function clearFilters() {
+            document.getElementById('search').value = '';
+            document.getElementById('status').value = '';
+            document.getElementById('priority').value = '';
+            document.getElementById('dateRange').value = '';
+            document.getElementById('ordersContainer').innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-secondary);"><p>Clique em "Buscar" para carregar as ordens de serviço</p></div>';
+            document.getElementById('totalOrdersDisplay').textContent = '0';
+        }
+
+        // Exportar ordens
+        function exportOrders() {
+            alert('Funcionalidade de exportação será implementada em breve!');
+        }
+
         // Exibir paginação
         function displayPagination(pagination) {
+            const container = document.getElementById('paginationContainer');
             const paginationDiv = document.getElementById('pagination');
-            
-            if (pagination.pages <= 1) {
-                paginationDiv.style.display = 'none';
+
+            if (!pagination || pagination.pages <= 1) {
+                container.style.display = 'none';
                 return;
             }
-            
+
             let paginationHTML = '';
-            
+
             if (pagination.page > 1) {
-                paginationHTML += `<button onclick="loadServiceOrders(${pagination.page - 1})">« Anterior</button>`;
+                paginationHTML += `<button class="pagination-btn" onclick="loadServiceOrders(${pagination.page - 1})">« Anterior</button>`;
             }
-            
+
             for (let i = 1; i <= pagination.pages; i++) {
                 const active = i === pagination.page ? 'active' : '';
-                paginationHTML += `<button class="${active}" onclick="loadServiceOrders(${i})">${i}</button>`;
+                paginationHTML += `<button class="pagination-btn ${active}" onclick="loadServiceOrders(${i})">${i}</button>`;
             }
-            
+
             if (pagination.page < pagination.pages) {
-                paginationHTML += `<button onclick="loadServiceOrders(${pagination.page + 1})">Próximo »</button>`;
+                paginationHTML += `<button class="pagination-btn" onclick="loadServiceOrders(${pagination.page + 1})">Próximo »</button>`;
             }
-            
+
             paginationDiv.innerHTML = paginationHTML;
-            paginationDiv.style.display = 'flex';
+            container.style.display = 'block';
         }
-        
-        // Ações
-        function viewOrder(id) {
-            window.location.href = `/service-order-view.html?id=${id}`;
+
+        // Funções de controle de estado
+        function showLoading() {
+            document.getElementById('loadingMessage').style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('ordersContainer').innerHTML = '';
+            document.getElementById('emptyState').style.display = 'none';
         }
-        
-        function editOrder(id) {
-            window.location.href = `/service-order-form.html?id=${id}`;
+
+        function showError(message) {
+            document.getElementById('loadingMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'block';
+            document.getElementById('errorMessage').innerHTML = `<div style="text-align: center; padding: 1rem; color: var(--error-color); background: rgba(239, 68, 68, 0.1); border-radius: var(--radius-md);">❌ ${message}</div>`;
+            document.getElementById('emptyState').style.display = 'none';
         }
-        
-        function updateStatus(id) {
-            // Implementar modal de atualização de status
-            const newStatus = prompt('Novo status:\n\nOPEN - Aberta\nDIAGNOSING - Em Diagnóstico\nWAITING_APPROVAL - Aguardando Aprovação\nAPPROVED - Aprovada\nWAITING_PARTS - Aguardando Peças\nIN_PROGRESS - Em Execução\nWAITING_PAYMENT - Aguardando Pagamento\nCOMPLETED - Concluída\nCANCELLED - Cancelada');
-            
-            if (newStatus) {
-                updateOrderStatus(id, newStatus);
-            }
+
+        function showEmpty() {
+            document.getElementById('loadingMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('ordersContainer').innerHTML = '';
+            document.getElementById('emptyState').style.display = 'block';
         }
-        
-        async function updateOrderStatus(id, status) {
-            try {
-                const response = await fetch(`/api/service-orders/${id}/status`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ status }),
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    alert('Status atualizado com sucesso!');
-                    loadServiceOrders(currentPage);
-                } else {
-                    alert('Erro: ' + data.error);
-                }
-            } catch (error) {
-                alert('Erro de conexão: ' + error.message);
-            }
-        }
-        
-        async function deleteOrder(id, number) {
-            if (!confirm(`Tem certeza que deseja excluir a ordem de serviço "${number}"?`)) {
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            // Verificar autenticação
+            const auth = new AuthManager();
+            if (!auth.isAuthenticated()) {
+                window.location.href = '/login.html';
                 return;
             }
-            
-            try {
-                const response = await fetch(`/api/service-orders/${id}`, {
-                    method: 'DELETE'
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    alert('Ordem de serviço excluída com sucesso!');
-                    loadServiceOrders(currentPage);
-                } else {
-                    alert('Erro: ' + data.error);
-                }
-            } catch (error) {
-                alert('Erro de conexão: ' + error.message);
+
+            // Atualizar nome do usuário
+            const user = auth.getUser();
+            if (user) {
+                document.getElementById('userName').textContent = user.name || user.email;
+                document.querySelector('.user-avatar').textContent = (user.name || user.email).charAt(0).toUpperCase();
             }
-        }
-        
-        // Estados da interface
-        function showLoading() {
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('error').style.display = 'none';
-            document.getElementById('ordersTable').style.display = 'none';
-            document.getElementById('empty').style.display = 'none';
-            document.getElementById('pagination').style.display = 'none';
-        }
-        
-        function showError(message) {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').style.display = 'block';
-            document.getElementById('error').textContent = message;
-            document.getElementById('ordersTable').style.display = 'none';
-            document.getElementById('empty').style.display = 'none';
-            document.getElementById('pagination').style.display = 'none';
-        }
-        
-        function showTable() {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').style.display = 'none';
-            document.getElementById('ordersTable').style.display = 'table';
-            document.getElementById('empty').style.display = 'none';
-        }
-        
-        function showEmpty() {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').style.display = 'none';
-            document.getElementById('ordersTable').style.display = 'none';
-            document.getElementById('empty').style.display = 'block';
-            document.getElementById('pagination').style.display = 'none';
-        }
-        
-        // Event listeners
-        document.getElementById('search').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                loadServiceOrders(1);
-            }
-        });
-        
-        // Inicializar
-        document.addEventListener('DOMContentLoaded', function() {
-            checkAuth();
-            loadUserInfo();
+
+            // Carregar ordens de serviço automaticamente
             loadServiceOrders();
         });
-    </script>
-    <script src="/js/logo-manager.js"></script>
-    <script src="/js/auth.js"></script><script src="/js/logo-manager.js"></script><script src="/modelo2-features.js"></script>
-    <script src="/modelo2-features.js"></script>
-    <script>
-        const auth = new AuthManager();
-        if (!auth.isAuthenticated()) {
-            window.location.href = "/login.html";
-        }
-        const user = auth.getUser();
-        if (user) {
-            document.getElementById("userName").textContent = user.name || user.email;
-            document.querySelector(".user-avatar").textContent = (user.name || user.email).charAt(0).toUpperCase();
-        }
+
+        // Toggle user menu
         function toggleUserMenu() {
-            const confirmed = confirm("Deseja fazer logout?");
+            const confirmed = confirm('Deseja fazer logout?');
             if (confirmed) {
+                const auth = new AuthManager();
                 auth.logout();
-                window.location.href = "/login.html";
+                window.location.href = '/login.html';
             }
         }
     </script>
+
+    <!-- Scripts -->
+    <script src="/js/auth.js"></script>
+    <script src="/js/logo-manager.js"></script>
+    <script src="/modelo2-features.js"></script>
 </body>
 </html>

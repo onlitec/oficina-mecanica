@@ -74,232 +74,312 @@
         <!-- Page Header -->
         <div class="card">
             <div class="card-header">
-                <h1 class="card-title">
-                    <span>👤</span>
-                    Cadastro de Cliente
-                </h1>
+                <div>
+                    <h1 class="card-title">
+                        <span>👤</span>
+                        Cadastro de Cliente
+                    </h1>
+                    <p class="card-subtitle">Cadastre um novo cliente no sistema</p>
+                </div>
+                <a href="/customers.html" class="btn btn-secondary">
+                    <span>←</span>
+                    Voltar
+                </a>
             </div>
         </div>
-    <!-- Global menu will be inserted here by global-menu.js -->
-    
+
+        <!-- Formulário -->
+        <div class="card">
+            <div class="card-body">
+                <div id="alert" class="alert" style="display: none;"></div>
+
+                <form id="customerForm">
+                    <!-- Seletor de Tipo -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>🏷️</span>
+                                Tipo de Cliente
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <div style="display: flex; gap: var(--space-4);">
+                                        <label class="radio-card">
+                                            <input type="radio" id="individual" name="type" value="INDIVIDUAL" checked>
+                                            <div class="radio-card-content">
+                                                <span class="radio-card-icon">👤</span>
+                                                <span class="radio-card-title">Pessoa Física</span>
+                                                <span class="radio-card-subtitle">CPF, RG, Data de Nascimento</span>
+                                            </div>
+                                        </label>
+                                        <label class="radio-card">
+                                            <input type="radio" id="company" name="type" value="COMPANY">
+                                            <div class="radio-card-content">
+                                                <span class="radio-card-icon">🏢</span>
+                                                <span class="radio-card-title">Pessoa Jurídica</span>
+                                                <span class="radio-card-subtitle">CNPJ, Razão Social, Inscrição</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dados Básicos -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>📋</span>
+                                Dados Básicos
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name" class="form-label required">Nome Completo</label>
+                                    <input type="text" id="name" name="name" class="form-input" required placeholder="Digite o nome completo">
+                                    <div class="form-error" id="nameError"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="cpfCnpj" class="form-label required" id="cpfCnpjLabel">CPF</label>
+                                    <input type="text" id="cpfCnpj" name="cpfCnpj" class="form-input" required placeholder="000.000.000-00">
+                                    <div class="form-error" id="cpfCnpjError"></div>
+                                </div>
+                            </div>
+
+                            <!-- Campos específicos PF -->
+                            <div id="individualFields">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="rg" class="form-label">RG</label>
+                                        <input type="text" id="rg" name="rg" class="form-input" placeholder="00.000.000-0">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="birthDate" class="form-label">Data de Nascimento</label>
+                                        <input type="date" id="birthDate" name="birthDate" class="form-input">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Campos específicos PJ -->
+                            <div id="companyFields" style="display: none;">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="companyName" class="form-label">Razão Social</label>
+                                        <input type="text" id="companyName" name="companyName" class="form-input" placeholder="Nome da empresa">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="fantasyName" class="form-label">Nome Fantasia</label>
+                                        <input type="text" id="fantasyName" name="fantasyName" class="form-input" placeholder="Nome fantasia">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="stateRegistration" class="form-label">Inscrição Estadual</label>
+                                        <input type="text" id="stateRegistration" name="stateRegistration" class="form-input" placeholder="000.000.000.000">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="contactPerson" class="form-label">Pessoa de Contato</label>
+                                        <input type="text" id="contactPerson" name="contactPerson" class="form-input" placeholder="Nome do responsável">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contato -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>📞</span>
+                                Informações de Contato
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" id="email" name="email" class="form-input" placeholder="cliente@email.com">
+                                    <div class="form-error" id="emailError"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone" class="form-label">Telefone Principal</label>
+                                    <input type="tel" id="phone" name="phone" class="form-input" placeholder="(11) 99999-9999">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone2" class="form-label">Telefone Secundário</label>
+                                    <input type="tel" id="phone2" name="phone2" class="form-input" placeholder="(11) 99999-9999">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="whatsapp" class="form-label">WhatsApp</label>
+                                    <input type="tel" id="whatsapp" name="whatsapp" class="form-input" placeholder="(11) 99999-9999">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Endereço -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>📍</span>
+                                Endereço
+                            </h2>
+                            <p class="card-subtitle">Digite o CEP para preenchimento automático</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="zipCode" class="form-label">CEP</label>
+                                    <div style="position: relative;">
+                                        <input type="text" id="zipCode" name="zipCode" class="form-input" maxlength="9" placeholder="00000-000">
+                                        <div class="loading-spinner" id="zipCodeLoading" style="display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%);">🔄</div>
+                                    </div>
+                                    <div class="form-help" id="zipCodeFeedback">Digite o CEP para preenchimento automático dos campos</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="street" class="form-label">Rua/Logradouro</label>
+                                    <input type="text" id="street" name="street" class="form-input" placeholder="Nome da rua">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="number" class="form-label">Número</label>
+                                    <input type="text" id="number" name="number" class="form-input" placeholder="123">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="complement" class="form-label">Complemento</label>
+                                    <input type="text" id="complement" name="complement" class="form-input" placeholder="Apto, Bloco, etc.">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="neighborhood" class="form-label">Bairro</label>
+                                    <input type="text" id="neighborhood" name="neighborhood" class="form-input" placeholder="Nome do bairro">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city" class="form-label">Cidade</label>
+                                    <input type="text" id="city" name="city" class="form-input" placeholder="Nome da cidade">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="state" class="form-label">Estado</label>
+                                    <select id="state" name="state" class="form-input">
+                                        <option value="">Selecione o estado</option>
+                                        <option value="AC">Acre</option>
+                                        <option value="AL">Alagoas</option>
+                                        <option value="AP">Amapá</option>
+                                        <option value="AM">Amazonas</option>
+                                        <option value="BA">Bahia</option>
+                                        <option value="CE">Ceará</option>
+                                        <option value="DF">Distrito Federal</option>
+                                        <option value="ES">Espírito Santo</option>
+                                        <option value="GO">Goiás</option>
+                                        <option value="MA">Maranhão</option>
+                                        <option value="MT">Mato Grosso</option>
+                                        <option value="MS">Mato Grosso do Sul</option>
+                                        <option value="MG">Minas Gerais</option>
+                                        <option value="PA">Pará</option>
+                                        <option value="PB">Paraíba</option>
+                                        <option value="PR">Paraná</option>
+                                        <option value="PE">Pernambuco</option>
+                                        <option value="PI">Piauí</option>
+                                        <option value="RJ">Rio de Janeiro</option>
+                                        <option value="RN">Rio Grande do Norte</option>
+                                        <option value="RS">Rio Grande do Sul</option>
+                                        <option value="RO">Rondônia</option>
+                                        <option value="RR">Roraima</option>
+                                        <option value="SC">Santa Catarina</option>
+                                        <option value="SP">São Paulo</option>
+                                        <option value="SE">Sergipe</option>
+                                        <option value="TO">Tocantins</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Veículos -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>🚗</span>
+                                Veículos do Cliente
+                            </h2>
+                            <button type="button" class="btn btn-primary" onclick="addVehicle()">
+                                <span>➕</span>
+                                Adicionar Veículo
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="vehiclesContainer">
+                                <div style="text-align: center; padding: var(--space-6); color: var(--text-secondary);">
+                                    <p>Nenhum veículo cadastrado</p>
+                                    <p style="font-size: var(--font-size-sm);">Clique em "Adicionar Veículo" para cadastrar um veículo</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Observações -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>📝</span>
+                                Observações
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="observations" class="form-label">Observações Gerais</label>
+                                <textarea id="observations" name="observations" class="form-input" rows="4" placeholder="Informações adicionais sobre o cliente, preferências, histórico, etc."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ações -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <a href="/customers.html" class="btn btn-secondary">
+                                    <span>←</span>
+                                    Cancelar
+                                </a>
+                                <div style="display: flex; gap: var(--space-3);">
+                                    <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                                        <span>🗑️</span>
+                                        Limpar
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                                        <span>💾</span>
+                                        Salvar Cliente
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-    
-    <div class="card"><div class="card-body">
-        <div class="page-header">
-            <h1 class="page-title" id="pageTitle">👥 Novo Cliente</h1>
-            <a href="/customers.html" class="btn btn-secondary">← Voltar</a>
-        </div>
-        
-        <div class="form-container">
-            <div id="alert" class="alert hidden"></div>
-            
-            <form id="customerForm">
-                <!-- Seletor de Tipo -->
-                <div class="type-selector">
-                    <div class="type-option">
-                        <input type="radio" id="individual" name="type" value="INDIVIDUAL" checked>
-                        <label for="individual">👤 Pessoa Física</label>
-                    </div>
-                    <div class="type-option">
-                        <input type="radio" id="company" name="type" value="COMPANY">
-                        <label for="company">🏢 Pessoa Jurídica</label>
-                    </div>
-                </div>
-                
-                <!-- Dados Básicos -->
-                <div class="form-section">
-                    <h3 class="section-title">📋 Dados Básicos</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="name" class="required">Nome</label>
-                            <input type="text" id="name" name="name" required>
-                            <div class="error" id="nameError"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="cpfCnpj" class="required" id="cpfCnpjLabel">CPF</label>
-                            <input type="text" id="cpfCnpj" name="cpfCnpj" required>
-                            <div class="error" id="cpfCnpjError"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Campos específicos PF -->
-                    <div id="individualFields">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="rg">RG</label>
-                                <input type="text" id="rg" name="rg">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="birthDate">Data de Nascimento</label>
-                                <input type="date" id="birthDate" name="birthDate">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Campos específicos PJ -->
-                    <div id="companyFields" class="hidden">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="companyName">Razão Social</label>
-                                <input type="text" id="companyName" name="companyName">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="fantasyName">Nome Fantasia</label>
-                                <input type="text" id="fantasyName" name="fantasyName">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="stateRegistration">Inscrição Estadual</label>
-                                <input type="text" id="stateRegistration" name="stateRegistration">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="contactPerson">Pessoa de Contato</label>
-                                <input type="text" id="contactPerson" name="contactPerson">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Contato -->
-                <div class="form-section">
-                    <h3 class="section-title">📞 Contato</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email">
-                            <div class="error" id="emailError"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="phone">Telefone Principal</label>
-                            <input type="tel" id="phone" name="phone">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="phone2">Telefone Secundário</label>
-                            <input type="tel" id="phone2" name="phone2">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Endereço -->
-                <div class="form-section">
-                    <h3 class="section-title">📍 Endereço</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="zipCode">CEP <small style="color: #666; font-weight: normal;">(preenche automaticamente rua, bairro, cidade e estado)</small></label>
-                            <div class="input-with-icon">
-                                <input type="text" id="zipCode" name="zipCode" maxlength="9" placeholder="Digite o CEP para preencher automaticamente">
-                                <span class="input-icon" id="zipCodeIcon">📍</span>
-                                <div class="loading-spinner" id="zipCodeLoading" style="display: none;">🔄</div>
-                            </div>
-                            <div class="input-feedback" id="zipCodeFeedback"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="street">Rua/Logradouro</label>
-                            <input type="text" id="street" name="street">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="number">Número</label>
-                            <input type="text" id="number" name="number">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="complement">Complemento</label>
-                            <input type="text" id="complement" name="complement">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="neighborhood">Bairro</label>
-                            <input type="text" id="neighborhood" name="neighborhood">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="city">Cidade</label>
-                            <input type="text" id="city" name="city">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="state">Estado</label>
-                            <select id="state" name="state">
-                                <option value="">Selecione...</option>
-                                <option value="AC">Acre</option>
-                                <option value="AL">Alagoas</option>
-                                <option value="AP">Amapá</option>
-                                <option value="AM">Amazonas</option>
-                                <option value="BA">Bahia</option>
-                                <option value="CE">Ceará</option>
-                                <option value="DF">Distrito Federal</option>
-                                <option value="ES">Espírito Santo</option>
-                                <option value="GO">Goiás</option>
-                                <option value="MA">Maranhão</option>
-                                <option value="MT">Mato Grosso</option>
-                                <option value="MS">Mato Grosso do Sul</option>
-                                <option value="MG">Minas Gerais</option>
-                                <option value="PA">Pará</option>
-                                <option value="PB">Paraíba</option>
-                                <option value="PR">Paraná</option>
-                                <option value="PE">Pernambuco</option>
-                                <option value="PI">Piauí</option>
-                                <option value="RJ">Rio de Janeiro</option>
-                                <option value="RN">Rio Grande do Norte</option>
-                                <option value="RS">Rio Grande do Sul</option>
-                                <option value="RO">Rondônia</option>
-                                <option value="RR">Roraima</option>
-                                <option value="SC">Santa Catarina</option>
-                                <option value="SP">São Paulo</option>
-                                <option value="SE">Sergipe</option>
-                                <option value="TO">Tocantins</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Veículos -->
-                <div class="form-section">
-                    <h3 class="section-title">🚗 Veículos do Cliente</h3>
-
-                    <div id="vehiclesContainer">
-                        <!-- Veículos serão adicionados aqui dinamicamente -->
-                    </div>
-
-                    <button type="button" class="btn" onclick="addVehicle()">+ Adicionar Veículo</button>
-                </div>
-
-                <!-- Observações -->
-                <div class="form-section">
-                    <h3 class="section-title">📝 Observações</h3>
-
-                    <div class="form-group">
-                        <label for="observations">Observações Gerais</label>
-                        <textarea id="observations" name="observations" placeholder="Informações adicionais sobre o cliente..."></textarea>
-                    </div>
-                </div>
-                
-                <!-- Ações -->
-                <div class="form-actions">
-                    <a href="/customers.html" class="btn btn-secondary">Cancelar</a>
-                    <button type="submit" class="btn btn-success" id="submitBtn">💾 Salvar Cliente</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    </main>
     
     <script>
         let isEditing = false;
@@ -922,15 +1002,16 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    showAlert(result.message || 'Cliente salvo com sucesso!');
+                    const message = isEditing ? 'Cliente atualizado com sucesso!' : 'Cliente cadastrado com sucesso!';
+                    showSuccessNotification(message);
                     setTimeout(() => {
                         window.location.href = '/customers.html';
                     }, 2000);
                 } else {
-                    showAlert('Erro: ' + result.error, 'error');
+                    showErrorNotification('Erro: ' + result.error);
                 }
             } catch (error) {
-                showAlert('Erro de conexão: ' + error.message, 'error');
+                showErrorNotification('Erro de conexão: ' + error.message);
             } finally {
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;

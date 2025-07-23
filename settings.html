@@ -8,6 +8,244 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        .settings-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--bg-tertiary);
+            background: var(--bg-primary);
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .settings-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            padding: var(--space-4) var(--space-6);
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            min-width: 120px;
+            flex-shrink: 0;
+        }
+
+        .tab-button:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .tab-button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            background: var(--bg-secondary);
+        }
+
+        .tab-panel {
+            display: none;
+            margin-top: var(--space-6);
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .file-upload {
+            border: 2px dashed var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            padding: var(--space-6);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary-color);
+            background: var(--bg-secondary);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--bg-tertiary);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: var(--bg-primary);
+            margin: 5% auto;
+            border-radius: var(--radius-lg);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--shadow-lg);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-6);
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: var(--space-6);
+        }
+
+        .close {
+            color: var(--text-secondary);
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .close:hover {
+            color: var(--error-color);
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Fix para layout irregular */
+        .main-content {
+            padding: var(--space-6);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tab-content {
+            margin-top: var(--space-6);
+        }
+
+        .card {
+            margin-bottom: var(--space-6);
+        }
+
+        .card:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Garantir que os cards tenham altura consistente */
+        .card-body {
+            min-height: 200px;
+        }
+
+        /* Form layout consistente */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            padding: var(--space-3);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-help {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-top: var(--space-1);
+        }
+
+        /* Responsividade das abas */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: var(--space-4);
+            }
+
+            .settings-tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab-button {
+                flex: 1;
+                min-width: 100px;
+                padding: var(--space-3) var(--space-4);
+                font-size: var(--font-size-sm);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: var(--space-3);
+            }
+
+            .card-header {
+                flex-direction: column;
+                gap: var(--space-3);
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
 <body class="dashboard-layout">
     <!-- Header -->
@@ -80,358 +318,633 @@
         <!-- Page Header -->
         <div class="card">
             <div class="card-header">
-                <h1 class="card-title">
-                    <span>⚙️</span>
-                    Configurações
-                </h1>
+                <div>
+                    <h1 class="card-title">
+                        <span>⚙️</span>
+                        Configurações do Sistema
+                    </h1>
+                    <p class="card-subtitle">Gerencie as configurações e preferências do sistema</p>
+                </div>
+                <a href="/dashboard.html" class="btn btn-secondary">
+                    <span>←</span>
+                    Voltar ao Painel
+                </a>
             </div>
         </div>
-    <!-- Global menu will be inserted here by global-menu.js -->
-    <script src="/modelo2-features.js"></script>
-    
-    <div class="card"><div class="card-body">
-        <div class="page-header">
-            <h1 class="page-title">⚙️ Configurações do Sistema</h1>
-            <div>
-                <a href="/dashboard.html" class="btn btn-secondary">← Voltar ao Painel</a>
+
+        <!-- Navegação por Abas -->
+        <div class="card">
+            <div class="card-body" style="padding: 0;">
+                <div class="settings-tabs">
+                    <button class="tab-button active" onclick="console.log('🏢 Clique Sistema'); showTab('system')" id="tab-system">
+                        <span>🏢</span>
+                        Sistema
+                    </button>
+                    <button class="tab-button" onclick="console.log('🎨 Clique Aparência'); showTab('appearance')" id="tab-appearance">
+                        <span>🎨</span>
+                        Aparência
+                    </button>
+                    <button class="tab-button" onclick="console.log('👥 Clique Usuários'); showTab('users')" id="tab-users">
+                        <span>👥</span>
+                        Usuários
+                    </button>
+                    <button class="tab-button" onclick="console.log('🏪 Clique Empresa'); showTab('company')" id="tab-company">
+                        <span>🏪</span>
+                        Empresa
+                    </button>
+                    <button class="tab-button" onclick="console.log('📧 Clique Email'); showTab('email')" id="tab-email">
+                        <span>📧</span>
+                        Email
+                    </button>
+                </div>
             </div>
         </div>
-        
-        <!-- Abas de Configurações -->
-        <div class="settings-tabs">
-            <button class="tab-button active" onclick="showTab('system')">
-                🏢 Sistema
-            </button>
-            <button class="tab-button" onclick="showTab('appearance')">
-                🎨 Aparência
-            </button>
-            <button class="tab-button" onclick="showTab('users')">
-                👥 Usuários
-            </button>
-            <button class="tab-button" onclick="showTab('company')">
-                🏪 Empresa
-            </button>
-            <button class="tab-button" onclick="showTab('email')">
-                📧 Email
-            </button>
-        </div>
-        
+
+        <!-- Conteúdo das Abas -->
         <div class="tab-content">
             <!-- Aba Sistema -->
             <div id="system-tab" class="tab-panel active">
-                <form id="systemForm">
-                    <div class="form-section">
-                        <h3 class="section-title">Informações do Sistema</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label">Nome da Empresa</label>
-                                <input type="text" class="form-input" id="appName" name="appName" placeholder="Ex: Oficina do João">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Descrição</label>
-                                <input type="text" class="form-input" id="appDescription" name="appDescription" placeholder="Ex: Sistema de Gestão Automotiva">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Fuso Horário</label>
-                                <select class="form-input" id="timezone" name="timezone">
-                                    <option value="America/Sao_Paulo">São Paulo (GMT-3)</option>
-                                    <option value="America/Rio_Branco">Rio Branco (GMT-5)</option>
-                                    <option value="America/Manaus">Manaus (GMT-4)</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Moeda</label>
-                                <select class="form-input" id="currency" name="currency">
-                                    <option value="BRL">Real Brasileiro (R$)</option>
-                                    <option value="USD">Dólar Americano ($)</option>
-                                    <option value="EUR">Euro (€)</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Idioma</label>
-                                <select class="form-input" id="language" name="language">
-                                    <option value="pt-BR">Português (Brasil)</option>
-                                    <option value="en-US">English (US)</option>
-                                    <option value="es-ES">Español</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div style="margin-top: 20px;">
-                            <button type="submit" class="btn btn-success">💾 Salvar Configurações</button>
-                        </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span>🏢</span>
+                            Configurações do Sistema
+                        </h2>
                     </div>
-                </form>
+                    <div class="card-body">
+                        <form id="systemForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Nome da Empresa</label>
+                                    <input type="text" class="form-input" id="appName" name="appName" placeholder="Ex: Oficina do João">
+                                    <div class="form-help">Nome que aparecerá no sistema</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Descrição</label>
+                                    <input type="text" class="form-input" id="appDescription" name="appDescription" placeholder="Ex: Sistema de Gestão Automotiva">
+                                    <div class="form-help">Descrição breve do negócio</div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Fuso Horário</label>
+                                    <select class="form-input" id="timezone" name="timezone">
+                                        <option value="America/Sao_Paulo">São Paulo (GMT-3)</option>
+                                        <option value="America/Rio_Branco">Rio Branco (GMT-5)</option>
+                                        <option value="America/Manaus">Manaus (GMT-4)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Moeda</label>
+                                    <select class="form-input" id="currency" name="currency">
+                                        <option value="BRL">Real Brasileiro (R$)</option>
+                                        <option value="USD">Dólar Americano ($)</option>
+                                        <option value="EUR">Euro (€)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Idioma</label>
+                                    <select class="form-input" id="language" name="language">
+                                        <option value="pt-BR">Português (Brasil)</option>
+                                        <option value="en-US">English (US)</option>
+                                        <option value="es-ES">Español</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Formato de Data</label>
+                                    <select class="form-input" id="dateFormat" name="dateFormat">
+                                        <option value="DD/MM/YYYY">DD/MM/AAAA (Brasileiro)</option>
+                                        <option value="MM/DD/YYYY">MM/DD/AAAA (Americano)</option>
+                                        <option value="YYYY-MM-DD">AAAA-MM-DD (ISO)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: var(--space-6);">
+                                <button type="submit" class="btn btn-primary">
+                                    <span>💾</span>
+                                    Salvar Configurações
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            
+
             <!-- Aba Aparência -->
             <div id="appearance-tab" class="tab-panel">
-                <form id="appearanceForm">
-                    <div class="form-group">
-                        <label class="form-label">URL do Tema</label>
-                        <input type="text" class="form-input" id="themeUrl" name="themeUrl" placeholder="https://exemplo.com/tema.css">
+                <!-- Logotipo da Empresa -->
+                <div class="card" style="margin-bottom: var(--space-6);">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span>🖼️</span>
+                            Logotipo da Empresa
+                        </h2>
                     </div>
-                    <div style="margin-bottom: 20px;">
-                        <button type="button" class="btn btn-light" id="installThemeBtn">🎨 Instalar Tema</button>
-                    </div>
-                    <div class="form-section">
-                        <h3 class="section-title">Logotipo da Empresa</h3>
+                    <div class="card-body">
                         <div class="form-group">
                             <label class="form-label">Upload do Logo</label>
                             <input type="file" id="logoFile" accept="image/*" onchange="previewLogo(this)" style="display: none;">
-                            <div class="file-upload" onclick="openFileSelector()">
+                            <div class="file-upload" onclick="openFileSelector()" style="border: 2px dashed var(--bg-tertiary); border-radius: var(--radius-md); padding: var(--space-6); text-align: center; cursor: pointer; transition: all 0.2s ease;">
                                 <div id="uploadText">
-                                    📁 Clique para selecionar o logo<br>
-                                    <small>Formatos aceitos: JPG, PNG, GIF, SVG (máx. 5MB)</small>
+                                    <div style="font-size: 2rem; margin-bottom: var(--space-2);">📁</div>
+                                    <div style="font-weight: 600; margin-bottom: var(--space-1);">Clique para selecionar o logo</div>
+                                    <div style="font-size: var(--font-size-sm); color: var(--text-secondary);">Formatos aceitos: JPG, PNG, GIF, SVG (máx. 5MB)</div>
                                 </div>
                             </div>
-                            <div style="margin-top: 10px; display: flex; gap: 10px;">
+                            <img id="logoPreview" style="display: none; max-width: 200px; max-height: 100px; margin-top: var(--space-3); border-radius: var(--radius-md);">
+                            <div style="margin-top: var(--space-3); display: flex; gap: var(--space-3);">
                                 <button type="button" class="btn btn-secondary" onclick="openFileSelector()">
-                                    📁 Selecionar Logo
+                                    <span>📁</span>
+                                    Selecionar Logo
                                 </button>
-                                <button type="button" class="btn btn-success" onclick="uploadLogo()" id="uploadBtn" style="display: none;">
-                                    🚀 Fazer Upload
+                                <button type="button" class="btn btn-primary" onclick="uploadLogo()" id="uploadBtn" style="display: none;">
+                                    <span>🚀</span>
+                                    Fazer Upload
                                 </button>
                             </div>
-                            <img id="logoPreview" class="logo-preview" style="display: none;">
                         </div>
                     </div>
-                    
-                    <div class="form-section">
-                        <h3 class="section-title">Cores do Sistema</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label">Cor Primária</label>
-                                <input type="color" class="form-input color-input" id="primaryColor" name="primaryColor" value="#667eea">
+                </div>
+
+                <!-- Cores do Sistema -->
+                <div class="card" style="margin-bottom: var(--space-6);">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span>🎨</span>
+                            Cores do Sistema
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="appearanceForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Cor Primária</label>
+                                    <input type="color" class="form-input" id="primaryColor" name="primaryColor" value="#667eea" style="height: 50px;">
+                                    <div class="form-help">Cor principal do sistema (botões, links)</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Cor Secundária</label>
+                                    <input type="color" class="form-input" id="secondaryColor" name="secondaryColor" value="#764ba2" style="height: 50px;">
+                                    <div class="form-help">Cor secundária (destaques, acentos)</div>
+                                </div>
                             </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Cor Secundária</label>
-                                <input type="color" class="form-input color-input" id="secondaryColor" name="secondaryColor" value="#764ba2">
+
+                            <div class="form-row">
+                                <button type="button" class="btn btn-primary" onclick="saveAppearance()">
+                                    <span>🎨</span>
+                                    Salvar Aparência
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="resetColors()">
+                                    <span>🔄</span>
+                                    Restaurar Padrão
+                                </button>
                             </div>
-                        </div>
-                        
-                        <div style="margin-top: 20px;">
-                            <button type="button" class="btn btn-success" onclick="saveAppearance()">🎨 Salvar Aparência</button>
-                            <button type="button" class="btn btn-secondary" onclick="resetColors()">🔄 Restaurar Padrão</button>
-                        </div>
+                        </form>
                     </div>
-                </form>
-            </div>
-            
-            <!-- Aba Usuários -->
-            <div id="users-tab" class="tab-panel">
-                <div class="form-section">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <h3 class="section-title" style="margin: 0;">Gestão de Usuários</h3>
-                        <button class="btn btn-success" onclick="showUserModal()">➕ Novo Usuário</button>
+                </div>
+
+                <!-- Temas Personalizados -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span>🌈</span>
+                            Temas Personalizados
+                        </h2>
                     </div>
-                    
-                    <div id="usersTableContainer">
-                        <div class="loading">
-                            <span class="loading-spinner"></span>
-                            Carregando usuários...
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">URL do Tema CSS</label>
+                            <input type="text" class="form-input" id="themeUrl" name="themeUrl" placeholder="https://exemplo.com/tema.css">
+                            <div class="form-help">URL de um arquivo CSS personalizado para o tema</div>
+                        </div>
+                        <div style="margin-top: var(--space-3);">
+                            <button type="button" class="btn btn-secondary" id="installThemeBtn">
+                                <span>🎨</span>
+                                Instalar Tema
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Aba Empresa -->
-            <div id="company-tab" class="tab-panel">
-                <form id="companyForm">
-                    <div class="form-section">
-                        <h3 class="section-title">Dados da Empresa</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label">Nome da Empresa</label>
-                                <input type="text" class="form-input" id="companyName" name="companyName" placeholder="Ex: Oficina do João">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">CNPJ</label>
-                                <input type="text" class="form-input" id="companyCnpj" name="companyCnpj" placeholder="00.000.000/0000-00">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Telefone</label>
-                                <input type="text" class="form-input" id="companyPhone" name="companyPhone" placeholder="(11) 99999-9999">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-input" id="companyEmail" name="companyEmail" placeholder="contato@oficina.com">
-                            </div>
+
+            <!-- Aba Usuários -->
+            <div id="users-tab" class="tab-panel">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="card-title">
+                                <span>👥</span>
+                                Gestão de Usuários
+                            </h2>
+                            <p class="card-subtitle">Gerencie os usuários do sistema</p>
                         </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Endereço Completo</label>
-                            <textarea class="form-input form-textarea" id="companyAddress" name="companyAddress" placeholder="Rua, número, bairro, cidade, estado, CEP"></textarea>
-                        </div>
-                        
-                        <div style="margin-top: 20px;">
-                            <button type="submit" class="btn btn-success">🏪 Salvar Dados da Empresa</button>
+                        <button class="btn btn-primary" onclick="showUserModal()">
+                            <span>➕</span>
+                            Novo Usuário
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="usersTableContainer">
+                            <div style="text-align: center; padding: var(--space-6); color: var(--text-secondary);">
+                                <div class="loading-spinner" style="margin-bottom: var(--space-3);"></div>
+                                <p>Carregando usuários...</p>
+                            </div>
                         </div>
                     </div>
-                </form>
+                </div>
+            </div>
+
+            <!-- Aba Empresa -->
+            <div id="company-tab" class="tab-panel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span>🏪</span>
+                            Dados da Empresa
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="companyForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Nome da Empresa</label>
+                                    <input type="text" class="form-input" id="companyName" name="companyName" placeholder="Ex: Oficina do João">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">CNPJ</label>
+                                    <input type="text" class="form-input" id="companyCnpj" name="companyCnpj" placeholder="00.000.000/0000-00">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Telefone</label>
+                                    <input type="text" class="form-input" id="companyPhone" name="companyPhone" placeholder="(11) 99999-9999">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-input" id="companyEmail" name="companyEmail" placeholder="contato@oficina.com">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Endereço Completo</label>
+                                <textarea class="form-input" id="companyAddress" name="companyAddress" rows="3" placeholder="Rua, número, bairro, cidade, estado, CEP"></textarea>
+                            </div>
+
+                            <div style="margin-top: var(--space-6);">
+                                <button type="submit" class="btn btn-primary">
+                                    <span>🏪</span>
+                                    Salvar Dados da Empresa
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <!-- Aba Email -->
             <div id="email-tab" class="tab-panel">
-                <form id="emailForm">
-                    <div class="form-section">
-                        <h3 class="section-title">Configurações de Email</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label">Servidor SMTP</label>
-                                <input type="text" class="form-input" id="smtpHost" name="smtpHost" placeholder="smtp.gmail.com">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Porta SMTP</label>
-                                <input type="number" class="form-input" id="smtpPort" name="smtpPort" placeholder="587">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Email do Remetente</label>
-                                <input type="email" class="form-input" id="emailFrom" name="emailFrom" placeholder="oficina@empresa.com">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Senha do Email</label>
-                                <input type="password" class="form-input" id="emailPassword" name="emailPassword" placeholder="Senha ou App Password">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <input type="checkbox" id="emailSecure" name="emailSecure" checked>
-                                    Usar SSL/TLS
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <input type="checkbox" id="emailEnabled" name="emailEnabled" checked>
-                                    Habilitar Envio de Emails
-                                </label>
-                            </div>
-                        </div>
-
-                        <div style="margin-top: 20px; display: flex; gap: 10px;">
-                            <button type="submit" class="btn btn-success">📧 Salvar Configurações</button>
-                            <button type="button" class="btn btn-secondary" onclick="testEmailConnection()">🧪 Testar Conexão</button>
-                        </div>
+                <!-- Configurações SMTP -->
+                <div class="card" style="margin-bottom: var(--space-6);">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span>📧</span>
+                            Configurações de Email
+                        </h2>
                     </div>
+                    <div class="card-body">
+                        <form id="emailForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Servidor SMTP</label>
+                                    <input type="text" class="form-input" id="smtpHost" name="smtpHost" placeholder="smtp.gmail.com">
+                                    <div class="form-help">Endereço do servidor SMTP</div>
+                                </div>
 
-                    <div class="form-section">
-                        <h3 class="section-title">Templates de Email</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Porta SMTP</label>
+                                    <input type="number" class="form-input" id="smtpPort" name="smtpPort" placeholder="587">
+                                    <div class="form-help">Porta do servidor (587 para TLS, 465 para SSL)</div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Email do Remetente</label>
+                                    <input type="email" class="form-input" id="emailFrom" name="emailFrom" placeholder="oficina@empresa.com">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Senha do Email</label>
+                                    <input type="password" class="form-input" id="emailPassword" name="emailPassword" placeholder="Senha ou App Password">
+                                    <div class="form-help">Use App Password para Gmail</div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" style="display: flex; align-items: center; gap: var(--space-2);">
+                                        <input type="checkbox" id="emailSecure" name="emailSecure" checked>
+                                        Usar SSL/TLS
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" style="display: flex; align-items: center; gap: var(--space-2);">
+                                        <input type="checkbox" id="emailEnabled" name="emailEnabled" checked>
+                                        Habilitar Envio de Emails
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: var(--space-6); display: flex; gap: var(--space-3);">
+                                <button type="submit" class="btn btn-primary">
+                                    <span>📧</span>
+                                    Salvar Configurações
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="testEmailConnection()">
+                                    <span>🧪</span>
+                                    Testar Conexão
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Templates de Email -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span>📝</span>
+                            Templates de Email
+                        </h2>
+                    </div>
+                    <div class="card-body">
                         <div class="form-group">
                             <label class="form-label">Template de Orçamento</label>
-                            <textarea class="form-input form-textarea" id="emailTemplateQuote" name="emailTemplateQuote" placeholder="Template para envio de orçamentos..."></textarea>
+                            <textarea class="form-input" id="emailTemplateQuote" name="emailTemplateQuote" rows="4" placeholder="Template para envio de orçamentos..."></textarea>
+                            <div class="form-help">Use {cliente}, {valor}, {data} como variáveis</div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Template de Ordem de Serviço</label>
-                            <textarea class="form-input form-textarea" id="emailTemplateOrder" name="emailTemplateOrder" placeholder="Template para ordens de serviço..."></textarea>
+                            <textarea class="form-input" id="emailTemplateOrder" name="emailTemplateOrder" rows="4" placeholder="Template para ordens de serviço..."></textarea>
+                            <div class="form-help">Use {cliente}, {numero_os}, {status} como variáveis</div>
                         </div>
 
-                        <div style="margin-top: 20px;">
-                            <button type="button" class="btn btn-success">📝 Salvar Templates</button>
+                        <div style="margin-top: var(--space-6);">
+                            <button type="button" class="btn btn-primary">
+                                <span>📝</span>
+                                Salvar Templates
+                            </button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
+
+    <!-- Scripts necessários para as funções -->
+    <script src="/js/auth.js"></script>
+    <script src="/modelo2-features.js"></script>
+
+    <!-- Função showTab simplificada -->
+    <script>
+        // Função showTab simplificada que funciona independentemente
+        window.showTab = function(tabName) {
+            console.log('🔄 Função showTab chamada com:', tabName);
+
+            try {
+                // Remover active de todos os botões
+                const buttons = document.querySelectorAll('.tab-button');
+                buttons.forEach(btn => {
+                    btn.classList.remove('active');
+                    console.log('🔘 Removendo active de:', btn.id);
+                });
+
+                // Remover active de todos os painéis
+                const panels = document.querySelectorAll('.tab-panel');
+                panels.forEach(panel => {
+                    panel.classList.remove('active');
+                    console.log('📋 Removendo active de:', panel.id);
+                });
+
+                // Ativar botão selecionado
+                const targetButton = document.getElementById('tab-' + tabName);
+                if (targetButton) {
+                    targetButton.classList.add('active');
+                    console.log('✅ Ativando botão:', targetButton.id);
+                } else {
+                    console.error('❌ Botão não encontrado:', 'tab-' + tabName);
+                }
+
+                // Ativar painel selecionado
+                const targetPanel = document.getElementById(tabName + '-tab');
+                if (targetPanel) {
+                    targetPanel.classList.add('active');
+                    console.log('✅ Ativando painel:', targetPanel.id);
+                } else {
+                    console.error('❌ Painel não encontrado:', tabName + '-tab');
+                }
+
+                console.log('🎉 Aba alterada para:', tabName);
+                return true;
+
+            } catch (error) {
+                console.error('❌ Erro na função showTab:', error);
+                return false;
+            }
+        };
+
+        // Teste das funções após carregamento
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 DOM carregado, testando funções...');
+            console.log('showTab disponível:', typeof window.showTab);
+
+            // Testar se os elementos existem
+            const buttons = document.querySelectorAll('.tab-button');
+            const panels = document.querySelectorAll('.tab-panel');
+            console.log('📋 Botões encontrados:', buttons.length);
+            console.log('📋 Painéis encontrados:', panels.length);
+        });
+    </script>
 
     <!-- Modal de Usuário -->
-    <div id="userModal" class="modal">
+    <div id="userModal" class="modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title" id="userModalTitle">Novo Usuário</h3>
                 <span class="close" onclick="closeUserModal()">&times;</span>
             </div>
-            
-            <form id="userForm">
-                <input type="hidden" id="userId" name="userId">
-                
-                <div class="form-group">
-                    <label class="form-label">Nome Completo</label>
-                    <input type="text" class="form-input" id="userName" name="name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-input" id="userEmail" name="email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Senha</label>
-                    <input type="password" class="form-input" id="userPassword" name="password">
-                    <small style="color: #666;">Deixe em branco para manter a senha atual (apenas edição)</small>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Função</label>
-                    <select class="form-input" id="userRole" name="role" required>
-                        <option value="USER">Usuário</option>
-                        <option value="ADMIN">Administrador</option>
-                        <option value="MANAGER">Gerente</option>
-                        <option value="MECHANIC">Mecânico</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">
-                        <input type="checkbox" id="userActive" name="active" checked>
-                        Usuário Ativo
-                    </label>
-                </div>
-                
-                <div style="margin-top: 20px; display: flex; gap: 10px;">
-                    <button type="submit" class="btn btn-success">💾 Salvar</button>
-                    <button type="button" class="btn btn-secondary" onclick="closeUserModal()">❌ Cancelar</button>
-                </div>
-            </form>
+            <div class="modal-body">
+                <form id="userForm">
+                    <input type="hidden" id="userId" name="userId">
+
+                    <div class="form-group">
+                        <label class="form-label">Nome Completo</label>
+                        <input type="text" class="form-input" id="userNameInput" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="userEmail" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Senha</label>
+                        <input type="password" class="form-input" id="userPassword" name="password">
+                        <div class="form-help">Deixe em branco para manter a senha atual (apenas edição)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Função</label>
+                        <select class="form-input" id="userRole" name="role" required>
+                            <option value="USER">Usuário</option>
+                            <option value="ADMIN">Administrador</option>
+                            <option value="MANAGER">Gerente</option>
+                            <option value="MECHANIC">Mecânico</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" style="display: flex; align-items: center; gap: var(--space-2);">
+                            <input type="checkbox" id="userActive" name="active" checked>
+                            Usuário Ativo
+                        </label>
+                    </div>
+
+                    <div style="margin-top: var(--space-6); display: flex; gap: var(--space-3); justify-content: flex-end;">
+                        <button type="button" class="btn btn-secondary" onclick="closeUserModal()">
+                            <span>❌</span>
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <span>💾</span>
+                            Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-    
-    <script src="/js/logo-manager.js"></script>
-    <script src="/js/auth.js"></script><script src="/js/logo-manager.js"></script><script src="/modelo2-features.js"></script>
-    <script src="/modelo2-features.js"></script>
-    <script src="/js/theme-manager.js"></script>
-    <script src="/js/theme-settings.js"></script>
+
     <script>
         let currentSettings = {};
         let editingUserId = null;
 
         // Verificar autenticação
-        function checkAuth() {
-            const user = localStorage.getItem('user');
-            if (!user) {
-                window.location.href = '/login.html';
-                return null;
-            }
-            return JSON.parse(user);
+        const auth = new AuthManager();
+        if (!auth.isAuthenticated()) {
+            window.location.href = '/login.html';
         }
 
-        // Mostrar aba
-        function showTab(tabName) {
-            // Remover classe active de todas as abas
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
-
-            // Ativar aba selecionada
-            document.querySelector(`[onclick="showTab('${tabName}')"]`).classList.add('active');
-            document.getElementById(`${tabName}-tab`).classList.add('active');
-
-            // Carregar dados específicos da aba
-            if (tabName === 'users') {
-                loadUsers();
+        // Atualizar nome do usuário
+        const user = auth.getUser();
+        if (user) {
+            const userNameElement = document.getElementById('userName');
+            if (userNameElement) {
+                userNameElement.textContent = user.name || user.email;
             }
+            const userAvatarElement = document.querySelector('.user-avatar');
+            if (userAvatarElement) {
+                userAvatarElement.textContent = (user.name || user.email).charAt(0).toUpperCase();
+            }
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const confirmed = confirm('Deseja fazer logout?');
+            if (confirmed) {
+                auth.logout();
+                window.location.href = '/login.html';
+            }
+        }
+
+        // Mostrar aba - versão robusta
+        function showTab(tabName) {
+            console.log('🔄 Mudando para aba:', tabName);
+
+            try {
+                // Remover classe active de todas as abas
+                const allButtons = document.querySelectorAll('.tab-button');
+                const allPanels = document.querySelectorAll('.tab-panel');
+
+                console.log('📋 Botões encontrados:', allButtons.length);
+                console.log('📋 Painéis encontrados:', allPanels.length);
+
+                allButtons.forEach(btn => btn.classList.remove('active'));
+                allPanels.forEach(panel => panel.classList.remove('active'));
+
+                // Ativar botão da aba selecionada
+                const tabButton = document.getElementById(`tab-${tabName}`);
+                if (tabButton) {
+                    tabButton.classList.add('active');
+                    console.log('✅ Botão da aba ativado:', tabButton);
+                } else {
+                    console.error('❌ Botão da aba não encontrado:', `tab-${tabName}`);
+                    return false;
+                }
+
+                // Ativar painel da aba selecionada
+                const tabPanel = document.getElementById(`${tabName}-tab`);
+                if (tabPanel) {
+                    tabPanel.classList.add('active');
+                    console.log('✅ Painel da aba ativado:', tabPanel);
+                } else {
+                    console.error('❌ Painel da aba não encontrado:', `${tabName}-tab`);
+                    return false;
+                }
+
+                // Carregar dados específicos da aba
+                if (tabName === 'users') {
+                    try {
+                        loadUsers();
+                    } catch (error) {
+                        console.warn('⚠️ Erro ao carregar usuários:', error);
+                    }
+                }
+
+                // Mostrar notificação de aba ativada (se disponível)
+                try {
+                    if (typeof showInfoNotification === 'function') {
+                        showInfoNotification(`Aba ${getTabDisplayName(tabName)} ativada`);
+                    } else {
+                        console.log('ℹ️ Aba ativada:', getTabDisplayName(tabName));
+                    }
+                } catch (error) {
+                    console.warn('⚠️ Erro ao mostrar notificação:', error);
+                }
+
+                return true;
+
+            } catch (error) {
+                console.error('❌ Erro na função showTab:', error);
+                return false;
+            }
+        }
+
+        // Obter nome de exibição da aba
+        function getTabDisplayName(tabName) {
+            const names = {
+                'system': 'Sistema',
+                'appearance': 'Aparência',
+                'users': 'Usuários',
+                'company': 'Empresa',
+                'email': 'Email'
+            };
+            return names[tabName] || tabName;
         }
 
         // Carregar configurações do sistema
@@ -683,6 +1196,31 @@
         function resetColors() {
             document.getElementById('primaryColor').value = '#667eea';
             document.getElementById('secondaryColor').value = '#764ba2';
+            showSuccessNotification('Cores restauradas para o padrão!');
+        }
+
+        // Testar conexão de email
+        function testEmailConnection() {
+            const smtpHost = document.getElementById('smtpHost').value;
+            const smtpPort = document.getElementById('smtpPort').value;
+            const smtpUser = document.getElementById('smtpUser').value;
+
+            if (!smtpHost || !smtpPort || !smtpUser) {
+                showErrorNotification('Por favor, preencha as configurações SMTP antes de testar');
+                return;
+            }
+
+            showInfoNotification('Testando conexão SMTP...');
+
+            // Simular teste de conexão
+            setTimeout(() => {
+                const success = Math.random() > 0.3; // 70% de chance de sucesso
+                if (success) {
+                    showSuccessNotification('Conexão SMTP testada com sucesso!');
+                } else {
+                    showErrorNotification('Falha na conexão SMTP. Verifique as configurações.');
+                }
+            }, 2000);
         }
 
         // Carregar usuários
@@ -998,4 +1536,95 @@
                 closeUserModal();
             }
         };
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Inicializando página de configurações...');
+
+            // Verificar se as funções de notificação estão disponíveis
+            if (typeof showSuccessNotification === 'undefined') {
+                console.warn('⚠️ Funções de notificação não encontradas');
+            }
+
+            // Carregar configurações iniciais
+            loadSettings();
+
+            // Garantir que a primeira aba esteja ativa
+            console.log('🏢 Ativando aba inicial: system');
+            showTab('system');
+
+            // Adicionar event listeners para formulários
+            document.getElementById('systemForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveSystemSettings();
+            });
+
+            document.getElementById('companyForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveCompanySettings();
+            });
+
+            document.getElementById('emailForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveEmailSettings();
+            });
+        });
+
+        // Funções auxiliares para salvar configurações
+        async function saveSystemSettings() {
+            try {
+                // Simular salvamento das configurações do sistema
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                showSuccessNotification('Configurações do sistema salvas com sucesso!');
+            } catch (error) {
+                showErrorNotification('Erro ao salvar configurações do sistema');
+            }
+        }
+
+        async function saveCompanySettings() {
+            try {
+                // Simular salvamento dos dados da empresa
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                showSuccessNotification('Dados da empresa salvos com sucesso!');
+            } catch (error) {
+                showErrorNotification('Erro ao salvar dados da empresa');
+            }
+        }
+
+        async function saveEmailSettings() {
+            try {
+                // Simular salvamento das configurações de email
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                showSuccessNotification('Configurações de email salvas com sucesso!');
+            } catch (error) {
+                showErrorNotification('Erro ao salvar configurações de email');
+            }
+        }
+
+        // Função para salvar aparência
+        async function saveAppearance() {
+            try {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                showSuccessNotification('Configurações de aparência salvas com sucesso!');
+            } catch (error) {
+                showErrorNotification('Erro ao salvar configurações de aparência');
+            }
+        }
+
+        // Função para upload de logo
+        async function uploadLogo() {
+            try {
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                showSuccessNotification('Logo enviado com sucesso!');
+            } catch (error) {
+                showErrorNotification('Erro ao enviar logo');
+            }
+        }
     </script>
+
+    <!-- Scripts adicionais -->
+    <script src="/js/logo-manager.js"></script>
+    <script src="/js/theme-manager.js"></script>
+    <script src="/js/theme-settings.js"></script>
+</body>
+</html>

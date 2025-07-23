@@ -74,279 +74,349 @@
         <!-- Page Header -->
         <div class="card">
             <div class="card-header">
-                <h1 class="card-title">
-                    <span>⚙️</span>
-                    Cadastro de Peça
-                </h1>
+                <div>
+                    <h1 class="card-title">
+                        <span>⚙️</span>
+                        Cadastro de Peça
+                    </h1>
+                    <p class="card-subtitle">Cadastre uma nova peça no estoque</p>
+                </div>
+                <a href="/parts.html" class="btn btn-secondary">
+                    <span>←</span>
+                    Voltar
+                </a>
             </div>
         </div>
-    <!-- Global menu will be inserted here by global-menu.js -->
-    
+
+        <!-- Formulário -->
+        <div class="card">
+            <div class="card-body">
+                <div id="alert" class="alert" style="display: none;"></div>
+
+                <form id="partForm">
+                    <!-- Informações Básicas -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>📋</span>
+                                Informações Básicas
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name" class="form-label required">Nome da Peça</label>
+                                    <input type="text" id="name" name="name" class="form-input" required placeholder="Digite o nome da peça">
+                                    <div class="form-error" id="nameError"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="internalCode" class="form-label">Código Interno</label>
+                                    <input type="text" id="internalCode" name="internalCode" class="form-input" placeholder="Ex: P001">
+                                    <div class="form-error" id="internalCodeError"></div>
+                                    <div class="form-help">Código único para identificação interna</div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="barcode" class="form-label">Código de Barras</label>
+                                    <input type="text" id="barcode" name="barcode" class="form-input" placeholder="Ex: 7891234567890">
+                                    <div class="form-error" id="barcodeError"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="category" class="form-label">Categoria</label>
+                                    <select id="category" name="category" class="form-input">
+                                        <option value="PARTS">Peças</option>
+                                        <option value="ACCESSORIES">Acessórios</option>
+                                        <option value="FLUIDS">Fluidos</option>
+                                        <option value="TOOLS">Ferramentas</option>
+                                        <option value="CONSUMABLES">Consumíveis</option>
+                                        <option value="OTHER">Outros</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description" class="form-label">Descrição</label>
+                                <textarea id="description" name="description" class="form-input" rows="3" placeholder="Descrição detalhada da peça, aplicação, características..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Especificações -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>🔧</span>
+                                Especificações Técnicas
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="brand" class="form-label">Marca</label>
+                                    <input type="text" id="brand" name="brand" class="form-input" placeholder="Ex: Bosch, Mann, NGK">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="model" class="form-label">Modelo</label>
+                                    <input type="text" id="model" name="model" class="form-input" placeholder="Modelo específico da peça">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="unit" class="form-label">Unidade de Medida</label>
+                                    <select id="unit" name="unit" class="form-input">
+                                        <option value="UN">Unidade (UN)</option>
+                                        <option value="PC">Peça (PC)</option>
+                                        <option value="KG">Quilograma (KG)</option>
+                                        <option value="L">Litro (L)</option>
+                                        <option value="M">Metro (M)</option>
+                                        <option value="M2">Metro Quadrado (M²)</option>
+                                        <option value="CX">Caixa (CX)</option>
+                                        <option value="PCT">Pacote (PCT)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="status" class="form-label">Status</label>
+                                    <select id="status" name="status" class="form-input">
+                                        <option value="ACTIVE">Ativo</option>
+                                        <option value="INACTIVE">Inativo</option>
+                                    </select>
+                                    <div class="form-help">Peças inativas não aparecem nas vendas</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preços -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>💰</span>
+                                Preços e Margem
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="costPrice" class="form-label">Preço de Custo (R$)</label>
+                                    <input type="number" id="costPrice" name="costPrice" class="form-input" min="0" step="0.01" placeholder="0,00">
+                                    <div class="form-help">Valor pago ao fornecedor</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="salePrice" class="form-label">Preço de Venda (R$)</label>
+                                    <input type="number" id="salePrice" name="salePrice" class="form-input" min="0" step="0.01" placeholder="0,00">
+                                    <div class="form-help">Valor cobrado do cliente</div>
+                                </div>
+                            </div>
+
+                            <div id="priceCalculation" style="display: none; margin-top: var(--space-4); padding: var(--space-4); background: var(--bg-secondary); border-radius: var(--radius-md);">
+                                <h4 style="margin-bottom: var(--space-3); color: var(--text-primary);">📊 Análise de Margem</h4>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+                                    <div>
+                                        <div style="font-weight: 600; margin-bottom: var(--space-1);">Margem de Lucro:</div>
+                                        <div id="profitMargin" style="font-size: var(--font-size-lg); font-weight: 600; color: var(--success-color);">0%</div>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600; margin-bottom: var(--space-1);">Lucro por Unidade:</div>
+                                        <div id="profitPerUnit" style="font-size: var(--font-size-lg); font-weight: 600; color: var(--success-color);">R$ 0,00</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Estoque -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>📦</span>
+                                Controle de Estoque
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="stock" class="form-label">Quantidade em Estoque</label>
+                                    <input type="number" id="stock" name="stock" class="form-input" min="0" value="0">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="minStock" class="form-label">Estoque Mínimo</label>
+                                    <input type="number" id="minStock" name="minStock" class="form-input" min="0" value="0">
+                                    <div class="form-help">Quantidade mínima para alerta</div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="maxStock" class="form-label">Estoque Máximo</label>
+                                    <input type="number" id="maxStock" name="maxStock" class="form-input" min="0" placeholder="Opcional">
+                                    <div class="form-help">Limite máximo de estoque</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="reorderPoint" class="form-label">Ponto de Reposição</label>
+                                    <input type="number" id="reorderPoint" name="reorderPoint" class="form-input" min="0" placeholder="Opcional">
+                                    <div class="form-help">Quantidade para nova compra</div>
+                                </div>
+                            </div>
+
+                            <div id="stockInfo" style="display: none; margin-top: var(--space-4); padding: var(--space-4); background: var(--bg-secondary); border-radius: var(--radius-md);">
+                                <h4 style="margin-bottom: var(--space-3); color: var(--text-primary);">📊 Status do Estoque</h4>
+                                <div style="display: flex; align-items: center; gap: var(--space-3);">
+                                    <div id="stockIndicator" style="width: 12px; height: 12px; border-radius: 50%; background: var(--success-color);"></div>
+                                    <span id="stockStatusText" style="font-weight: 600;">Status do Estoque</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fornecedores e Localização -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>🏪</span>
+                                Fornecedores e Localização
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="mainSupplier" class="form-label">Fornecedor Principal</label>
+                                    <input type="text" id="mainSupplier" name="mainSupplier" class="form-input" placeholder="Nome do fornecedor principal">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="location" class="form-label">Localização no Estoque</label>
+                                    <input type="text" id="location" name="location" class="form-input" placeholder="Ex: Estante A1, Prateleira 3">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="alternativeSuppliers" class="form-label">Fornecedores Alternativos</label>
+                                    <textarea id="alternativeSuppliers" name="alternativeSuppliers" class="form-input" rows="3" placeholder="Lista de fornecedores alternativos (um por linha)"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="expiryDate" class="form-label">Data de Validade</label>
+                                    <input type="date" id="expiryDate" name="expiryDate" class="form-input">
+                                    <div class="form-help">Para peças com prazo de validade</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Observações -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>📝</span>
+                                Observações
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="observations" class="form-label">Observações Gerais</label>
+                                <textarea id="observations" name="observations" class="form-input" rows="4" placeholder="Informações adicionais sobre a peça, aplicação, compatibilidade, etc."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ações -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <a href="/parts.html" class="btn btn-secondary">
+                                    <span>←</span>
+                                    Cancelar
+                                </a>
+                                <div style="display: flex; gap: var(--space-3);">
+                                    <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                                        <span>🗑️</span>
+                                        Limpar
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                                        <span>💾</span>
+                                        Salvar Peça
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-    
-    <div class="card"><div class="card-body">
-        <div class="page-header">
-            <h1 class="page-title" id="pageTitle">📦 Nova Peça</h1>
-            <a href="/parts.html" class="btn btn-secondary">← Voltar</a>
-        </div>
-        
-        <div class="form-container">
-            <div id="alert" class="alert hidden"></div>
-            
-            <form id="partForm">
-                <!-- Informações Básicas -->
-                <div class="form-section">
-                    <h3 class="section-title">📋 Informações Básicas</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="name" class="required">Nome da Peça</label>
-                            <input type="text" id="name" name="name" required>
-                            <div class="error" id="nameError"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="internalCode">Código Interno</label>
-                            <input type="text" id="internalCode" name="internalCode" placeholder="Ex: P001">
-                            <div class="error" id="internalCodeError"></div>
-                            <div class="help-text">Código único para identificação interna</div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="barcode">Código de Barras</label>
-                            <input type="text" id="barcode" name="barcode" placeholder="Ex: 7891234567890">
-                            <div class="error" id="barcodeError"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="category">Categoria</label>
-                            <select id="category" name="category">
-                                <option value="PARTS">Peças</option>
-                                <option value="ACCESSORIES">Acessórios</option>
-                                <option value="FLUIDS">Fluidos</option>
-                                <option value="TOOLS">Ferramentas</option>
-                                <option value="CONSUMABLES">Consumíveis</option>
-                                <option value="OTHER">Outros</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="description">Descrição</label>
-                        <textarea id="description" name="description" placeholder="Descrição detalhada da peça..."></textarea>
-                    </div>
-                </div>
-                
-                <!-- Especificações -->
-                <div class="form-section">
-                    <h3 class="section-title">🔧 Especificações</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="brand">Marca</label>
-                            <input type="text" id="brand" name="brand" placeholder="Ex: Bosch, Mann, NGK">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="model">Modelo</label>
-                            <input type="text" id="model" name="model" placeholder="Modelo específico da peça">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="unit">Unidade</label>
-                            <select id="unit" name="unit">
-                                <option value="UN">Unidade (UN)</option>
-                                <option value="PC">Peça (PC)</option>
-                                <option value="KG">Quilograma (KG)</option>
-                                <option value="L">Litro (L)</option>
-                                <option value="M">Metro (M)</option>
-                                <option value="M2">Metro Quadrado (M²)</option>
-                                <option value="CX">Caixa (CX)</option>
-                                <option value="PCT">Pacote (PCT)</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="status">Status</label>
-                            <select id="status" name="status">
-                                <option value="ACTIVE">Ativo</option>
-                                <option value="INACTIVE">Inativo</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Preços -->
-                <div class="form-section">
-                    <h3 class="section-title">💰 Preços</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="costPrice">Preço de Custo (R$)</label>
-                            <input type="number" id="costPrice" name="costPrice" min="0" step="0.01" placeholder="0,00">
-                            <div class="help-text">Valor pago ao fornecedor</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="salePrice">Preço de Venda (R$)</label>
-                            <input type="number" id="salePrice" name="salePrice" min="0" step="0.01" placeholder="0,00">
-                            <div class="help-text">Valor cobrado do cliente</div>
-                        </div>
-                    </div>
-                    
-                    <div class="price-calculation" id="priceCalculation" style="display: none;">
-                        <div class="calculation-row">
-                            <span class="calculation-label">Margem de Lucro:</span>
-                            <span class="calculation-value profit-margin" id="profitMargin">0%</span>
-                        </div>
-                        <div class="calculation-row">
-                            <span class="calculation-label">Lucro por Unidade:</span>
-                            <span class="calculation-value" id="profitPerUnit">R$ 0,00</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Estoque -->
-                <div class="form-section">
-                    <h3 class="section-title">📦 Controle de Estoque</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="stock">Quantidade em Estoque</label>
-                            <input type="number" id="stock" name="stock" min="0" value="0">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="minStock">Estoque Mínimo</label>
-                            <input type="number" id="minStock" name="minStock" min="0" value="0">
-                            <div class="help-text">Quantidade mínima para alerta</div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="maxStock">Estoque Máximo</label>
-                            <input type="number" id="maxStock" name="maxStock" min="0" placeholder="Opcional">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="reorderPoint">Ponto de Reposição</label>
-                            <input type="number" id="reorderPoint" name="reorderPoint" min="0" placeholder="Opcional">
-                            <div class="help-text">Quantidade para nova compra</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stock-info" id="stockInfo" style="display: none;">
-                        <div class="stock-status">
-                            <div class="status-indicator" id="stockIndicator"></div>
-                            <span id="stockStatusText">Status do Estoque</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Fornecedores e Localização -->
-                <div class="form-section">
-                    <h3 class="section-title">🏪 Fornecedores e Localização</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="mainSupplier">Fornecedor Principal</label>
-                            <input type="text" id="mainSupplier" name="mainSupplier" placeholder="Nome do fornecedor principal">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="location">Localização no Estoque</label>
-                            <input type="text" id="location" name="location" placeholder="Ex: Estante A1, Prateleira 3">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="alternativeSuppliers">Fornecedores Alternativos</label>
-                            <textarea id="alternativeSuppliers" name="alternativeSuppliers" placeholder="Lista de fornecedores alternativos (um por linha)"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="expiryDate">Data de Validade</label>
-                            <input type="date" id="expiryDate" name="expiryDate">
-                            <div class="help-text">Para peças com prazo de validade</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Observações -->
-                <div class="form-section">
-                    <h3 class="section-title">📝 Observações</h3>
-                    
-                    <div class="form-group">
-                        <label for="observations">Observações Gerais</label>
-                        <textarea id="observations" name="observations" placeholder="Informações adicionais sobre a peça..."></textarea>
-                    </div>
-                </div>
-                
-                <!-- Ações -->
-                <div class="form-actions">
-                    <a href="/parts.html" class="btn btn-secondary">Cancelar</a>
-                    <button type="submit" class="btn btn-success" id="submitBtn">💾 Salvar Peça</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    </main>
     
     <script>
         let isEditing = false;
         let partId = null;
         
         // Verificar autenticação
-        function checkAuth() {
-            const user = localStorage.getItem('user');
-            if (!user) {
-                window.location.href = '/login.html';
-                return null;
-            }
-            return JSON.parse(user);
-        }
-        
-        // Logout
-        function logout() {
-            localStorage.removeItem('user');
+        const auth = new AuthManager();
+        if (!auth.isAuthenticated()) {
             window.location.href = '/login.html';
         }
-        
-        // Carregar dados do usuário
-        function loadUserInfo() {
-            const user = checkAuth();
-            if (user) {
-                document.getElementById('userName').textContent = `${user.name} (${user.role})`;
+
+        // Atualizar nome do usuário
+        const user = auth.getUser();
+        if (user) {
+            document.getElementById('userName').textContent = user.name || user.email;
+            document.querySelector('.user-avatar').textContent = (user.name || user.email).charAt(0).toUpperCase();
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const confirmed = confirm('Deseja fazer logout?');
+            if (confirmed) {
+                auth.logout();
+                window.location.href = '/login.html';
             }
         }
-        
+
+        // Limpar formulário
+        function clearForm() {
+            if (confirm('Tem certeza que deseja limpar todos os campos?')) {
+                document.getElementById('partForm').reset();
+                document.getElementById('priceCalculation').style.display = 'none';
+                document.getElementById('stockInfo').style.display = 'none';
+            }
+        }
+
         // Calcular margem de lucro
         function calculateProfitMargin() {
             const costPrice = parseFloat(document.getElementById('costPrice').value) || 0;
             const salePrice = parseFloat(document.getElementById('salePrice').value) || 0;
-            
+
             if (costPrice > 0 && salePrice > 0) {
                 const profit = salePrice - costPrice;
                 const margin = (profit / costPrice) * 100;
-                
+
                 document.getElementById('profitMargin').textContent = margin.toFixed(2) + '%';
                 document.getElementById('profitPerUnit').textContent = formatCurrency(profit);
                 document.getElementById('priceCalculation').style.display = 'block';
-                
+
                 // Colorir margem baseado no valor
                 const marginElement = document.getElementById('profitMargin');
+                const profitElement = document.getElementById('profitPerUnit');
+
                 if (margin < 10) {
-                    marginElement.style.color = '#dc3545'; // Vermelho
+                    marginElement.style.color = 'var(--error-color)';
+                    profitElement.style.color = 'var(--error-color)';
                 } else if (margin < 30) {
-                    marginElement.style.color = '#ffc107'; // Amarelo
+                    marginElement.style.color = 'var(--warning-color)';
+                    profitElement.style.color = 'var(--warning-color)';
                 } else {
-                    marginElement.style.color = '#28a745'; // Verde
+                    marginElement.style.color = 'var(--success-color)';
+                    profitElement.style.color = 'var(--success-color)';
                 }
             } else {
                 document.getElementById('priceCalculation').style.display = 'none';
@@ -357,28 +427,25 @@
         function updateStockStatus() {
             const stock = parseInt(document.getElementById('stock').value) || 0;
             const minStock = parseInt(document.getElementById('minStock').value) || 0;
-            
+
             const stockInfo = document.getElementById('stockInfo');
             const indicator = document.getElementById('stockIndicator');
             const statusText = document.getElementById('stockStatusText');
-            
+
             if (stock <= 0) {
-                indicator.className = 'status-indicator status-out-of-stock';
+                indicator.style.background = 'var(--error-color)';
                 statusText.textContent = 'Sem Estoque';
-                stockInfo.style.borderColor = '#f44336';
-                stockInfo.style.backgroundColor = '#ffebee';
-            } else if (stock <= minStock) {
-                indicator.className = 'status-indicator status-low-stock';
+                statusText.style.color = 'var(--error-color)';
+            } else if (stock <= minStock && minStock > 0) {
+                indicator.style.background = 'var(--warning-color)';
                 statusText.textContent = 'Estoque Baixo';
-                stockInfo.style.borderColor = '#ff9800';
-                stockInfo.style.backgroundColor = '#fff3e0';
+                statusText.style.color = 'var(--warning-color)';
             } else {
-                indicator.className = 'status-indicator status-in-stock';
+                indicator.style.background = 'var(--success-color)';
                 statusText.textContent = 'Estoque Normal';
-                stockInfo.style.borderColor = '#4caf50';
-                stockInfo.style.backgroundColor = '#e8f5e8';
+                statusText.style.color = 'var(--success-color)';
             }
-            
+
             stockInfo.style.display = 'block';
         }
         
@@ -395,10 +462,10 @@
             const alert = document.getElementById('alert');
             alert.className = `alert alert-${type}`;
             alert.textContent = message;
-            alert.classList.remove('hidden');
-            
+            alert.style.display = 'block';
+
             setTimeout(() => {
-                alert.classList.add('hidden');
+                alert.style.display = 'none';
             }, 5000);
         }
         
@@ -527,63 +594,52 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    showAlert(result.message || 'Peça salva com sucesso!');
+                    const message = isEditing ? 'Peça atualizada com sucesso!' : 'Peça cadastrada com sucesso!';
+                    showSuccessNotification(message);
                     setTimeout(() => {
                         window.location.href = '/parts.html';
                     }, 2000);
                 } else {
-                    showAlert('Erro: ' + result.error, 'error');
+                    showErrorNotification('Erro: ' + result.error);
                 }
             } catch (error) {
-                showAlert('Erro de conexão: ' + error.message, 'error');
+                showErrorNotification('Erro de conexão: ' + error.message);
             } finally {
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
             }
         });
         
+        // Event listeners para cálculos
+        document.getElementById('costPrice').addEventListener('input', calculateProfitMargin);
+        document.getElementById('salePrice').addEventListener('input', calculateProfitMargin);
+        document.getElementById('stock').addEventListener('input', updateStockStatus);
+        document.getElementById('minStock').addEventListener('input', updateStockStatus);
+
+        // Event listener para o formulário
+        document.getElementById('partForm').addEventListener('submit', handleSubmit);
+
         // Inicializar
         document.addEventListener('DOMContentLoaded', function() {
-            checkAuth();
-            loadUserInfo();
-            
             // Verificar se é edição
             const urlParams = new URLSearchParams(window.location.search);
             partId = urlParams.get('id');
             if (partId) {
                 isEditing = true;
+                document.querySelector('.card-title').innerHTML = '<span>✏️</span> Editar Peça';
+                document.querySelector('.card-subtitle').textContent = 'Edite as informações da peça';
+                document.getElementById('submitBtn').innerHTML = '<span>💾</span> Atualizar Peça';
                 loadPart(partId);
             }
-            
+
             // Atualizar status inicial do estoque
             updateStockStatus();
         });
     </script>
-    <script src="/js/logo-manager.js"></script>
-    
-    
-    </main>
+
+    <!-- Scripts -->
     <script src="/js/auth.js"></script>
     <script src="/js/logo-manager.js"></script>
     <script src="/modelo2-features.js"></script>
-    
-    <script>
-        const auth = new AuthManager();
-        if (!auth.isAuthenticated()) {
-            window.location.href = "/login.html";
-        }
-        const user = auth.getUser();
-        if (user) {
-            document.getElementById("userName").textContent = user.name || user.email;
-            document.querySelector(".user-avatar").textContent = (user.name || user.email).charAt(0).toUpperCase();
-        }
-        function toggleUserMenu() {
-            const confirmed = confirm("Deseja fazer logout?");
-            if (confirmed) {
-                auth.logout();
-                window.location.href = "/login.html";
-            }
-        }
-    </script>
 </body>
 </html>

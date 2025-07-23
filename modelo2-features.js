@@ -492,6 +492,37 @@ const additionalStyles = `
         background: rgba(59, 130, 246, 0.1);
         color: #2563eb;
     }
+
+    /* Estilos para diferentes tipos de notificação */
+    .notification-error {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        border-left: 4px solid #ef4444;
+        color: #991b1b;
+    }
+
+    .notification-error .notification-icon {
+        color: #ef4444;
+    }
+
+    .notification-info {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        border-left: 4px solid #3b82f6;
+        color: #1e40af;
+    }
+
+    .notification-info .notification-icon {
+        color: #3b82f6;
+    }
+
+    .notification-success {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        border-left: 4px solid #10b981;
+        color: #065f46;
+    }
+
+    .notification-success .notification-icon {
+        color: #10b981;
+    }
 `;
 
 // Adicionar estilos ao documento
@@ -499,8 +530,8 @@ const styleSheet = document.createElement('style');
 styleSheet.textContent = additionalStyles;
 document.head.appendChild(styleSheet);
 
-// Mostrar notificação quando a página carrega
-setTimeout(() => {
+// Função global para exibir notificações de sucesso
+function showSuccessNotification(message) {
     const notification = document.createElement('div');
     notification.className = 'notification notification-success';
     notification.style.transform = 'translateX(0)';
@@ -508,18 +539,74 @@ setTimeout(() => {
     notification.innerHTML = `
         <div class="notification-content">
             <span class="notification-icon">✅</span>
-            <span class="notification-message">Dashboard carregado com sucesso!</span>
+            <span class="notification-message">${message}</span>
             <button class="notification-close">&times;</button>
         </div>
     `;
-    
+
     document.body.appendChild(notification);
-    
+
+    // Auto-remover após 4 segundos
     setTimeout(() => {
         removeNotification(notification);
-    }, 3000);
-    
+    }, 4000);
+
+    // Botão de fechar
     notification.querySelector('.notification-close').addEventListener('click', () => {
         removeNotification(notification);
     });
-}, 1000);
+}
+
+// Função global para exibir notificações de erro
+function showErrorNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification notification-error';
+    notification.style.transform = 'translateX(0)';
+    notification.style.opacity = '1';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-icon">❌</span>
+            <span class="notification-message">${message}</span>
+            <button class="notification-close">&times;</button>
+        </div>
+    `;
+
+    document.body.appendChild(notification);
+
+    // Auto-remover após 5 segundos (erro fica mais tempo)
+    setTimeout(() => {
+        removeNotification(notification);
+    }, 5000);
+
+    // Botão de fechar
+    notification.querySelector('.notification-close').addEventListener('click', () => {
+        removeNotification(notification);
+    });
+}
+
+// Função global para exibir notificações de informação
+function showInfoNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification notification-info';
+    notification.style.transform = 'translateX(0)';
+    notification.style.opacity = '1';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-icon">ℹ️</span>
+            <span class="notification-message">${message}</span>
+            <button class="notification-close">&times;</button>
+        </div>
+    `;
+
+    document.body.appendChild(notification);
+
+    // Auto-remover após 3 segundos
+    setTimeout(() => {
+        removeNotification(notification);
+    }, 3000);
+
+    // Botão de fechar
+    notification.querySelector('.notification-close').addEventListener('click', () => {
+        removeNotification(notification);
+    });
+}

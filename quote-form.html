@@ -74,70 +74,72 @@
         <!-- Page Header -->
         <div class="card">
             <div class="card-header">
-                <h1 class="card-title">
-                    <span>📋</span>
-                    Novo Orçamento
-                </h1>
+                <div>
+                    <h1 class="card-title">
+                        <span>📋</span>
+                        Novo Orçamento
+                    </h1>
+                    <p class="card-subtitle">Crie um novo orçamento para o cliente</p>
+                </div>
+                <a href="/quotes.html" class="btn btn-secondary">
+                    <span>←</span>
+                    Voltar
+                </a>
             </div>
         </div>
-    <!-- Global menu will be inserted here by global-menu.js -->
-    
-        </div>
-    </div>
-    
-    <div class="card"><div class="card-body">
-        <div class="page-header">
-            <h1 class="page-title" id="pageTitle">📋 Novo Orçamento</h1>
-            <div>
-                <a href="/quotes.html" class="btn btn-secondary">← Voltar</a>
-            </div>
-        </div>
-        
-        <form id="quoteForm">
-            <!-- Dados Básicos -->
-            <div class="form-section">
-                <div class="section-title">
-                    📝 Dados Básicos
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Cliente *</label>
-                        <select class="form-select" id="customerId" required onchange="loadCustomerVehicles()">
-                            <option value="">Selecione um cliente</option>
-                        </select>
+
+        <!-- Formulário -->
+        <div class="card">
+            <div class="card-body">
+                <form id="quoteForm">
+                    <!-- Dados Básicos -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>📝</span>
+                                Dados Básicos
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label required">Cliente</label>
+                                    <select class="form-input" id="customerId" required onchange="loadCustomerVehicles()">
+                                        <option value="">Selecione um cliente</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Veículo</label>
+                                    <select class="form-input" id="vehicleId">
+                                        <option value="">Selecione um veículo</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label required">Título do Orçamento</label>
+                                    <input type="text" class="form-input" id="title" required placeholder="Ex: Revisão completa, Troca de freios...">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label required">Válido até</label>
+                                    <input type="date" class="form-input" id="validUntil" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Descrição</label>
+                                <textarea class="form-input" id="description" rows="3" placeholder="Descrição detalhada do orçamento..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Solicitação do Cliente</label>
+                                <textarea class="form-input" id="customerRequest" rows="3" placeholder="O que o cliente solicitou..."></textarea>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Veículo</label>
-                        <select class="form-select" id="vehicleId">
-                            <option value="">Selecione um veículo</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Título do Orçamento *</label>
-                        <input type="text" class="form-input" id="title" required placeholder="Ex: Revisão completa, Troca de freios...">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Válido até *</label>
-                        <input type="date" class="form-input" id="validUntil" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Descrição</label>
-                    <textarea class="form-textarea" id="description" placeholder="Descrição detalhada do orçamento..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Solicitação do Cliente</label>
-                    <textarea class="form-textarea" id="customerRequest" placeholder="O que o cliente solicitou..."></textarea>
-                </div>
-            </div>
             
             <!-- Itens do Orçamento -->
             <div class="items-section">
@@ -535,14 +537,17 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    alert(isEditing ? 'Orçamento atualizado com sucesso!' : 'Orçamento criado com sucesso!');
-                    window.location.href = '/quotes.html';
+                    const message = isEditing ? 'Orçamento atualizado com sucesso!' : 'Orçamento criado com sucesso!';
+                    showSuccessNotification(message);
+                    setTimeout(() => {
+                        window.location.href = '/quotes.html';
+                    }, 2000);
                 } else {
-                    alert('Erro ao salvar orçamento: ' + data.error);
+                    showErrorNotification('Erro ao salvar orçamento: ' + data.error);
                 }
             } catch (error) {
                 console.error('Erro ao salvar orçamento:', error);
-                alert('Erro de conexão');
+                showErrorNotification('Erro de conexão');
             }
         }
         

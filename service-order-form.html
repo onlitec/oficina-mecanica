@@ -74,214 +74,273 @@
         <!-- Page Header -->
         <div class="card">
             <div class="card-header">
-                <h1 class="card-title">
-                    <span>🔧</span>
-                    Nova Ordem de Serviço
-                </h1>
+                <div>
+                    <h1 class="card-title">
+                        <span>🔧</span>
+                        Nova Ordem de Serviço
+                    </h1>
+                    <p class="card-subtitle">Crie uma nova ordem de serviço para o cliente</p>
+                </div>
+                <div style="display: flex; gap: var(--space-3); align-items: center;">
+                    <span id="orderNumber" class="badge badge-primary" style="display: none;"></span>
+                    <a href="/service-orders.html" class="btn btn-secondary">
+                        <span>←</span>
+                        Voltar
+                    </a>
+                </div>
             </div>
         </div>
-    <!-- Global menu will be inserted here by global-menu.js -->
-    
+
+        <!-- Formulário -->
+        <div class="card">
+            <div class="card-body">
+                <div id="alert" class="alert" style="display: none;"></div>
+
+                <form id="serviceOrderForm">
+                    <!-- Seleção de Cliente e Veículo -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>👥</span>
+                                Cliente e Veículo
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="customerId" class="form-label required">Cliente</label>
+                                    <select id="customerId" name="customerId" class="form-input" required>
+                                        <option value="">Selecione um cliente...</option>
+                                    </select>
+                                    <div class="form-error" id="customerIdError"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="vehicleId" class="form-label required">Veículo</label>
+                                    <select id="vehicleId" name="vehicleId" class="form-input" required disabled>
+                                        <option value="">Selecione primeiro um cliente...</option>
+                                    </select>
+                                    <div class="form-error" id="vehicleIdError"></div>
+                                </div>
+                            </div>
+
+                            <div id="customerVehicleInfo" style="display: none; margin-top: var(--space-4); padding: var(--space-4); background: var(--bg-secondary); border-radius: var(--radius-md);">
+                                <!-- Informações do cliente e veículo serão exibidas aqui -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dados da Ordem de Serviço -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>📋</span>
+                                Dados da Ordem de Serviço
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="customerComplaint" class="form-label">Reclamação do Cliente</label>
+                                    <textarea id="customerComplaint" name="customerComplaint" class="form-input" rows="3" placeholder="Descreva o problema relatado pelo cliente..."></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="symptoms" class="form-label">Sintomas Observados</label>
+                                    <textarea id="symptoms" name="symptoms" class="form-input" rows="3" placeholder="Descreva os sintomas observados durante a inspeção..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="diagnosis" class="form-label">Diagnóstico Técnico</label>
+                                    <textarea id="diagnosis" name="diagnosis" class="form-input" rows="3" placeholder="Diagnóstico técnico detalhado do problema..."></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="solution" class="form-label">Solução Aplicada</label>
+                                    <textarea id="solution" name="solution" class="form-input" rows="3" placeholder="Descreva a solução aplicada para resolver o problema..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="observations" class="form-label">Observações Gerais</label>
+                                <textarea id="observations" name="observations" class="form-input" rows="3" placeholder="Observações adicionais sobre a ordem de serviço..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Peças -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>📦</span>
+                                Peças Utilizadas
+                            </h2>
+                            <button type="button" class="btn btn-primary" onclick="addPart()">
+                                <span>➕</span>
+                                Adicionar Peça
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="partsList">
+                                <div style="text-align: center; padding: var(--space-6); color: var(--text-secondary);">
+                                    <p>Nenhuma peça adicionada</p>
+                                    <p style="font-size: var(--font-size-sm);">Clique em "Adicionar Peça" para incluir peças utilizadas</p>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--bg-tertiary);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 600;">
+                                    <span>Total em Peças:</span>
+                                    <span id="partsTotal" style="font-size: var(--font-size-lg); color: var(--primary-color);">R$ 0,00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controle e Prazos -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>⚙️</span>
+                                Controle e Prazos
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="status" class="form-label">Status da Ordem</label>
+                                    <select id="status" name="status" class="form-input">
+                                        <option value="OPEN">Aberta</option>
+                                        <option value="DIAGNOSING">Em Diagnóstico</option>
+                                        <option value="WAITING_APPROVAL">Aguardando Aprovação</option>
+                                        <option value="APPROVED">Aprovada</option>
+                                        <option value="WAITING_PARTS">Aguardando Peças</option>
+                                        <option value="IN_PROGRESS">Em Execução</option>
+                                        <option value="WAITING_PAYMENT">Aguardando Pagamento</option>
+                                        <option value="COMPLETED">Concluída</option>
+                                        <option value="CANCELLED">Cancelada</option>
+                                    </select>
+                                    <div style="margin-top: var(--space-2);">
+                                        <span id="statusBadge" class="badge badge-primary">Aberta</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="estimatedDate" class="form-label">Previsão de Entrega</label>
+                                    <input type="datetime-local" id="estimatedDate" name="estimatedDate" class="form-input">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="vehicleMileage" class="form-label">Quilometragem Atual</label>
+                                    <input type="number" id="vehicleMileage" name="vehicleMileage" class="form-input" min="0" placeholder="Ex: 50000">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="assignedToId" class="form-label">Responsável Técnico</label>
+                                    <select id="assignedToId" name="assignedToId" class="form-input">
+                                        <option value="">Selecione um técnico...</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Prioridade</label>
+                                <div style="display: flex; gap: var(--space-4); margin-top: var(--space-2);">
+                                    <label class="radio-card" style="flex: none; min-height: auto;">
+                                        <input type="radio" id="priority_low" name="priority" value="LOW">
+                                        <div class="radio-card-content" style="padding: var(--space-2); min-height: auto;">
+                                            <span class="radio-card-title" style="font-size: var(--font-size-sm);">Baixa</span>
+                                        </div>
+                                    </label>
+                                    <label class="radio-card" style="flex: none; min-height: auto;">
+                                        <input type="radio" id="priority_normal" name="priority" value="NORMAL" checked>
+                                        <div class="radio-card-content" style="padding: var(--space-2); min-height: auto;">
+                                            <span class="radio-card-title" style="font-size: var(--font-size-sm);">Normal</span>
+                                        </div>
+                                    </label>
+                                    <label class="radio-card" style="flex: none; min-height: auto;">
+                                        <input type="radio" id="priority_high" name="priority" value="HIGH">
+                                        <div class="radio-card-content" style="padding: var(--space-2); min-height: auto;">
+                                            <span class="radio-card-title" style="font-size: var(--font-size-sm);">Alta</span>
+                                        </div>
+                                    </label>
+                                    <label class="radio-card" style="flex: none; min-height: auto;">
+                                        <input type="radio" id="priority_urgent" name="priority" value="URGENT">
+                                        <div class="radio-card-content" style="padding: var(--space-2); min-height: auto;">
+                                            <span class="radio-card-title" style="font-size: var(--font-size-sm);">Urgente</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Valores -->
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>💰</span>
+                                Valores
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="laborValue" class="form-label">Valor da Mão de Obra (R$)</label>
+                                    <input type="number" id="laborValue" name="laborValue" class="form-input" min="0" step="0.01" placeholder="0,00">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="partsValue" class="form-label">Valor das Peças (R$)</label>
+                                    <input type="number" id="partsValue" name="partsValue" class="form-input" min="0" step="0.01" placeholder="0,00" readonly>
+                                    <div class="form-help">Calculado automaticamente com base nas peças adicionadas</div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="discount" class="form-label">Desconto (R$)</label>
+                                    <input type="number" id="discount" name="discount" class="form-input" min="0" step="0.01" placeholder="0,00">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="totalValue" class="form-label">Valor Total (R$)</label>
+                                    <input type="number" id="totalValue" name="totalValue" class="form-input" min="0" step="0.01" placeholder="0,00" readonly>
+                                    <div class="form-help">Calculado automaticamente (Mão de obra + Peças - Desconto)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ações -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <a href="/service-orders.html" class="btn btn-secondary">
+                                    <span>←</span>
+                                    Cancelar
+                                </a>
+                                <div style="display: flex; gap: var(--space-3);">
+                                    <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                                        <span>🗑️</span>
+                                        Limpar
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                                        <span>💾</span>
+                                        Salvar Ordem de Serviço
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-    
-    <div class="card"><div class="card-body">
-        <div class="page-header">
-            <h1 class="page-title" id="pageTitle">🔧 Nova Ordem de Serviço</h1>
-            <a href="/service-orders.html" class="btn btn-secondary">← Voltar</a>
-        </div>
-        
-        <div class="form-container">
-            <div id="alert" class="alert hidden"></div>
-            
-            <form id="serviceOrderForm">
-                <!-- Seleção de Cliente e Veículo -->
-                <div class="form-section">
-                    <h3 class="section-title">
-                        👥 Cliente e Veículo
-                        <span id="orderNumber" class="order-number hidden"></span>
-                    </h3>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="customerId" class="required">Cliente</label>
-                            <select id="customerId" name="customerId" required>
-                                <option value="">Selecione um cliente...</option>
-                            </select>
-                            <div class="error" id="customerIdError"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="vehicleId" class="required">Veículo</label>
-                            <select id="vehicleId" name="vehicleId" required disabled>
-                                <option value="">Selecione primeiro um cliente...</option>
-                            </select>
-                            <div class="error" id="vehicleIdError"></div>
-                        </div>
-                    </div>
-                    
-                    <div id="customerVehicleInfo" class="customer-vehicle-info hidden">
-                        <!-- Informações do cliente e veículo serão exibidas aqui -->
-                    </div>
-                </div>
-                
-                <!-- Dados da Ordem de Serviço -->
-                <div class="form-section">
-                    <h3 class="section-title">📋 Dados da Ordem de Serviço</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="customerComplaint">Reclamação do Cliente</label>
-                            <textarea id="customerComplaint" name="customerComplaint" placeholder="Descreva o problema relatado pelo cliente..."></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="symptoms">Sintomas Observados</label>
-                            <textarea id="symptoms" name="symptoms" placeholder="Descreva os sintomas observados..."></textarea>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="diagnosis">Diagnóstico Técnico</label>
-                            <textarea id="diagnosis" name="diagnosis" placeholder="Diagnóstico técnico do problema..."></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="solution">Solução Aplicada</label>
-                            <textarea id="solution" name="solution" placeholder="Descreva a solução aplicada..."></textarea>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="observations">Observações Gerais</label>
-                        <textarea id="observations" name="observations" placeholder="Observações adicionais sobre a ordem de serviço..."></textarea>
-                    </div>
-                </div>
-
-                <!-- Peças -->
-                <div class="form-section">
-                    <h3 class="section-title">📦 Peças Utilizadas</h3>
-
-                    <div class="parts-section">
-                        <div class="parts-header">
-                            <button type="button" class="btn btn-success" onclick="addPart()">+ Adicionar Peça</button>
-                        </div>
-
-                        <div id="partsList" class="parts-list">
-                            <!-- Peças serão adicionadas aqui dinamicamente -->
-                        </div>
-
-                        <div class="parts-total">
-                            <div class="total-row">
-                                <span class="total-label">Total em Peças:</span>
-                                <span class="total-value" id="partsTotal">R$ 0,00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Controle e Datas -->
-                <div class="form-section">
-                    <h3 class="section-title">⚙️ Controle e Prazos</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="status">Status da Ordem</label>
-                            <select id="status" name="status">
-                                <option value="OPEN">Aberta</option>
-                                <option value="DIAGNOSING">Em Diagnóstico</option>
-                                <option value="WAITING_APPROVAL">Aguardando Aprovação</option>
-                                <option value="APPROVED">Aprovada</option>
-                                <option value="WAITING_PARTS">Aguardando Peças</option>
-                                <option value="IN_PROGRESS">Em Execução</option>
-                                <option value="WAITING_PAYMENT">Aguardando Pagamento</option>
-                                <option value="COMPLETED">Concluída</option>
-                                <option value="CANCELLED">Cancelada</option>
-                            </select>
-                            <span id="statusBadge" class="status-badge badge-open">Aberta</span>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="estimatedDate">Previsão de Entrega</label>
-                            <input type="datetime-local" id="estimatedDate" name="estimatedDate">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="vehicleMileage">Quilometragem Atual</label>
-                            <input type="number" id="vehicleMileage" name="vehicleMileage" min="0" placeholder="Ex: 50000">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="assignedToId">Responsável Técnico</label>
-                            <select id="assignedToId" name="assignedToId">
-                                <option value="">Selecione um técnico...</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Prioridade</label>
-                        <div class="priority-options">
-                            <div class="priority-option">
-                                <input type="radio" id="priority_low" name="priority" value="LOW">
-                                <label for="priority_low">Baixa</label>
-                            </div>
-                            <div class="priority-option">
-                                <input type="radio" id="priority_normal" name="priority" value="NORMAL" checked>
-                                <label for="priority_normal">Normal</label>
-                            </div>
-                            <div class="priority-option">
-                                <input type="radio" id="priority_high" name="priority" value="HIGH">
-                                <label for="priority_high">Alta</label>
-                            </div>
-                            <div class="priority-option">
-                                <input type="radio" id="priority_urgent" name="priority" value="URGENT">
-                                <label for="priority_urgent">Urgente</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Valores -->
-                <div class="form-section">
-                    <h3 class="section-title">💰 Valores</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="laborValue">Valor da Mão de Obra (R$)</label>
-                            <input type="number" id="laborValue" name="laborValue" min="0" step="0.01" placeholder="0,00">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="partsValue">Valor das Peças (R$)</label>
-                            <input type="number" id="partsValue" name="partsValue" min="0" step="0.01" placeholder="0,00">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="discount">Desconto (R$)</label>
-                            <input type="number" id="discount" name="discount" min="0" step="0.01" placeholder="0,00">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="totalValue">Valor Total (R$)</label>
-                            <input type="number" id="totalValue" name="totalValue" min="0" step="0.01" placeholder="0,00" readonly>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Ações -->
-                <div class="form-actions">
-                    <a href="/service-orders.html" class="btn btn-secondary">Cancelar</a>
-                    <button type="submit" class="btn btn-success" id="submitBtn">💾 Salvar Ordem de Serviço</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    </main>
     
     <script>
         let isEditing = false;
@@ -629,15 +688,16 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    showAlert(result.message || 'Ordem de serviço salva com sucesso!');
+                    const message = isEditing ? 'Ordem de serviço atualizada com sucesso!' : 'Ordem de serviço criada com sucesso!';
+                    showSuccessNotification(message);
                     setTimeout(() => {
                         window.location.href = '/service-orders.html';
                     }, 2000);
                 } else {
-                    showAlert('Erro: ' + result.error, 'error');
+                    showErrorNotification('Erro: ' + result.error);
                 }
             } catch (error) {
-                showAlert('Erro de conexão: ' + error.message, 'error');
+                showErrorNotification('Erro de conexão: ' + error.message);
             } finally {
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
