@@ -1,0 +1,7 @@
+/* Menu Final CSS - Arquivo CSS separado para corrigir MIME type */
+
+/* Este arquivo foi criado para resolver o problema de MIME type */
+/* Todo o CSS está integrado no main.css */
+
+/* Redirecionamento para main.css */
+@import url('./styles/main.css');

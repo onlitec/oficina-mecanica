@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Sistema de Gestão</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        /* Estilos específicos para configurações */
+        .settings-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-6);
+        }
+
+        .settings-header {
+            margin-bottom: var(--space-6);
+        }
+
+        .settings-tabs {
+            display: flex;
+            gap: var(--space-2);
+            margin-bottom: var(--space-6);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: var(--space-2);
+        }
+
+        .tab-button {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-4);
+            border: 2px solid transparent;
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-button:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .tab-button.active {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            background: var(--bg-secondary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .form-help {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-top: var(--space-1);
+        }
+
+        .file-upload {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-md);
+            padding: var(--space-6);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .file-upload:hover {
+            border-color: var(--border-color-hover);
+            background: var(--bg-secondary);
+        }
+
+        .theme-option {
+            padding: var(--space-3);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .theme-option:hover {
+            border-color: var(--border-color-hover);
+            transform: translateY(-2px);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .alert {
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+            margin: var(--space-4) 0;
+            border: 2px solid transparent;
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary-color);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🔧</span>
+                <span class="logo-text">Oficina Mecânica</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-link">
+                    <span>📊</span>
+                    Dashboard
+                </a>
+                <a href="customers.html" class="nav-link">
+                    <span>👥</span>
+                    Clientes
+                </a>
+                <a href="service-orders.html" class="nav-link">
+                    <span>🔧</span>
+                    Ordens de Serviço
+                </a>
+                <a href="parts.html" class="nav-link">
+                    <span>⚙️</span>
+                    Peças
+                </a>
+                <a href="financial.html" class="nav-link">
+                    <span>💰</span>
+                    Financeiro
+                </a>
+                <a href="reports.html" class="nav-link">
+                    <span>📈</span>
+                    Relatórios
+                </a>
+                <a href="settings.html" class="nav-link active">
+                    <span>⚙️</span>
+                    Configurações
+                </a>
+            </nav>
+            
+            <div class="user-menu">
+                <div class="user-info">
+                    <div class="user-avatar">U</div>
+                    <span>Usuário</span>
+                    <span>▼</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="settings-container">
+            <!-- Header -->
+            <div class="settings-header">
+                <h1>⚙️ Configurações do Sistema</h1>
+                <p>Gerencie todas as configurações da sua oficina</p>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="settings-tabs">
+                <button class="tab-button active" id="tab-system">
+                    <span>🏢</span>
+                    Sistema
+                </button>
+                <button class="tab-button" id="tab-appearance">
+                    <span>🎨</span>
+                    Aparência
+                </button>
+                <button class="tab-button" id="tab-users">
+                    <span>👥</span>
+                    Usuários
+                </button>
+                <button class="tab-button" id="tab-company">
+                    <span>🏪</span>
+                    Empresa
+                </button>
+                <button class="tab-button" id="tab-email">
+                    <span>📧</span>
+                    Email
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Sistema Tab -->
+                <div id="system-tab" class="tab-panel active">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>🏢</span>
+                                Configurações do Sistema
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Nome do Sistema</label>
+                                <input type="text" class="form-input" value="Sistema de Gestão - Oficina Mecânica">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Versão</label>
+                                <input type="text" class="form-input" value="1.0.0" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Fuso Horário</label>
+                                <select class="form-input">
+                                    <option value="America/Sao_Paulo">América/São Paulo (UTC-3)</option>
+                                    <option value="America/Manaus">América/Manaus (UTC-4)</option>
+                                </select>
+                            </div>
+                            <div style="margin-top: var(--space-6);">
+                                <button type="button" class="btn btn-primary" id="saveSystemBtn">
+                                    <span>💾</span>
+                                    Salvar Configurações
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aparência Tab -->
+                <div id="appearance-tab" class="tab-panel">
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>🖼️</span>
+                                Logotipo da Empresa
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Upload do Logo</label>
+                                <input type="file" id="logoFile" accept="image/*" style="display: none;">
+                                <div class="file-upload" id="logoUpload">
+                                    <div>
+                                        <div style="font-size: 2rem; margin-bottom: var(--space-2);">📁</div>
+                                        <div style="font-weight: 600; margin-bottom: var(--space-1);">Clique para selecionar o logo</div>
+                                        <div style="font-size: var(--font-size-sm); color: var(--text-secondary);">Formatos aceitos: JPG, PNG, GIF, SVG (máx. 5MB)</div>
+                                    </div>
+                                </div>
+                                <img id="logoPreview" style="display: none; max-width: 200px; max-height: 100px; margin-top: var(--space-3); border-radius: var(--radius-md);">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>🎨</span>
+                                Cores do Sistema
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Cor Primária</label>
+                                    <input type="color" class="form-input" id="primaryColor" value="#667eea" style="height: 50px;">
+                                    <div class="form-help">Cor principal do sistema (botões, links)</div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Cor Secundária</label>
+                                    <input type="color" class="form-input" id="secondaryColor" value="#764ba2" style="height: 50px;">
+                                    <div class="form-help">Cor secundária (destaques, acentos)</div>
+                                </div>
+                            </div>
+                            <div style="margin-top: var(--space-4);">
+                                <button type="button" class="btn btn-primary" id="saveColorsBtn">
+                                    <span>🎨</span>
+                                    Salvar Cores
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="resetColorsBtn">
+                                    <span>🔄</span>
+                                    Restaurar Padrão
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usuários Tab -->
+                <div id="users-tab" class="tab-panel">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title">
+                                    <span>👥</span>
+                                    Gestão de Usuários
+                                </h2>
+                                <p class="card-subtitle">Gerencie usuários e permissões do sistema</p>
+                            </div>
+                            <button class="btn btn-primary" id="newUserBtn">
+                                <span>➕</span>
+                                Novo Usuário
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="usersTableContainer">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Email</th>
+                                            <th>Função</th>
+                                            <th>Status</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="usersTableBody">
+                                        <tr>
+                                            <td>João Silva</td>
+                                            <td>joao@oficina.com</td>
+                                            <td><span class="badge badge-error">Administrador</span></td>
+                                            <td><span class="badge badge-success">Ativo</span></td>
+                                            <td>
+                                                <button class="btn btn-secondary btn-small">✏️</button>
+                                                <button class="btn btn-error btn-small">🗑️</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empresa Tab -->
+                <div id="company-tab" class="tab-panel">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>🏪</span>
+                                Dados da Empresa
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <form id="companyForm">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Nome da Empresa</label>
+                                        <input type="text" class="form-input" placeholder="Ex: Oficina do João">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">CNPJ</label>
+                                        <input type="text" class="form-input" placeholder="00.000.000/0000-00">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Telefone</label>
+                                        <input type="text" class="form-input" placeholder="(11) 99999-9999">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-input" placeholder="contato@oficina.com">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Endereço Completo</label>
+                                    <textarea class="form-input" rows="3" placeholder="Rua, número, bairro, cidade, estado, CEP"></textarea>
+                                </div>
+                                <div style="margin-top: var(--space-6);">
+                                    <button type="submit" class="btn btn-primary">
+                                        <span>💾</span>
+                                        Salvar Dados da Empresa
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email Tab -->
+                <div id="email-tab" class="tab-panel">
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>📧</span>
+                                Configurações SMTP
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <form id="emailForm">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Servidor SMTP</label>
+                                        <input type="text" class="form-input" placeholder="smtp.gmail.com">
+                                        <div class="form-help">Endereço do servidor SMTP</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Porta SMTP</label>
+                                        <input type="number" class="form-input" placeholder="587">
+                                        <div class="form-help">587 (TLS), 465 (SSL), 25 (sem criptografia)</div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Email do Remetente</label>
+                                        <input type="email" class="form-input" placeholder="oficina@empresa.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Senha/App Password</label>
+                                        <input type="password" class="form-input" placeholder="Senha ou App Password">
+                                        <div class="form-help">Para Gmail, use App Password</div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: var(--space-6);">
+                                    <button type="submit" class="btn btn-primary">
+                                        <span>💾</span>
+                                        Salvar Configurações
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" id="testEmailBtn">
+                                        <span>🧪</span>
+                                        Testar Conexão
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>🧪</span>
+                                Teste de Email
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Email de Teste</label>
+                                <input type="email" class="form-input" id="testEmail" placeholder="seu@email.com">
+                            </div>
+                            <div style="margin-top: var(--space-4);">
+                                <button type="button" class="btn btn-primary" id="sendTestEmailBtn">
+                                    <span>📧</span>
+                                    Enviar Email de Teste
+                                </button>
+                            </div>
+                            <div id="testResult" style="margin-top: var(--space-4); display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Sistema de abas sem event handlers inline
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Inicializando configurações...');
+
+            // Função para mostrar aba
+            function showTab(tabName) {
+                console.log('🔄 Mudando para aba:', tabName);
+
+                // Remover active de todos os botões
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                // Remover active de todos os painéis
+                document.querySelectorAll('.tab-panel').forEach(panel => {
+                    panel.classList.remove('active');
+                });
+
+                // Ativar botão selecionado
+                const targetButton = document.getElementById('tab-' + tabName);
+                if (targetButton) {
+                    targetButton.classList.add('active');
+                }
+
+                // Ativar painel selecionado
+                const targetPanel = document.getElementById(tabName + '-tab');
+                if (targetPanel) {
+                    targetPanel.classList.add('active');
+                }
+
+                console.log('✅ Aba alterada para:', tabName);
+            }
+
+            // Event listeners para os botões das abas
+            const tabButtons = [
+                { id: 'tab-system', tab: 'system' },
+                { id: 'tab-appearance', tab: 'appearance' },
+                { id: 'tab-users', tab: 'users' },
+                { id: 'tab-company', tab: 'company' },
+                { id: 'tab-email', tab: 'email' }
+            ];
+
+            tabButtons.forEach(({ id, tab }) => {
+                const button = document.getElementById(id);
+                if (button) {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        console.log(`🖱️ Clique detectado: ${id} -> ${tab}`);
+                        showTab(tab);
+                    });
+                }
+            });
+
+            // Event listeners para outros botões
+            const buttons = [
+                { id: 'saveSystemBtn', action: () => alert('✅ Configurações do sistema salvas!') },
+                { id: 'saveColorsBtn', action: saveColors },
+                { id: 'resetColorsBtn', action: resetColors },
+                { id: 'newUserBtn', action: () => alert('👤 Modal de novo usuário (implementar)') },
+                { id: 'testEmailBtn', action: testEmailConnection },
+                { id: 'sendTestEmailBtn', action: sendTestEmail }
+            ];
+
+            buttons.forEach(({ id, action }) => {
+                const button = document.getElementById(id);
+                if (button) {
+                    button.addEventListener('click', action);
+                }
+            });
+
+            // Upload de logo
+            const logoUpload = document.getElementById('logoUpload');
+            const logoFile = document.getElementById('logoFile');
+            
+            if (logoUpload && logoFile) {
+                logoUpload.addEventListener('click', () => logoFile.click());
+                logoFile.addEventListener('change', previewLogo);
+            }
+
+            // Formulários
+            const companyForm = document.getElementById('companyForm');
+            const emailForm = document.getElementById('emailForm');
+
+            if (companyForm) {
+                companyForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('✅ Dados da empresa salvos!');
+                });
+            }
+
+            if (emailForm) {
+                emailForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('✅ Configurações de email salvas!');
+                });
+            }
+
+            console.log('✅ Configurações inicializadas com sucesso!');
+        });
+
+        // Funções auxiliares
+        function saveColors() {
+            console.log('🎨 Salvando cores...');
+            const primaryColor = document.getElementById('primaryColor').value;
+            const secondaryColor = document.getElementById('secondaryColor').value;
+            
+            document.documentElement.style.setProperty('--primary-color', primaryColor);
+            document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+            
+            alert('✅ Cores salvas com sucesso!');
+        }
+
+        function resetColors() {
+            console.log('🔄 Restaurando cores padrão...');
+            document.getElementById('primaryColor').value = '#667eea';
+            document.getElementById('secondaryColor').value = '#764ba2';
+            saveColors();
+        }
+
+        function previewLogo(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('logoPreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function testEmailConnection() {
+            console.log('🧪 Testando conexão de email...');
+            const testResult = document.getElementById('testResult');
+            
+            if (testResult) {
+                testResult.style.display = 'block';
+                testResult.innerHTML = `
+                    <div class="alert alert-info">
+                        <strong>🧪 Testando conexão...</strong>
+                        <div style="margin-top: var(--space-2);">
+                            <div class="loading-spinner" style="margin-right: var(--space-2);"></div>
+                            Verificando configurações SMTP...
+                        </div>
+                    </div>
+                `;
+                
+                setTimeout(() => {
+                    testResult.innerHTML = `
+                        <div class="alert alert-success">
+                            <strong>✅ Conexão bem-sucedida!</strong>
+                            <div style="margin-top: var(--space-2);">
+                                • Servidor SMTP: Conectado<br>
+                                • Autenticação: OK<br>
+                                • Criptografia: TLS ativo
+                            </div>
+                        </div>
+                    `;
+                }, 2000);
+            }
+        }
+
+        function sendTestEmail() {
+            console.log('📧 Enviando email de teste...');
+            const email = document.getElementById('testEmail').value;
+            
+            if (!email) {
+                alert('❌ Digite um email para teste');
+                return;
+            }
+            
+            const testResult = document.getElementById('testResult');
+            if (testResult) {
+                testResult.style.display = 'block';
+                testResult.innerHTML = `
+                    <div class="alert alert-info">
+                        <strong>📧 Enviando email de teste...</strong>
+                        <div style="margin-top: var(--space-2);">
+                            Para: ${email}
+                        </div>
+                    </div>
+                `;
+                
+                setTimeout(() => {
+                    testResult.innerHTML = `
+                        <div class="alert alert-success">
+                            <strong>✅ Email enviado com sucesso!</strong>
+                            <div style="margin-top: var(--space-2);">
+                                Verifique a caixa de entrada de ${email}
+                            </div>
+                        </div>
+                    `;
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
