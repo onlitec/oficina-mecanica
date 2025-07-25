@@ -5,25 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Cliente - Oficina Mecânica</title>
     <link rel="stylesheet" href="/styles/main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/menu-unified.css">
+    <link rel="stylesheet" href="/styles/forms.css">
 </head>
 <body class="dashboard-layout">
-    <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <a href="/" class="logo">
-                <span class="logo-icon">🚗</span>
-                <span>Minha Oficina</span>
-            </a>
+            <div class="logo">
+                <span class="logo-icon">🔧</span>
+                <span class="logo-text">Oficina Mecânica</span>
+            </div>
             
-            <nav>
-                <ul class="nav-menu">
+            <nav class="nav-menu">
+                <ul class="nav-list">
                     <li class="nav-item">
                         <a href="/dashboard.html" class="nav-link">
                             <span>📊</span>
-                            Dashboard
+                            Visão Geral
                         </a>
                     </li>
                     <li class="nav-item">
@@ -66,7 +64,7 @@
             </nav>
             
             <div class="user-menu">
-                <div class="user-info" onclick="toggleUserMenu()">
+                <div class="user-info">
                     <div class="user-avatar">U</div>
                     <span id="userName">Usuário</span>
                     <span>▼</span>
@@ -75,18 +73,13 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="main-content">
-        <!-- Page Header -->
-        <div class="card">
-            <div class="card-header">
-                <div>
-                    <h1 class="card-title">
-                        <span>👤</span>
-                        Cadastro de Cliente
-                    </h1>
-                    <p class="card-subtitle">Cadastre um novo cliente no sistema</p>
-                </div>
+        <div class="page-header">
+            <div class="page-title">
+                <h1 id="pageTitle">➕ Cadastrar Cliente</h1>
+                <p>Cadastre um novo cliente no sistema</p>
+            </div>
+            <div class="page-actions">
                 <a href="/customers.html" class="btn btn-secondary">
                     <span>←</span>
                     Voltar
@@ -94,291 +87,226 @@
             </div>
         </div>
 
-        <!-- Formulário -->
-        <div class="card">
-            <div class="card-body">
-                <div id="alert" class="alert" style="display: none;"></div>
-
-                <form id="customerForm">
-                    <!-- Seletor de Tipo -->
-                    <div class="card" style="margin-bottom: var(--space-6);">
-                        <div class="card-header">
-                            <h2 class="card-title">
-                                <span>🏷️</span>
-                                Tipo de Cliente
-                            </h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <div style="display: flex; gap: var(--space-4);">
-                                        <label class="radio-card">
-                                            <input type="radio" id="individual" name="type" value="INDIVIDUAL" checked>
-                                            <div class="radio-card-content">
-                                                <span class="radio-card-icon">👤</span>
-                                                <span class="radio-card-title">Pessoa Física</span>
-                                                <span class="radio-card-subtitle">CPF, RG, Data de Nascimento</span>
-                                            </div>
-                                        </label>
-                                        <label class="radio-card">
-                                            <input type="radio" id="company" name="type" value="COMPANY">
-                                            <div class="radio-card-content">
-                                                <span class="radio-card-icon">🏢</span>
-                                                <span class="radio-card-title">Pessoa Jurídica</span>
-                                                <span class="radio-card-subtitle">CNPJ, Razão Social, Inscrição</span>
-                                            </div>
-                                        </label>
+        <div class="content-wrapper">
+            <div class="form-container">
+                <form id="customerForm" class="customer-form">
+                    <!-- Tipo de Cliente -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <span>👤</span>
+                            Tipo de Cliente
+                        </h2>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="individual" name="type" value="INDIVIDUAL" checked>
+                                <label for="individual">
+                                    <span class="radio-icon">👤</span>
+                                    <div>
+                                        <strong>Pessoa Física</strong>
+                                        <small>Cliente individual</small>
                                     </div>
-                                </div>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="company" name="type" value="COMPANY">
+                                <label for="company">
+                                    <span class="radio-icon">🏢</span>
+                                    <div>
+                                        <strong>Pessoa Jurídica</strong>
+                                        <small>Empresa ou organização</small>
+                                    </div>
+                                </label>
                             </div>
                         </div>
                     </div>
 
                     <!-- Dados Básicos -->
-                    <div class="card" style="margin-bottom: var(--space-6);">
-                        <div class="card-header">
-                            <h2 class="card-title">
-                                <span>📋</span>
-                                Dados Básicos
-                            </h2>
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <span>📝</span>
+                            Dados Básicos
+                        </h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name" class="required">Nome/Razão Social</label>
+                                <input type="text" id="name" name="name" required>
+                                <span class="error" id="nameError"></span>
+                            </div>
                         </div>
-                        <div class="card-body">
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cpfCnpj" class="required" id="cpfCnpjLabel">CPF</label>
+                                <input type="text" id="cpfCnpj" name="cpfCnpj" placeholder="000.000.000-00" required>
+                                <span class="error" id="cpfCnpjError"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email">
+                                <span class="error" id="emailError"></span>
+                            </div>
+                        </div>
+
+                        <!-- Campos específicos para Pessoa Física -->
+                        <div id="individualFields" class="conditional-fields">
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="name" class="form-label required">Nome Completo</label>
-                                    <input type="text" id="name" name="name" class="form-input" required placeholder="Digite o nome completo">
-                                    <div class="form-error" id="nameError"></div>
+                                    <label for="rg">RG</label>
+                                    <input type="text" id="rg" name="rg">
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="cpfCnpj" class="form-label required" id="cpfCnpjLabel">CPF</label>
-                                    <input type="text" id="cpfCnpj" name="cpfCnpj" class="form-input" required placeholder="000.000.000-00">
-                                    <div class="form-error" id="cpfCnpjError"></div>
+                                    <label for="birthDate">Data de Nascimento</label>
+                                    <input type="date" id="birthDate" name="birthDate">
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Campos específicos PF -->
-                            <div id="individualFields">
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="rg" class="form-label">RG</label>
-                                        <input type="text" id="rg" name="rg" class="form-input" placeholder="00.000.000-0">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="birthDate" class="form-label">Data de Nascimento</label>
-                                        <input type="date" id="birthDate" name="birthDate" class="form-input">
-                                    </div>
+                        <!-- Campos específicos para Pessoa Jurídica -->
+                        <div id="companyFields" class="conditional-fields hidden">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="companyName">Nome da Empresa</label>
+                                    <input type="text" id="companyName" name="companyName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fantasyName">Nome Fantasia</label>
+                                    <input type="text" id="fantasyName" name="fantasyName">
                                 </div>
                             </div>
-
-                            <!-- Campos específicos PJ -->
-                            <div id="companyFields" style="display: none;">
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="companyName" class="form-label">Razão Social</label>
-                                        <input type="text" id="companyName" name="companyName" class="form-input" placeholder="Nome da empresa">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="fantasyName" class="form-label">Nome Fantasia</label>
-                                        <input type="text" id="fantasyName" name="fantasyName" class="form-input" placeholder="Nome fantasia">
-                                    </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="stateRegistration">Inscrição Estadual</label>
+                                    <input type="text" id="stateRegistration" name="stateRegistration">
                                 </div>
-
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="stateRegistration" class="form-label">Inscrição Estadual</label>
-                                        <input type="text" id="stateRegistration" name="stateRegistration" class="form-input" placeholder="000.000.000.000">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="contactPerson" class="form-label">Pessoa de Contato</label>
-                                        <input type="text" id="contactPerson" name="contactPerson" class="form-input" placeholder="Nome do responsável">
-                                    </div>
+                                <div class="form-group">
+                                    <label for="contactPerson">Pessoa de Contato</label>
+                                    <input type="text" id="contactPerson" name="contactPerson">
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Contato -->
-                    <div class="card" style="margin-bottom: var(--space-6);">
-                        <div class="card-header">
-                            <h2 class="card-title">
-                                <span>📞</span>
-                                Informações de Contato
-                            </h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" id="email" name="email" class="form-input" placeholder="cliente@email.com">
-                                    <div class="form-error" id="emailError"></div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="phone" class="form-label">Telefone Principal</label>
-                                    <input type="tel" id="phone" name="phone" class="form-input" placeholder="(11) 99999-9999">
-                                </div>
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <span>📞</span>
+                            Contato
+                        </h2>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Telefone Principal</label>
+                                <input type="tel" id="phone" name="phone" placeholder="(11) 99999-9999">
                             </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="phone2" class="form-label">Telefone Secundário</label>
-                                    <input type="tel" id="phone2" name="phone2" class="form-input" placeholder="(11) 99999-9999">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="whatsapp" class="form-label">WhatsApp</label>
-                                    <input type="tel" id="whatsapp" name="whatsapp" class="form-input" placeholder="(11) 99999-9999">
-                                </div>
+                            <div class="form-group">
+                                <label for="phone2">Telefone Secundário</label>
+                                <input type="tel" id="phone2" name="phone2" placeholder="(11) 99999-9999">
                             </div>
                         </div>
                     </div>
 
                     <!-- Endereço -->
-                    <div class="card" style="margin-bottom: var(--space-6);">
-                        <div class="card-header">
-                            <h2 class="card-title">
-                                <span>📍</span>
-                                Endereço
-                            </h2>
-                            <p class="card-subtitle">Digite o CEP para preenchimento automático</p>
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <span>📍</span>
+                            Endereço
+                        </h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="zipCode">CEP</label>
+                                <div class="input-with-icon">
+                                    <input type="text" id="zipCode" name="zipCode" placeholder="00000-000">
+                                    <span class="input-icon" id="zipCodeIcon">📍</span>
+                                    <span class="input-loading" id="zipCodeLoading" style="display: none;">⏳</span>
+                                </div>
+                                <span class="input-feedback" id="zipCodeFeedback"></span>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="zipCode" class="form-label">CEP</label>
-                                    <div style="position: relative;">
-                                        <input type="text" id="zipCode" name="zipCode" class="form-input" maxlength="9" placeholder="00000-000">
-                                        <div class="loading-spinner" id="zipCodeLoading" style="display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%);">🔄</div>
-                                    </div>
-                                    <div class="form-help" id="zipCodeFeedback">Digite o CEP para preenchimento automático dos campos</div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="street" class="form-label">Rua/Logradouro</label>
-                                    <input type="text" id="street" name="street" class="form-input" placeholder="Nome da rua">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="number" class="form-label">Número</label>
-                                    <input type="text" id="number" name="number" class="form-input" placeholder="123">
-                                </div>
+                        <div class="form-row">
+                            <div class="form-group flex-2">
+                                <label for="street">Logradouro</label>
+                                <input type="text" id="street" name="street">
                             </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="complement" class="form-label">Complemento</label>
-                                    <input type="text" id="complement" name="complement" class="form-input" placeholder="Apto, Bloco, etc.">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="neighborhood" class="form-label">Bairro</label>
-                                    <input type="text" id="neighborhood" name="neighborhood" class="form-input" placeholder="Nome do bairro">
-                                </div>
+                            <div class="form-group">
+                                <label for="number">Número</label>
+                                <input type="text" id="number" name="number">
                             </div>
+                        </div>
 
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="city" class="form-label">Cidade</label>
-                                    <input type="text" id="city" name="city" class="form-input" placeholder="Nome da cidade">
-                                </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="complement">Complemento</label>
+                                <input type="text" id="complement" name="complement">
+                            </div>
+                            <div class="form-group">
+                                <label for="neighborhood">Bairro</label>
+                                <input type="text" id="neighborhood" name="neighborhood">
+                            </div>
+                        </div>
 
-                                <div class="form-group">
-                                    <label for="state" class="form-label">Estado</label>
-                                    <select id="state" name="state" class="form-input">
-                                        <option value="">Selecione o estado</option>
-                                        <option value="AC">Acre</option>
-                                        <option value="AL">Alagoas</option>
-                                        <option value="AP">Amapá</option>
-                                        <option value="AM">Amazonas</option>
-                                        <option value="BA">Bahia</option>
-                                        <option value="CE">Ceará</option>
-                                        <option value="DF">Distrito Federal</option>
-                                        <option value="ES">Espírito Santo</option>
-                                        <option value="GO">Goiás</option>
-                                        <option value="MA">Maranhão</option>
-                                        <option value="MT">Mato Grosso</option>
-                                        <option value="MS">Mato Grosso do Sul</option>
-                                        <option value="MG">Minas Gerais</option>
-                                        <option value="PA">Pará</option>
-                                        <option value="PB">Paraíba</option>
-                                        <option value="PR">Paraná</option>
-                                        <option value="PE">Pernambuco</option>
-                                        <option value="PI">Piauí</option>
-                                        <option value="RJ">Rio de Janeiro</option>
-                                        <option value="RN">Rio Grande do Norte</option>
-                                        <option value="RS">Rio Grande do Sul</option>
-                                        <option value="RO">Rondônia</option>
-                                        <option value="RR">Roraima</option>
-                                        <option value="SC">Santa Catarina</option>
-                                        <option value="SP">São Paulo</option>
-                                        <option value="SE">Sergipe</option>
-                                        <option value="TO">Tocantins</option>
-                                    </select>
-                                </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">Cidade</label>
+                                <input type="text" id="city" name="city">
+                            </div>
+                            <div class="form-group">
+                                <label for="state">Estado</label>
+                                <input type="text" id="state" name="state" maxlength="2">
                             </div>
                         </div>
                     </div>
 
                     <!-- Veículos -->
-                    <div class="card" style="margin-bottom: var(--space-6);">
-                        <div class="card-header">
-                            <h2 class="card-title">
-                                <span>🚗</span>
-                                Veículos do Cliente
-                            </h2>
-                            <button type="button" class="btn btn-primary" onclick="addVehicle()">
-                                <span>➕</span>
-                                Adicionar Veículo
-                            </button>
-                        </div>
-                        <div class="card-body">
-                            <div id="vehiclesContainer">
-                                <div style="text-align: center; padding: var(--space-6); color: var(--text-secondary);">
-                                    <p>Nenhum veículo cadastrado</p>
-                                    <p style="font-size: var(--font-size-sm);">Clique em "Adicionar Veículo" para cadastrar um veículo</p>
+                    <div class="form-section">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">
+                                    <span>🚗</span>
+                                    Veículos do Cliente
+                                </h2>
+                                <button type="button" class="btn btn-primary" data-action="add-vehicle">
+                                    <span>➕</span>
+                                    Adicionar Veículo
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div id="vehiclesContainer" class="vehicles-container">
+                                    <!-- Veículos serão adicionados aqui dinamicamente -->
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Observações -->
-                    <div class="card" style="margin-bottom: var(--space-6);">
-                        <div class="card-header">
-                            <h2 class="card-title">
-                                <span>📝</span>
-                                Observações
-                            </h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="observations" class="form-label">Observações Gerais</label>
-                                <textarea id="observations" name="observations" class="form-input" rows="4" placeholder="Informações adicionais sobre o cliente, preferências, histórico, etc."></textarea>
-                            </div>
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <span>📝</span>
+                            Observações
+                        </h2>
+                        <div class="form-group">
+                            <label for="observations">Observações Gerais</label>
+                            <textarea id="observations" name="observations" rows="4" placeholder="Informações adicionais sobre o cliente..."></textarea>
                         </div>
                     </div>
 
                     <!-- Ações -->
-                    <div class="card">
-                        <div class="card-body">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <a href="/customers.html" class="btn btn-secondary">
-                                    <span>←</span>
-                                    Cancelar
-                                </a>
-                                <div style="display: flex; gap: var(--space-3);">
-                                    <button type="button" class="btn btn-secondary" onclick="clearForm()">
-                                        <span>🗑️</span>
-                                        Limpar
-                                    </button>
-                                    <button type="submit" class="btn btn-primary" id="submitBtn">
-                                        <span>💾</span>
-                                        Salvar Cliente
-                                    </button>
-                                </div>
+                    <div class="form-actions">
+                        <div class="actions-left">
+                            <a href="/customers.html" class="btn btn-secondary">
+                                <span>←</span>
+                                Cancelar
+                            </a>
+                            <div style="display: flex; gap: var(--space-3);">
+                                <button type="button" class="btn btn-secondary" data-action="clear-form">
+                                    <span>🗑️</span>
+                                    Limpar
+                                </button>
+                                <button type="submit" class="btn btn-primary" id="submitBtn">
+                                    <span>💾</span>
+                                    Salvar Cliente
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -387,760 +315,12 @@
         </div>
     </main>
     
-    <script>
-        let isEditing = false;
-        let customerId = null;
-        let vehicleCounter = 0;
-        
-        // Verificar autenticação
-        function checkAuth() {
-            const user = localStorage.getItem('user');
-            if (!user) {
-                window.location.href = '/login.html';
-                return null;
-            }
-            return JSON.parse(user);
-        }
-        
-        // Logout
-        function logout() {
-            localStorage.removeItem('user');
-            window.location.href = '/login.html';
-        }
-        
-        // Carregar dados do usuário
-        function loadUserInfo() {
-            const user = checkAuth();
-            if (user) {
-                document.getElementById('userName').textContent = `${user.name} (${user.role})`;
-            }
-        }
-        
-        // Alternar entre PF e PJ
-        function toggleCustomerType() {
-            const type = document.querySelector('input[name="type"]:checked').value;
-            const individualFields = document.getElementById('individualFields');
-            const companyFields = document.getElementById('companyFields');
-            const cpfCnpjLabel = document.getElementById('cpfCnpjLabel');
-            const cpfCnpjInput = document.getElementById('cpfCnpj');
-            
-            if (type === 'INDIVIDUAL') {
-                individualFields.classList.remove('hidden');
-                companyFields.classList.add('hidden');
-                cpfCnpjLabel.textContent = 'CPF';
-                cpfCnpjInput.placeholder = '000.000.000-00';
-                cpfCnpjInput.removeAttribute('maxLength'); // Remover maxLength para permitir máscara
-            } else {
-                individualFields.classList.add('hidden');
-                companyFields.classList.remove('hidden');
-                cpfCnpjLabel.textContent = 'CNPJ';
-                cpfCnpjInput.placeholder = '00.000.000/0000-00';
-                cpfCnpjInput.removeAttribute('maxLength'); // Remover maxLength para permitir máscara
-            }
-            
-            // Limpar validações
-            clearErrors();
-        }
-        
-        // Máscaras de input
-        function applyMasks() {
-            const cpfCnpjInput = document.getElementById('cpfCnpj');
-            const phoneInput = document.getElementById('phone');
-            const phone2Input = document.getElementById('phone2');
-            const zipCodeInput = document.getElementById('zipCode');
-            
-            // Máscara CPF/CNPJ
-            cpfCnpjInput.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                const type = document.querySelector('input[name="type"]:checked').value;
-
-                if (type === 'INDIVIDUAL') {
-                    // CPF: 000.000.000-00 (limitar a 11 dígitos)
-                    if (value.length > 11) {
-                        value = value.substring(0, 11);
-                    }
-
-                    // Aplicar máscara do CPF
-                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                    value = value.replace(/(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
-                    value = value.replace(/(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
-                } else {
-                    // CNPJ: 00.000.000/0000-00 (limitar a 14 dígitos)
-                    if (value.length > 14) {
-                        value = value.substring(0, 14);
-                    }
-
-                    // Aplicar máscara do CNPJ
-                    value = value.replace(/(\d{2})(\d)/, '$1.$2');
-                    value = value.replace(/(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
-                    value = value.replace(/(\d{2})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3/$4');
-                    value = value.replace(/(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d{1,2})/, '$1.$2.$3/$4-$5');
-                }
-
-                e.target.value = value;
-            });
-            
-            // Máscara telefone
-            [phoneInput, phone2Input].forEach(input => {
-                input.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\D/g, '');
-                    value = value.replace(/(\d{2})(\d)/, '($1) $2');
-                    value = value.replace(/(\d{4,5})(\d{4})$/, '$1-$2');
-                    e.target.value = value;
-                });
-            });
-            
-            // Máscara CEP removida - agora é tratada nos event listeners específicos
-        }
-        
-        // Função de teste direto
-        function testarCEPAgora() {
-            console.log('🧪 TESTE DIRETO INICIADO NO FORMULÁRIO DE CLIENTE');
-
-            // Definir CEP no campo
-            const zipCodeInput = document.getElementById('zipCode');
-            if (zipCodeInput) {
-                zipCodeInput.value = '01310100';
-                console.log('✅ CEP definido no campo:', zipCodeInput.value);
-
-                // Chamar função de busca
-                console.log('🚀 Chamando searchZipCode...');
-                searchZipCode('01310100');
-            } else {
-                console.error('❌ Campo zipCode não encontrado!');
-                alert('ERRO: Campo zipCode não encontrado!');
-            }
-        }
-
-        // Limpar campos de endereço
-        function clearAddressFields() {
-            const addressFields = ['street', 'neighborhood', 'city', 'state'];
-            addressFields.forEach(fieldId => {
-                const field = document.getElementById(fieldId);
-                if (field) {
-                    field.value = '';
-                    field.classList.remove('auto-filled');
-                }
-            });
-        }
-
-        // Buscar CEP - VERSÃO FUNCIONAL GARANTIDA (copiada da versão que funciona)
-        async function searchZipCode(zipCode) {
-            console.log('=== INICIANDO BUSCA DE CEP NO FORMULÁRIO DE CLIENTE ===');
-            console.log('CEP recebido:', zipCode);
-
-            const cleanZip = zipCode.replace(/\D/g, '');
-            console.log('CEP limpo:', cleanZip);
-
-            if (cleanZip.length !== 8) {
-                console.log('❌ CEP inválido - deve ter 8 dígitos:', cleanZip);
-                return;
-            }
-
-            const zipCodeIcon = document.getElementById('zipCodeIcon');
-            const zipCodeLoading = document.getElementById('zipCodeLoading');
-            const zipCodeFeedback = document.getElementById('zipCodeFeedback');
-
-            try {
-                // Mostrar loading
-                if (zipCodeIcon) zipCodeIcon.style.display = 'none';
-                if (zipCodeLoading) zipCodeLoading.style.display = 'block';
-                if (zipCodeFeedback) {
-                    zipCodeFeedback.textContent = 'Buscando endereço...';
-                    zipCodeFeedback.className = 'input-feedback info';
-                }
-
-                console.log('Fazendo requisição para ViaCEP...');
-                const url = `https://viacep.com.br/ws/${cleanZip}/json/`;
-                console.log('URL:', url);
-
-                const response = await fetch(url);
-                console.log('Status da resposta:', response.status);
-
-                if (!response.ok) {
-                    throw new Error(`Erro HTTP: ${response.status}`);
-                }
-
-                const data = await response.json();
-                console.log('Dados recebidos:', data);
-
-                // Esconder loading
-                if (zipCodeLoading) zipCodeLoading.style.display = 'none';
-                if (zipCodeIcon) zipCodeIcon.style.display = 'block';
-
-                if (data.erro) {
-                    console.log('❌ CEP não encontrado');
-                    if (zipCodeFeedback) {
-                        zipCodeFeedback.textContent = 'CEP não encontrado';
-                        zipCodeFeedback.className = 'input-feedback error';
-                    }
-                    if (zipCodeIcon) zipCodeIcon.textContent = '❌';
-                    return;
-                }
-
-                // Preencher campos
-                console.log('✅ Preenchendo campos...');
-
-                if (data.logradouro) {
-                    const streetField = document.getElementById('street');
-                    if (streetField) {
-                        streetField.value = data.logradouro;
-                        streetField.classList.add('auto-filled');
-                        console.log('📍 Rua preenchida:', data.logradouro);
-                    }
-                }
-
-                if (data.bairro) {
-                    const neighborhoodField = document.getElementById('neighborhood');
-                    if (neighborhoodField) {
-                        neighborhoodField.value = data.bairro;
-                        neighborhoodField.classList.add('auto-filled');
-                        console.log('🏘️ Bairro preenchido:', data.bairro);
-                    }
-                }
-
-                if (data.localidade) {
-                    const cityField = document.getElementById('city');
-                    if (cityField) {
-                        cityField.value = data.localidade;
-                        cityField.classList.add('auto-filled');
-                        console.log('🏙️ Cidade preenchida:', data.localidade);
-                    }
-                }
-
-                if (data.uf) {
-                    const stateField = document.getElementById('state');
-                    if (stateField) {
-                        stateField.value = data.uf;
-                        stateField.classList.add('auto-filled');
-                        console.log('🗺️ Estado preenchido:', data.uf);
-                    }
-                }
-
-                console.log('🎉 BUSCA CONCLUÍDA COM SUCESSO!');
-
-                // Feedback visual
-                if (zipCodeFeedback) {
-                    zipCodeFeedback.textContent = `✅ Endereço encontrado: ${data.localidade}/${data.uf}`;
-                    zipCodeFeedback.className = 'input-feedback success';
-                }
-                if (zipCodeIcon) zipCodeIcon.textContent = '✅';
-
-                // Focar no campo número
-                setTimeout(() => {
-                    const numberField = document.getElementById('number');
-                    if (numberField) numberField.focus();
-                }, 500);
-            } catch (error) {
-                console.error('Erro ao buscar CEP:', error);
-                zipCodeLoading.style.display = 'none';
-                zipCodeIcon.style.display = 'block';
-                zipCodeIcon.textContent = '❌';
-                zipCodeFeedback.textContent = 'Erro ao buscar CEP. Verifique sua conexão.';
-                zipCodeFeedback.className = 'input-feedback error';
-            }
-        }
-
-        // Adicionar veículo
-        function addVehicle(vehicleData = null) {
-            vehicleCounter++;
-            const vehicleId = vehicleData?.id || 'new';
-            const container = document.getElementById('vehiclesContainer');
-
-            const vehicleHtml = `
-                <div class="vehicle-card" data-vehicle-id="${vehicleId}">
-                    <div class="vehicle-header">
-                        <div class="vehicle-title">🚗 Veículo ${vehicleCounter}</div>
-                        <button type="button" class="remove-vehicle" onclick="removeVehicle(this)">🗑️ Remover</button>
-                    </div>
-
-                    <input type="hidden" name="vehicles[${vehicleCounter}][id]" value="${vehicleId}">
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="required">Marca/Fabricante</label>
-                            <input type="text" name="vehicles[${vehicleCounter}][brand]" value="${vehicleData?.brand || ''}" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="required">Modelo</label>
-                            <input type="text" name="vehicles[${vehicleCounter}][model]" value="${vehicleData?.model || ''}" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="required">Ano de Fabricação</label>
-                            <input type="number" name="vehicles[${vehicleCounter}][year]" min="1900" max="2030" value="${vehicleData?.year || ''}" required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Ano do Modelo</label>
-                            <input type="number" name="vehicles[${vehicleCounter}][modelYear]" min="1900" max="2030" value="${vehicleData?.modelYear || ''}">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Cor</label>
-                            <input type="text" name="vehicles[${vehicleCounter}][color]" value="${vehicleData?.color || ''}">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Placa</label>
-                            <input type="text" name="vehicles[${vehicleCounter}][plate]" placeholder="ABC-1234" maxlength="8" value="${vehicleData?.plate || ''}">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Chassi</label>
-                            <input type="text" name="vehicles[${vehicleCounter}][chassisNumber]" value="${vehicleData?.chassisNumber || ''}">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Renavam</label>
-                            <input type="text" name="vehicles[${vehicleCounter}][renavam]" value="${vehicleData?.renavam || ''}">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Quilometragem</label>
-                            <input type="number" name="vehicles[${vehicleCounter}][mileage]" min="0" value="${vehicleData?.mileage || ''}">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Combustível</label>
-                            <div class="fuel-options">
-                                <div class="fuel-option">
-                                    <input type="radio" id="fuel_${vehicleCounter}_flex" name="vehicles[${vehicleCounter}][fuel]" value="FLEX" ${!vehicleData?.fuel || vehicleData?.fuel === 'FLEX' ? 'checked' : ''}>
-                                    <label for="fuel_${vehicleCounter}_flex">Flex</label>
-                                </div>
-                                <div class="fuel-option">
-                                    <input type="radio" id="fuel_${vehicleCounter}_gasoline" name="vehicles[${vehicleCounter}][fuel]" value="GASOLINE" ${vehicleData?.fuel === 'GASOLINE' ? 'checked' : ''}>
-                                    <label for="fuel_${vehicleCounter}_gasoline">Gasolina</label>
-                                </div>
-                                <div class="fuel-option">
-                                    <input type="radio" id="fuel_${vehicleCounter}_ethanol" name="vehicles[${vehicleCounter}][fuel]" value="ETHANOL" ${vehicleData?.fuel === 'ETHANOL' ? 'checked' : ''}>
-                                    <label for="fuel_${vehicleCounter}_ethanol">Etanol</label>
-                                </div>
-                                <div class="fuel-option">
-                                    <input type="radio" id="fuel_${vehicleCounter}_diesel" name="vehicles[${vehicleCounter}][fuel]" value="DIESEL" ${vehicleData?.fuel === 'DIESEL' ? 'checked' : ''}>
-                                    <label for="fuel_${vehicleCounter}_diesel">Diesel</label>
-                                </div>
-                                <div class="fuel-option">
-                                    <input type="radio" id="fuel_${vehicleCounter}_electric" name="vehicles[${vehicleCounter}][fuel]" value="ELECTRIC" ${vehicleData?.fuel === 'ELECTRIC' ? 'checked' : ''}>
-                                    <label for="fuel_${vehicleCounter}_electric">Elétrico</label>
-                                </div>
-                                <div class="fuel-option">
-                                    <input type="radio" id="fuel_${vehicleCounter}_hybrid" name="vehicles[${vehicleCounter}][fuel]" value="HYBRID" ${vehicleData?.fuel === 'HYBRID' ? 'checked' : ''}>
-                                    <label for="fuel_${vehicleCounter}_hybrid">Híbrido</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Observações do Veículo</label>
-                        <textarea name="vehicles[${vehicleCounter}][observations]" placeholder="Informações específicas sobre este veículo...">${vehicleData?.observations || ''}</textarea>
-                    </div>
-                </div>
-            `;
-
-            container.insertAdjacentHTML('beforeend', vehicleHtml);
-
-            // Aplicar máscara na placa
-            const plateInput = container.querySelector(`input[name="vehicles[${vehicleCounter}][plate]"]`);
-            plateInput.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
-                if (value.length > 3) {
-                    value = value.substring(0, 3) + '-' + value.substring(3, 7);
-                }
-                e.target.value = value;
-            });
-        }
-
-        // Remover veículo
-        function removeVehicle(button) {
-            if (confirm('Tem certeza que deseja remover este veículo?')) {
-                button.closest('.vehicle-card').remove();
-            }
-        }
-        
-        // Validações
-        function validateCPF(cpf) {
-            cpf = cpf.replace(/[^\d]/g, '');
-            if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
-            
-            let sum = 0;
-            for (let i = 0; i < 9; i++) {
-                sum += parseInt(cpf.charAt(i)) * (10 - i);
-            }
-            let remainder = (sum * 10) % 11;
-            if (remainder === 10 || remainder === 11) remainder = 0;
-            if (remainder !== parseInt(cpf.charAt(9))) return false;
-            
-            sum = 0;
-            for (let i = 0; i < 10; i++) {
-                sum += parseInt(cpf.charAt(i)) * (11 - i);
-            }
-            remainder = (sum * 10) % 11;
-            if (remainder === 10 || remainder === 11) remainder = 0;
-            return remainder === parseInt(cpf.charAt(10));
-        }
-        
-        function validateCNPJ(cnpj) {
-            cnpj = cnpj.replace(/[^\d]/g, '');
-            if (cnpj.length !== 14) return false;
-
-            const weights1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
-            const weights2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
-
-            let sum = 0;
-            for (let i = 0; i < 12; i++) {
-                sum += parseInt(cnpj.charAt(i)) * (weights1[i] || 0);
-            }
-            let remainder = sum % 11;
-            const digit1 = remainder < 2 ? 0 : 11 - remainder;
-
-            sum = 0;
-            for (let i = 0; i < 13; i++) {
-                sum += parseInt(cnpj.charAt(i)) * (weights2[i] || 0);
-            }
-            remainder = sum % 11;
-            const digit2 = remainder < 2 ? 0 : 11 - remainder;
-
-            return digit1 === parseInt(cnpj.charAt(12)) && digit2 === parseInt(cnpj.charAt(13));
-        }
-        
-        function validateForm() {
-            clearErrors();
-            let isValid = true;
-            
-            const name = document.getElementById('name').value.trim();
-            const cpfCnpj = document.getElementById('cpfCnpj').value;
-            const email = document.getElementById('email').value.trim();
-            const type = document.querySelector('input[name="type"]:checked').value;
-            
-            // Validar nome
-            if (!name) {
-                showError('nameError', 'Nome é obrigatório');
-                isValid = false;
-            }
-            
-            // Validar CPF/CNPJ
-            if (!cpfCnpj) {
-                showError('cpfCnpjError', `${type === 'INDIVIDUAL' ? 'CPF' : 'CNPJ'} é obrigatório`);
-                isValid = false;
-            } else {
-                const isValidDoc = type === 'INDIVIDUAL' ? validateCPF(cpfCnpj) : validateCNPJ(cpfCnpj);
-                if (!isValidDoc) {
-                    showError('cpfCnpjError', `${type === 'INDIVIDUAL' ? 'CPF' : 'CNPJ'} inválido`);
-                    isValid = false;
-                }
-            }
-            
-            // Validar email
-            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showError('emailError', 'Email inválido');
-                isValid = false;
-            }
-            
-            return isValid;
-        }
-        
-        function showError(elementId, message) {
-            document.getElementById(elementId).textContent = message;
-        }
-        
-        function clearErrors() {
-            const errorElements = document.querySelectorAll('.error');
-            errorElements.forEach(el => el.textContent = '');
-        }
-        
-        function showAlert(message, type = 'success') {
-            const alert = document.getElementById('alert');
-            alert.className = `alert alert-${type}`;
-            alert.textContent = message;
-            alert.classList.remove('hidden');
-            
-            setTimeout(() => {
-                alert.classList.add('hidden');
-            }, 5000);
-        }
-        
-        // Carregar cliente para edição
-        async function loadCustomer(id) {
-            try {
-                const response = await fetch(`/api/customers/${id}`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    const customer = data.data;
-                    
-                    // Preencher formulário
-                    document.getElementById('name').value = customer.name || '';
-                    document.getElementById('cpfCnpj').value = formatCpfCnpj(customer.cpfCnpj) || '';
-                    document.getElementById('email').value = customer.email || '';
-                    document.getElementById('phone').value = customer.phone || '';
-                    document.getElementById('phone2').value = customer.phone2 || '';
-                    document.getElementById('zipCode').value = customer.zipCode || '';
-                    document.getElementById('street').value = customer.street || '';
-                    document.getElementById('number').value = customer.number || '';
-                    document.getElementById('complement').value = customer.complement || '';
-                    document.getElementById('neighborhood').value = customer.neighborhood || '';
-                    document.getElementById('city').value = customer.city || '';
-                    document.getElementById('state').value = customer.state || '';
-                    document.getElementById('observations').value = customer.observations || '';
-                    
-                    // Definir tipo
-                    document.querySelector(`input[name="type"][value="${customer.type}"]`).checked = true;
-                    toggleCustomerType();
-                    
-                    // Campos específicos
-                    if (customer.type === 'INDIVIDUAL') {
-                        document.getElementById('rg').value = customer.rg || '';
-                        if (customer.birthDate) {
-                            document.getElementById('birthDate').value = customer.birthDate.split('T')[0];
-                        }
-                    } else {
-                        document.getElementById('companyName').value = customer.companyName || '';
-                        document.getElementById('fantasyName').value = customer.fantasyName || '';
-                        document.getElementById('stateRegistration').value = customer.stateRegistration || '';
-                        document.getElementById('contactPerson').value = customer.contactPerson || '';
-                    }
-                    
-                    // Carregar veículos
-                    if (customer.vehicles && customer.vehicles.length > 0) {
-                        customer.vehicles.forEach(vehicle => {
-                            addVehicle(vehicle);
-                        });
-                    }
-
-                    // Atualizar interface
-                    document.getElementById('pageTitle').textContent = '✏️ Editar Cliente';
-                    document.getElementById('submitBtn').innerHTML = '💾 Atualizar Cliente';
-                    
-                } else {
-                    showAlert('Erro ao carregar cliente: ' + data.error, 'error');
-                }
-            } catch (error) {
-                showAlert('Erro de conexão: ' + error.message, 'error');
-            }
-        }
-        
-        function formatCpfCnpj(cpfCnpj) {
-            if (!cpfCnpj) return '';
-            if (cpfCnpj.length === 11) {
-                return cpfCnpj.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-            } else if (cpfCnpj.length === 14) {
-                return cpfCnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
-            }
-            return cpfCnpj;
-        }
-        
-        // Submeter formulário
-        async function submitForm(e) {
-            e.preventDefault();
-            
-            if (!validateForm()) {
-                return;
-            }
-            
-            const submitBtn = document.getElementById('submitBtn');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '⏳ Salvando...';
-            submitBtn.disabled = true;
-            
-            try {
-                const formData = new FormData(document.getElementById('customerForm'));
-                const data = Object.fromEntries(formData.entries());
-
-                // Processar dados dos veículos
-                const vehicles = [];
-                const vehicleCards = document.querySelectorAll('.vehicle-card');
-
-                vehicleCards.forEach((card, index) => {
-                    const vehicleData = {};
-                    const inputs = card.querySelectorAll('input, textarea, select');
-
-                    inputs.forEach(input => {
-                        const name = input.name;
-                        if (name && name.includes('vehicles[')) {
-                            const fieldName = name.match(/\[([^\]]+)\]$/)[1];
-                            vehicleData[fieldName] = input.value || null;
-                        }
-                    });
-
-                    // Verificar se tem dados mínimos obrigatórios
-                    if (vehicleData.brand && vehicleData.model && vehicleData.year) {
-                        vehicles.push(vehicleData);
-                    }
-                });
-
-                // Remover campos de veículos do data principal
-                Object.keys(data).forEach(key => {
-                    if (key.includes('vehicles[')) {
-                        delete data[key];
-                    }
-                });
-
-                // Adicionar veículos ao data
-                data.vehicles = vehicles;
-
-                // Limpar campos vazios
-                Object.keys(data).forEach(key => {
-                    if (data[key] === '' && key !== 'vehicles') {
-                        data[key] = null;
-                    }
-                });
-                
-                const url = isEditing ? `/api/customers/${customerId}` : '/api/customers';
-                const method = isEditing ? 'PUT' : 'POST';
-                
-                const response = await fetch(url, {
-                    method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    const message = isEditing ? 'Cliente atualizado com sucesso!' : 'Cliente cadastrado com sucesso!';
-                    showSuccessNotification(message);
-                    setTimeout(() => {
-                        window.location.href = '/customers.html';
-                    }, 2000);
-                } else {
-                    showErrorNotification('Erro: ' + result.error);
-                }
-            } catch (error) {
-                showErrorNotification('Erro de conexão: ' + error.message);
-            } finally {
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }
-        }
-        
-        // Event listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 DOM carregado, inicializando formulário...');
-            console.log('🔍 Verificando elementos CEP...');
-            console.log('zipCode input:', !!document.getElementById('zipCode'));
-            console.log('zipCodeIcon:', !!document.getElementById('zipCodeIcon'));
-            console.log('zipCodeLoading:', !!document.getElementById('zipCodeLoading'));
-            console.log('zipCodeFeedback:', !!document.getElementById('zipCodeFeedback'));
-
-            // Temporariamente desabilitado para debug CEP
-            console.log('🚨 AUTENTICAÇÃO DESABILITADA PARA TESTE CEP');
-            console.log('🚀 Formulário carregado sem autenticação');
-            // checkAuth();
-            // loadUserInfo();
-            
-            // Verificar se é edição
-            const urlParams = new URLSearchParams(window.location.search);
-            customerId = urlParams.get('id');
-            if (customerId) {
-                isEditing = true;
-                loadCustomer(customerId);
-            }
-            
-            // Event listeners
-            document.querySelectorAll('input[name="type"]').forEach(radio => {
-                radio.addEventListener('change', toggleCustomerType);
-            });
-            
-            // Event listeners para CEP
-            const zipCodeInput = document.getElementById('zipCode');
-            let zipCodeTimeout;
-
-            // Event listener simplificado para CEP
-            zipCodeInput.addEventListener('input', function(e) {
-                clearTimeout(zipCodeTimeout);
-
-                // Permitir apenas números
-                let value = e.target.value.replace(/\D/g, '');
-
-                // Aplicar máscara se tiver 5 ou mais dígitos
-                if (value.length > 5) {
-                    value = value.replace(/(\d{5})(\d)/, '$1-$2');
-                }
-
-                e.target.value = value;
-                const cleanZip = value.replace(/\D/g, '');
-
-                console.log('⌨️ CEP digitado:', value, 'Limpo:', cleanZip);
-
-                if (cleanZip.length === 8) {
-                    console.log('✅ CEP completo! Buscando em 1 segundo...');
-                    zipCodeTimeout = setTimeout(() => {
-                        console.log('🚀 Executando busca...');
-                        searchZipCode(value);
-                    }, 1000);
-                }
-            });
-
-            // Busca imediata ao sair do campo
-            zipCodeInput.addEventListener('blur', function(e) {
-                clearTimeout(zipCodeTimeout);
-                const value = e.target.value;
-                const cleanZip = value.replace(/\D/g, '');
-
-                if (cleanZip.length === 8) {
-                    searchZipCode(value);
-                }
-            });
-
-            // Busca ao pressionar Enter
-            zipCodeInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    clearTimeout(zipCodeTimeout);
-                    searchZipCode(e.target.value);
-                }
-            });
-            
-            document.getElementById('customerForm').addEventListener('submit', submitForm);
-            
-            // Aplicar máscaras
-            applyMasks();
-            
-            // Configurar tipo inicial
-            toggleCustomerType();
-
-            // Adicionar um veículo por padrão se não estiver editando
-            if (!isEditing) {
-                addVehicle();
-            }
-        });
-    </script>
+    <script src="js/logo-immutable.js"></script>
+    <script src="js/global-settings.js"></script>
+    <script src="js/customer-form.js"></script>
     <script src="/js/logo-manager.js"></script>
-    
-    
-    </main>
     <script src="/js/auth.js"></script>
-    <script src="/js/logo-manager.js"></script>
     <script src="/modelo2-features.js"></script>
-    
-    <script>
-        const auth = new AuthManager();
-        if (!auth.isAuthenticated()) {
-            window.location.href = "/login.html";
-        }
-        const user = auth.getUser();
-        if (user) {
-            document.getElementById("userName").textContent = user.name || user.email;
-            document.querySelector(".user-avatar").textContent = (user.name || user.email).charAt(0).toUpperCase();
-        }
-        function toggleUserMenu() {
-            const confirmed = confirm("Deseja fazer logout?");
-            if (confirmed) {
-                auth.logout();
-                window.location.href = "/login.html";
-            }
-        }
-    </script>
+    </main>
 </body>
 </html>

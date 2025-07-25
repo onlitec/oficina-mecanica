@@ -1,0 +1,365 @@
+/* MENU UNIFICADO - LÓGICA ÚNICA E SIMPLES */
+/* Baseado nas páginas que funcionam: service-orders.html e customers.html */
+
+/* RESET BÁSICO PARA MENU */
+.header,
+.header-content,
+.logo,
+.nav-menu,
+.nav-item,
+.nav-link,
+.user-menu,
+.user-info {
+    box-sizing: border-box;
+}
+
+/* HEADER - CONTAINER PRINCIPAL */
+.header {
+    background: var(--bg-primary) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 100 !important;
+    height: 4rem !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+/* HEADER CONTENT - LAYOUT FLEXBOX */
+.header-content {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 100% !important;
+    width: 100% !important;
+    padding: 0 1rem !important;
+    max-width: none !important;
+    margin: 0 !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+}
+
+/* LOGO - SEÇÃO ESQUERDA */
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    font-weight: 600 !important;
+    font-size: 1.125rem !important;
+    color: var(--text-primary) !important;
+    text-decoration: none !important;
+    flex-shrink: 0 !important;
+    min-width: 200px !important;
+    max-width: 300px !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+}
+
+.logo-icon {
+    font-size: 1.5rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.logo-text {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+/* NAVEGAÇÃO - MENU CENTRAL */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    height: 100%;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* LINKS DE NAVEGAÇÃO - LÓGICA SIMPLES */
+.nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-decoration: none;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    
+    /* SEM ANIMAÇÕES - LÓGICA SIMPLES */
+    transition: none;
+    transform: none;
+    animation: none;
+}
+
+/* HOVER - APENAS CORES */
+.nav-link:hover {
+    color: var(--primary-color);
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+}
+
+/* ACTIVE - APENAS CORES */
+.nav-link.active {
+    color: var(--primary-color);
+    background: var(--bg-tertiary);
+    border-color: var(--border-color-focus);
+}
+
+/* FOCUS - APENAS CORES */
+.nav-link:focus {
+    color: var(--primary-color);
+    background: var(--bg-tertiary);
+    border-color: var(--border-color-focus);
+    outline: none;
+}
+
+/* USER INFO - SEÇÃO DIREITA */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    background: transparent;
+    
+    /* SEM ANIMAÇÕES */
+    transition: none;
+    transform: none;
+}
+
+.user-info:hover {
+    background: var(--bg-tertiary);
+}
+
+.user-avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+/* RESPONSIVIDADE SIMPLES */
+@media (max-width: 1024px) {
+    .nav-menu {
+        gap: 0.25rem;
+    }
+    
+    .nav-link {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        padding: 0 0.75rem;
+    }
+    
+    .logo {
+        min-width: 150px;
+    }
+    
+    .nav-link {
+        padding: 0.375rem 0.5rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* FORÇA ESPECÍFICA PARA IMAGENS DE LOGO */
+.logo-icon img,
+img.logo-icon {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+    object-fit: contain !important;
+    display: block !important;
+    flex-shrink: 0 !important;
+
+    /* EVITA VIBRAÇÃO */
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+}
+
+/* FORÇA ESPECÍFICA PARA SPANS DE LOGO */
+.logo-icon span,
+span.logo-icon {
+    font-size: 1.5rem !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+
+    /* EVITA VIBRAÇÃO */
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+}
+
+/* OVERRIDE FINAL SIMPLES */
+.nav-link,
+.nav-link:hover,
+.nav-link:focus,
+.nav-link:active,
+.nav-link.active {
+    /* FORÇA ESTABILIDADE SIMPLES */
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+    position: static !important;
+}
+
+.logo,
+.logo-icon,
+.logo-text {
+    /* FORÇA ESTABILIDADE DO LOGO */
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+    position: static !important;
+}
+
+/* REMOVE QUALQUER EFEITO PROBLEMÁTICO */
+* {
+    /* Remove transforms globais que possam interferir */
+}
+
+.header * {
+    /* Força estabilidade em todos os elementos do header */
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+/* FORÇA ABSOLUTA PARA LOGO EM TODOS OS ESTADOS */
+.logo,
+.logo:hover,
+.logo:focus,
+.logo:active,
+.logo:visited,
+.logo-icon,
+.logo-icon:hover,
+.logo-icon:focus,
+.logo-icon:active,
+.logo-text,
+.logo-text:hover,
+.logo-text:focus,
+.logo-text:active {
+    /* FORÇA ESTABILIDADE ABSOLUTA */
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+
+    /* EVITA QUALQUER MUDANÇA VISUAL */
+    opacity: 1 !important;
+    visibility: visible !important;
+    overflow: visible !important;
+}
+
+/* FORÇA ESPECÍFICA PARA LOGO DURANTE CLIQUES EM NAV-LINKS */
+.nav-link:hover ~ .logo,
+.nav-link:active ~ .logo,
+.nav-link:focus ~ .logo,
+.nav-link.active ~ .logo {
+    /* FORÇA LOGO ESTÁTICO DURANTE INTERAÇÕES COM MENU */
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+    position: static !important;
+}
+
+/* FORÇA ESPECÍFICA PARA EVITAR MUDANÇAS DURANTE CARREGAMENTO */
+body.loading .logo,
+body.loading .logo-icon,
+body.loading .logo-text {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+    position: static !important;
+}

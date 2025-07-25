@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Oficina Mecânica</title>
     <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/menu-unified.css">
+    <link rel="stylesheet" href="/styles/header-fix.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,8 +16,8 @@
     <header class="header">
         <div class="header-content">
             <a href="/" class="logo">
-                <span class="logo-icon">🚗</span>
-                <span>Minha Oficina</span>
+                <span class="logo-icon">🔧</span>
+                <span class="logo-text">Oficina Mecânica</span>
             </a>
             
             <nav>
@@ -23,7 +25,7 @@
                     <li class="nav-item">
                         <a href="/dashboard.html" class="nav-link active">
                             <span>📊</span>
-                            Dashboard
+                            Visão Geral
                         </a>
                     </li>
                     <li class="nav-item">
@@ -66,7 +68,7 @@
             </nav>
             
             <div class="user-menu">
-                <div class="user-info" onclick="toggleUserMenu()">
+                <div class="user-info" data-action="toggle-user-menu">
                     <div class="user-avatar">U</div>
                     <span id="userName">Usuário</span>
                     <span>▼</span>
@@ -183,8 +185,8 @@
                         <input type="text" id="clientName" class="form-input" placeholder="Digite o nome do cliente">
                     </div>
                     <div class="form-row">
-                        <button onclick="searchClients()" class="btn btn-primary">Buscar</button>
-                        <button onclick="listAllClients()" class="btn btn-secondary">Listar Todos</button>
+                        <button data-action="search-clients" class="btn btn-primary">Buscar</button>
+                        <button data-action="list-all-clients" class="btn btn-secondary">Listar Todos</button>
                     </div>
                     <div id="clientsResults" style="display: none; margin-top: 1rem;"></div>
                 </div>
@@ -204,8 +206,8 @@
                         <input type="text" id="vehiclePlate" class="form-input" placeholder="Digite a placa do veículo">
                     </div>
                     <div class="form-row">
-                        <button onclick="searchVehicles()" class="btn btn-primary">Buscar</button>
-                        <button onclick="listAllVehicles()" class="btn btn-secondary">Listar Todos</button>
+                        <button data-action="search-vehicles" class="btn btn-primary">Buscar</button>
+                        <button data-action="list-all-vehicles" class="btn btn-secondary">Listar Todos</button>
                     </div>
                     <div id="vehiclesResults" style="display: none; margin-top: 1rem;"></div>
                 </div>
@@ -228,8 +230,8 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <button onclick="searchParts()" class="btn btn-primary">Buscar</button>
-                    <button onclick="listAllParts()" class="btn btn-secondary">Listar Todas</button>
+                    <button data-action="search-parts" class="btn btn-primary">Buscar</button>
+                    <button data-action="list-all-parts" class="btn btn-secondary">Listar Todas</button>
                 </div>
                 <div id="partsResults" style="display: none; margin-top: 1rem;"></div>
             </div>
@@ -241,186 +243,8 @@
     <script src="/js/logo-manager.js"></script>
     <script src="/modelo2-features.js"></script>
 
-    <script>
-        // Verificar autenticação
-        const auth = new AuthManager();
-        if (!auth.isAuthenticated()) {
-            window.location.href = '/login.html';
-        }
-
-        // Atualizar nome do usuário
-        const user = auth.getUser();
-        if (user) {
-            document.getElementById('userName').textContent = user.name || user.email;
-            document.querySelector('.user-avatar').textContent = (user.name || user.email).charAt(0).toUpperCase();
-        }
-
-        // Toggle user menu
-        function toggleUserMenu() {
-            // Implementar dropdown do usuário
-            const confirmed = confirm('Deseja fazer logout?');
-            if (confirmed) {
-                auth.logout();
-                window.location.href = '/login.html';
-            }
-        }
-
-        // Funções da API
-        async function apiCall(endpoint) {
-            try {
-                const response = await fetch(endpoint);
-                return await response.json();
-            } catch (error) {
-                throw new Error(`Erro na API: ${error.message}`);
-            }
-        }
-
-        // Carregar estatísticas
-        async function loadStats() {
-            try {
-                // Carregar clientes
-                const customersResponse = await apiCall('/api/customers');
-                const customersCount = customersResponse.data ? customersResponse.data.length : 0;
-                document.getElementById('customersCount').textContent = customersCount;
-
-                // Carregar veículos (através dos clientes)
-                let vehiclesCount = 0;
-                if (customersResponse.data) {
-                    customersResponse.data.forEach(customer => {
-                        if (customer.vehicles) {
-                            vehiclesCount += customer.vehicles.length;
-                        }
-                    });
-                }
-                document.getElementById('vehiclesCount').textContent = vehiclesCount;
-
-                // Carregar peças
-                const partsResponse = await apiCall('/api/parts');
-                const partsCount = partsResponse.data ? partsResponse.data.length : 0;
-                document.getElementById('partsCount').textContent = partsCount;
-
-                document.getElementById('servicesCount').textContent = '12'; // Exemplo
-            } catch (error) {
-                console.error('Erro ao carregar estatísticas:', error);
-                // Valores padrão em caso de erro
-                document.getElementById('customersCount').textContent = '0';
-                document.getElementById('vehiclesCount').textContent = '0';
-                document.getElementById('servicesCount').textContent = '0';
-                document.getElementById('partsCount').textContent = '0';
-            }
-        }
-
-        // Funções de busca
-        async function searchClients() {
-            const name = document.getElementById('clientName').value;
-            if (!name.trim()) {
-                alert('Digite o nome do cliente para buscar');
-                return;
-            }
-
-            try {
-                showLoading('clientsResults');
-                const response = await apiCall('/api/customers');
-                const clients = response.data || response;
-
-                const filteredClients = clients.filter(client =>
-                    client.name.toLowerCase().includes(name.toLowerCase())
-                );
-
-                displayClientsResults(filteredClients, `Resultados da busca por "${name}"`);
-            } catch (error) {
-                showError('clientsResults', 'Erro ao buscar clientes: ' + error.message);
-            }
-        }
-
-        async function listAllClients() {
-            try {
-                showLoading('clientsResults');
-                const response = await apiCall('/api/customers');
-                const clients = response.data || response;
-                displayClientsResults(clients, 'Todos os Clientes');
-            } catch (error) {
-                showError('clientsResults', 'Erro ao carregar clientes: ' + error.message);
-            }
-        }
-
-        // Funções auxiliares
-        function showLoading(containerId) {
-            const container = document.getElementById(containerId);
-            container.style.display = 'block';
-            container.innerHTML = '<div style="text-align: center; padding: 1rem; color: var(--text-secondary);">🔄 Carregando...</div>';
-        }
-
-        function showError(containerId, message) {
-            const container = document.getElementById(containerId);
-            container.style.display = 'block';
-            container.innerHTML = `<div style="text-align: center; padding: 1rem; color: var(--error-color); background: rgba(239, 68, 68, 0.1); border-radius: var(--radius-md);">❌ ${message}</div>`;
-        }
-
-        function displayClientsResults(clients, title) {
-            const container = document.getElementById('clientsResults');
-            container.style.display = 'block';
-
-            if (clients.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 1rem; color: var(--text-secondary);">
-                        <h4>${title}</h4>
-                        <p>Nenhum cliente encontrado.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            let html = `<div style="margin-top: 1rem;"><h4 style="margin-bottom: 1rem;">${title}</h4>`;
-
-            clients.forEach(client => {
-                html += `
-                    <div style="background: var(--bg-primary); border: 1px solid var(--bg-tertiary); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 0.5rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <strong>${client.name}</strong><br>
-                                <small style="color: var(--text-secondary);">
-                                    ${client.email || 'Sem email'} | ${client.phone || 'Sem telefone'}
-                                </small>
-                            </div>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <a href="/customer-form.html?id=${client.id}" class="btn btn-sm btn-secondary">Editar</a>
-                                <a href="/service-order-form.html?customerId=${client.id}" class="btn btn-sm btn-primary">Nova OS</a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            html += '</div>';
-            container.innerHTML = html;
-        }
-
-        // Implementar outras funções de busca...
-        async function searchVehicles() {
-            // Implementação similar à busca de clientes
-            showError('vehiclesResults', 'Funcionalidade em desenvolvimento');
-        }
-
-        async function listAllVehicles() {
-            // Implementação similar à listagem de clientes
-            showError('vehiclesResults', 'Funcionalidade em desenvolvimento');
-        }
-
-        async function searchParts() {
-            // Implementação similar à busca de clientes
-            showError('partsResults', 'Funcionalidade em desenvolvimento');
-        }
-
-        async function listAllParts() {
-            // Implementação similar à listagem de clientes
-            showError('partsResults', 'Funcionalidade em desenvolvimento');
-        }
-
-        // Carregar dados ao inicializar
-        document.addEventListener('DOMContentLoaded', () => {
-            loadStats();
-        });
-    </script>
+    <script src="js/logo-immutable.js"></script>
+    <script src="js/global-settings.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
 </html>

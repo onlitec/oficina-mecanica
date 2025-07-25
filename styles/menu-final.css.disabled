@@ -1,105 +1,101 @@
-/* MENU MASTER FIX - OVERRIDES ALL CONFLICTS */
+/* FINAL MENU FIX - MAXIMUM PRIORITY OVERRIDES */
 
-/* RESET ALL PROBLEMATIC STYLES */
-* {
-  box-sizing: border-box;
+/* COMPLETE RESET FOR MENU ELEMENTS */
+.global-header,
+.global-header *,
+.header-content,
+.header-content *,
+.main-nav,
+.main-nav *,
+.logo-section,
+.logo-section *,
+.user-section,
+.user-section *,
+.nav-link,
+.company-name,
+.user-info,
+.settings-btn,
+.logout-btn {
+  position: static !important;
+  float: none !important;
+  clear: none !important;
+  transform: none !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
 }
 
-/* HEADER - FIXED AND STABLE */
+/* HEADER - ABSOLUTE CONTROL */
 .global-header {
   background: #5865F2 !important;
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
-  z-index: 1000 !important;
-  height: 60px !important;
   width: 100% !important;
-  margin: 0 !important;
+  height: 60px !important;
+  z-index: 1000 !important;
   padding: 0 !important;
+  margin: 0 !important;
   border: none !important;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  overflow: visible !important;
 }
 
-/* HEADER CONTENT - STABLE FLEXBOX */
+/* HEADER CONTENT - FLEXBOX LAYOUT */
 .header-content {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
   height: 100% !important;
-  padding: 0 1rem !important;
+  width: 100% !important;
   max-width: 1200px !important;
   margin: 0 auto !important;
+  padding: 0 1rem !important;
   position: relative !important;
   overflow: visible !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
 }
 
-/* FORCE RESET ALL MENU ELEMENTS */
-.global-header *,
-.header-content *,
-.main-nav *,
-.logo-section *,
-.user-section * {
-  position: static !important;
-  float: none !important;
-  clear: none !important;
-  margin: 0 !important;
-  transform: none !important;
-  top: auto !important;
-  left: auto !important;
-  right: auto !important;
-  bottom: auto !important;
-}
-
-/* Logo Section */
+/* LOGO SECTION - LEFT SIDE */
 .logo-section {
   display: flex !important;
   align-items: center !important;
   gap: 0.75rem !important;
   flex-shrink: 0 !important;
   min-width: 200px !important;
+  height: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .company-name {
   color: white !important;
   font-weight: 600 !important;
   font-size: 1rem !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
-/* NAVIGATION - STABLE AND CENTERED */
+/* NAVIGATION - CENTER */
 .main-nav {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 2rem !important;
   flex: 1 !important;
+  height: 100% !important;
   margin: 0 2rem !important;
-  position: static !important;
-  width: auto !important;
-  height: auto !important;
+  padding: 0 !important;
   overflow: visible !important;
   white-space: nowrap !important;
-  z-index: auto !important;
 }
 
-/* FORCE RESET NAV LINKS */
-.nav-link {
-  position: static !important;
-  display: inline-block !important;
-  vertical-align: middle !important;
-  float: none !important;
-  clear: none !important;
-  margin: 0 !important;
-  padding: 0.5rem 1rem !important;
-  transform: none !important;
-  top: auto !important;
-  left: auto !important;
-  right: auto !important;
-  bottom: auto !important;
-}
-
+/* NAV LINKS - STABLE POSITIONING */
 .nav-link {
   color: white !important;
   text-decoration: none !important;
@@ -112,12 +108,16 @@
   border: none !important;
   box-shadow: none !important;
   outline: none !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+  line-height: 1.4 !important;
 }
 
 .nav-link:hover {
   color: #FFD700 !important;
   background: rgba(255, 255, 255, 0.1) !important;
-  transform: translateY(-1px) !important;
 }
 
 .nav-link.active {
@@ -125,30 +125,36 @@
   background: rgba(255, 255, 255, 0.15) !important;
 }
 
-/* User Section */
+/* USER SECTION - RIGHT SIDE */
 .user-section {
   display: flex !important;
   align-items: center !important;
   gap: 1rem !important;
   flex-shrink: 0 !important;
   min-width: 200px !important;
+  height: 100% !important;
   justify-content: flex-end !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .user-info {
   color: white !important;
   text-align: right !important;
   font-size: 0.875rem !important;
+  line-height: 1.3 !important;
 }
 
 .user-name {
   font-weight: 600 !important;
   margin-bottom: 0.125rem !important;
+  display: block !important;
 }
 
 .user-role {
   font-size: 0.75rem !important;
   opacity: 0.8 !important;
+  display: block !important;
 }
 
 .settings-btn {
@@ -165,11 +171,11 @@
   transition: all 0.3s ease !important;
   border: none !important;
   box-shadow: none !important;
+  flex-shrink: 0 !important;
 }
 
 .settings-btn:hover {
   background: rgba(255, 255, 255, 0.25) !important;
-  transform: rotate(90deg) scale(1.1) !important;
 }
 
 .logout-btn {
@@ -182,19 +188,21 @@
   font-weight: 500 !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  white-space: nowrap !important;
 }
 
 .logout-btn:hover {
   background: rgba(220, 38, 38, 1) !important;
-  transform: translateY(-1px) !important;
 }
 
-/* Body Padding */
+/* BODY PADDING */
 body {
   padding-top: 70px !important;
 }
 
-/* Responsive Design */
+/* RESPONSIVE DESIGN */
 @media (max-width: 768px) {
   .header-content {
     padding: 0 0.75rem !important;
@@ -241,4 +249,31 @@ body {
   .company-name {
     font-size: 0.875rem !important;
   }
+}
+
+/* FORCE OVERRIDE ANY CONFLICTING STYLES */
+.global-header .main-nav {
+  position: static !important;
+  transform: none !important;
+}
+
+.header-content .main-nav {
+  position: static !important;
+  transform: none !important;
+}
+
+nav.main-nav {
+  position: static !important;
+  transform: none !important;
+}
+
+/* PREVENT TEXT OVERLAP */
+.nav-link,
+.company-name,
+.user-name,
+.user-role {
+  text-shadow: none !important;
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+  line-height: 1.4 !important;
 }

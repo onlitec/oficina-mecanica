@@ -180,11 +180,11 @@
         
         <div class="credentials">
             <h4>🔑 Credenciais de Teste</h4>
-            <div class="cred-item" onclick="fillCredentials('admin@oficina.com', 'admin123')">
+            <div class="cred-item" data-email="admin@oficina.com" data-password="admin123">
                 <strong>Administrador:</strong><br>
                 admin@oficina.com / admin123
             </div>
-            <div class="cred-item" onclick="fillCredentials('mecanico@oficina.com', 'mecanico123')">
+            <div class="cred-item" data-email="mecanico@oficina.com" data-password="mecanico123">
                 <strong>Mecânico:</strong><br>
                 mecanico@oficina.com / mecanico123
             </div>
@@ -196,66 +196,8 @@
     </div>
 
     <script src="/js/auth.js"></script>
-    <script>
-        function fillCredentials(email, password) {
-            document.getElementById('email').value = email;
-            document.getElementById('password').value = password;
-        }
-        
-        function showMessage(text, type) {
-            const messageDiv = document.getElementById('message');
-            messageDiv.innerHTML = `<div class="message ${type}">${text}</div>`;
-        }
-        
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            showMessage('Verificando credenciais...', 'success');
-            
-            try {
-                // Simular autenticação (você pode implementar a API real depois)
-                const validUsers = {
-                    'admin@oficina.com': { password: 'admin123', role: 'ADMIN', name: 'Administrador' },
-                    'mecanico@oficina.com': { password: 'mecanico123', role: 'MECHANIC', name: 'João Mecânico' }
-                };
-                
-                if (validUsers[email] && validUsers[email].password === password) {
-                    showMessage(`✅ Login realizado com sucesso! Bem-vindo, ${validUsers[email].name}!`, 'success');
-
-                    // Usar o sistema de autenticação global
-                    const loginSuccess = auth.login({
-                        email: email,
-                        name: validUsers[email].name,
-                        role: validUsers[email].role
-                    });
-
-                    if (loginSuccess) {
-                        // Redirecionar para dashboard após 2 segundos
-                        setTimeout(() => {
-                            window.location.href = '/dashboard.html';
-                        }, 2000);
-                    } else {
-                        showMessage('❌ Erro ao salvar dados de login!', 'error');
-                    }
-                } else {
-                    showMessage('❌ Email ou senha incorretos!', 'error');
-                }
-            } catch (error) {
-                showMessage('❌ Erro ao fazer login. Tente novamente.', 'error');
-            }
-        });
-        
-        // Verificar se já está logado usando o sistema de autenticação
-        if (auth.isAuthenticated()) {
-            const userData = auth.getUser();
-            showMessage(`Você já está logado como ${userData.name}. Redirecionando...`, 'success');
-            setTimeout(() => {
-                window.location.href = '/dashboard.html';
-            }, 2000);
-        }
-    </script>
+    <script src="js/global-settings.js"></script>
+    <script src="js/login.js"></script>
+    <script src="js/force-menu-static.js"></script>
 </body>
 </html>

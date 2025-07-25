@@ -30,7 +30,7 @@ pages=(
 
 # Itens obrigatórios do menu
 required_items=(
-    "Dashboard"
+    "Visão Geral"
     "Clientes"
     "Ordens de Serviço"
     "Peças"

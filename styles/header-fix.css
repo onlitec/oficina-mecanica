@@ -1,0 +1,193 @@
+/* CORREÇÃO ESPECÍFICA PARA LAYOUT DO HEADER */
+
+/* FORÇA LAYOUT CORRETO DO HEADER */
+.header {
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 4rem !important;
+    background: var(--bg-primary) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    z-index: 100 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+/* FORÇA LAYOUT CORRETO DO HEADER CONTENT */
+.header-content {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 1rem !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+/* FORÇA POSICIONAMENTO CORRETO DO LOGO */
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    flex-shrink: 0 !important;
+    min-width: 200px !important;
+    max-width: 300px !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+    font-weight: 600 !important;
+    font-size: 1.125rem !important;
+    color: var(--text-primary) !important;
+    text-decoration: none !important;
+}
+
+/* FORÇA TAMANHO CORRETO DO LOGO ICON */
+.logo-icon {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    font-size: 1.5rem !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: static !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+    object-fit: contain !important;
+}
+
+/* FORÇA TAMANHO CORRETO PARA IMAGENS DE LOGO */
+.logo-icon img,
+img.logo-icon {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+/* FORÇA TEXTO DO LOGO */
+.logo-text {
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    white-space: nowrap !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+/* FORÇA NAVEGAÇÃO CENTRAL */
+.nav-menu {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: 1 !important;
+    height: 100% !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+/* FORÇA USER INFO DIREITA */
+.user-info {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    padding: 0.5rem !important;
+    border-radius: 0.375rem !important;
+    cursor: pointer !important;
+    color: var(--text-secondary) !important;
+    background: transparent !important;
+    margin: 0 !important;
+    position: static !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+/* REMOVE QUALQUER TRANSFORM GLOBAL */
+* {
+    /* Remove transforms que possam estar interferindo */
+}
+
+/* FORÇA ESTABILIDADE EM TODOS OS ELEMENTOS DO HEADER */
+.header,
+.header *,
+.header-content,
+.header-content *,
+.logo,
+.logo *,
+.nav-menu,
+.nav-menu *,
+.user-info,
+.user-info * {
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+/* OVERRIDE FINAL ABSOLUTO */
+.header .logo {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    margin: 0 !important;
+    transform: none !important;
+}
+
+.header .logo-icon {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    margin: 0 !important;
+    transform: none !important;
+    width: 32px !important;
+    height: 32px !important;
+}

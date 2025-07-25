@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Estabilidade do Menu</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/menu-unified.css">
+    <style>
+        .test-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .test-result {
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        
+        .test-pass {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .test-fail {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .test-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .monitor-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .monitor-button:hover {
+            background: #0056b3;
+        }
+        
+        .monitor-button.active {
+            background: #28a745;
+        }
+        
+        .monitor-button.stop {
+            background: #dc3545;
+        }
+        
+        #monitorResults {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 1rem;
+            background: #f8f9fa;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body class="dashboard-layout">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="/" class="logo">
+                <span class="logo-icon">🔧</span>
+                <span class="logo-text">Oficina Mecânica</span>
+            </a>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/dashboard.html" class="nav-link">
+                            <span>📊</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/customers.html" class="nav-link">
+                            <span>👥</span>
+                            Clientes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/service-orders.html" class="nav-link">
+                            <span>🔧</span>
+                            Ordens
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/parts.html" class="nav-link">
+                            <span>⚙️</span>
+                            Peças
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/financial.html" class="nav-link">
+                            <span>💰</span>
+                            Financeiro
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/reports.html" class="nav-link">
+                            <span>📈</span>
+                            Relatórios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/settings.html" class="nav-link active">
+                            <span>⚙️</span>
+                            Configurações
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="user-menu">
+                <div class="user-info">
+                    <div class="user-avatar">T</div>
+                    <span>Teste</span>
+                    <span>▼</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="test-container">
+            <h1>🧪 Teste de Estabilidade do Menu</h1>
+            <p>Esta página testa se o menu está completamente estático e sem movimentos indesejados.</p>
+
+            <!-- Testes Automáticos -->
+            <div class="test-section">
+                <h2>🔍 Testes Automáticos</h2>
+                <button class="monitor-button" onclick="runAutomaticTests()">Executar Testes</button>
+                <div id="automaticTestResults"></div>
+            </div>
+
+            <!-- Monitor em Tempo Real -->
+            <div class="test-section">
+                <h2>📊 Monitor em Tempo Real</h2>
+                <button class="monitor-button" id="startMonitor" onclick="startMonitoring()">Iniciar Monitoramento</button>
+                <button class="monitor-button stop" id="stopMonitor" onclick="stopMonitoring()" style="display: none;">Parar Monitoramento</button>
+                <div id="monitorResults"></div>
+            </div>
+
+            <!-- Instruções de Teste Manual -->
+            <div class="test-section">
+                <h2>✋ Teste Manual</h2>
+                <ol>
+                    <li>Passe o mouse sobre cada item do menu</li>
+                    <li>Clique em cada item do menu</li>
+                    <li>Observe se há qualquer movimento, tremulação ou mudança de tamanho</li>
+                    <li>Verifique se o logo e título permanecem estáticos</li>
+                    <li>Teste em diferentes tamanhos de tela (redimensione a janela)</li>
+                </ol>
+                <div class="test-info">
+                    <strong>Resultado Esperado:</strong> O menu deve permanecer completamente estático, sem qualquer movimento, mudança de posição ou tamanho dos elementos.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let monitoringInterval;
+        let initialPositions = {};
+
+        // Executar testes automáticos
+        function runAutomaticTests() {
+            const resultsDiv = document.getElementById('automaticTestResults');
+            resultsDiv.innerHTML = '<div class="test-info">Executando testes...</div>';
+            
+            setTimeout(() => {
+                const results = [];
+                
+                // Teste 1: Verificar se elementos têm transform
+                const navLinks = document.querySelectorAll('.nav-link');
+                let hasTransform = false;
+                navLinks.forEach(link => {
+                    const style = window.getComputedStyle(link);
+                    if (style.transform !== 'none') {
+                        hasTransform = true;
+                    }
+                });
+                
+                results.push({
+                    test: 'Transform CSS',
+                    pass: !hasTransform,
+                    message: hasTransform ? 'FALHA: Elementos têm transform aplicado' : 'SUCESSO: Nenhum transform detectado'
+                });
+                
+                // Teste 2: Verificar se elementos têm transition
+                let hasTransition = false;
+                navLinks.forEach(link => {
+                    const style = window.getComputedStyle(link);
+                    if (style.transition !== 'all 0s ease 0s' && style.transition !== 'none') {
+                        hasTransition = true;
+                    }
+                });
+                
+                results.push({
+                    test: 'Transition CSS',
+                    pass: !hasTransition,
+                    message: hasTransition ? 'FALHA: Elementos têm transition aplicado' : 'SUCESSO: Nenhuma transition detectada'
+                });
+                
+                // Teste 3: Verificar posicionamento
+                let hasAbsolutePosition = false;
+                navLinks.forEach(link => {
+                    const style = window.getComputedStyle(link);
+                    if (style.position !== 'static') {
+                        hasAbsolutePosition = true;
+                    }
+                });
+                
+                results.push({
+                    test: 'Posicionamento CSS',
+                    pass: !hasAbsolutePosition,
+                    message: hasAbsolutePosition ? 'FALHA: Elementos não estão com position static' : 'SUCESSO: Todos elementos com position static'
+                });
+                
+                // Exibir resultados
+                let html = '';
+                results.forEach(result => {
+                    const className = result.pass ? 'test-pass' : 'test-fail';
+                    html += `<div class="${className}">
+                        <strong>${result.test}:</strong> ${result.message}
+                    </div>`;
+                });
+                
+                resultsDiv.innerHTML = html;
+            }, 500);
+        }
+
+        // Iniciar monitoramento
+        function startMonitoring() {
+            const startBtn = document.getElementById('startMonitor');
+            const stopBtn = document.getElementById('stopMonitor');
+            const resultsDiv = document.getElementById('monitorResults');
+            
+            startBtn.style.display = 'none';
+            stopBtn.style.display = 'inline-block';
+            
+            // Capturar posições iniciais
+            captureInitialPositions();
+            
+            resultsDiv.innerHTML = '<div class="test-info">Monitoramento iniciado... Passe o mouse sobre os itens do menu.</div>';
+            
+            monitoringInterval = setInterval(() => {
+                checkForMovement();
+            }, 100);
+        }
+
+        // Parar monitoramento
+        function stopMonitoring() {
+            const startBtn = document.getElementById('startMonitor');
+            const stopBtn = document.getElementById('stopMonitor');
+            
+            startBtn.style.display = 'inline-block';
+            stopBtn.style.display = 'none';
+            
+            clearInterval(monitoringInterval);
+            
+            const resultsDiv = document.getElementById('monitorResults');
+            resultsDiv.innerHTML += '<div class="test-info">Monitoramento parado.</div>';
+        }
+
+        // Capturar posições iniciais
+        function captureInitialPositions() {
+            const elements = document.querySelectorAll('.nav-link, .logo, .logo-icon, .logo-text');
+            elements.forEach((element, index) => {
+                const rect = element.getBoundingClientRect();
+                initialPositions[index] = {
+                    element: element,
+                    x: rect.x,
+                    y: rect.y,
+                    width: rect.width,
+                    height: rect.height
+                };
+            });
+        }
+
+        // Verificar movimento
+        function checkForMovement() {
+            const resultsDiv = document.getElementById('monitorResults');
+            let movementDetected = false;
+            
+            Object.keys(initialPositions).forEach(key => {
+                const initial = initialPositions[key];
+                const rect = initial.element.getBoundingClientRect();
+                
+                const deltaX = Math.abs(rect.x - initial.x);
+                const deltaY = Math.abs(rect.y - initial.y);
+                const deltaW = Math.abs(rect.width - initial.width);
+                const deltaH = Math.abs(rect.height - initial.height);
+                
+                if (deltaX > 0.5 || deltaY > 0.5 || deltaW > 0.5 || deltaH > 0.5) {
+                    movementDetected = true;
+                    const timestamp = new Date().toLocaleTimeString();
+                    const elementName = initial.element.className || initial.element.tagName;
+                    
+                    resultsDiv.innerHTML += `<div class="test-fail">
+                        [${timestamp}] MOVIMENTO DETECTADO em ${elementName}:<br>
+                        ΔX: ${deltaX.toFixed(2)}px, ΔY: ${deltaY.toFixed(2)}px, 
+                        ΔW: ${deltaW.toFixed(2)}px, ΔH: ${deltaH.toFixed(2)}px
+                    </div>`;
+                    
+                    // Atualizar posição para próxima verificação
+                    initialPositions[key] = {
+                        element: initial.element,
+                        x: rect.x,
+                        y: rect.y,
+                        width: rect.width,
+                        height: rect.height
+                    };
+                    
+                    resultsDiv.scrollTop = resultsDiv.scrollHeight;
+                }
+            });
+        }
+
+        // Executar teste inicial ao carregar
+        window.addEventListener('load', () => {
+            setTimeout(runAutomaticTests, 1000);
+        });
+    </script>
+    <script src="js/logo-immutable.js"></script>
+</body>
+</html>

@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configurações - Sistema de Gestão</title>
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/menu-unified.css">
     <style>
         .settings-container {
             width: 100%;
@@ -87,6 +88,109 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* Upload Areas */
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-secondary);
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background: var(--bg-primary);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            opacity: 0.1;
+        }
+
+        .upload-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .upload-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--text-secondary);
+        }
+
+        .upload-icon {
+            font-size: 2rem;
+            opacity: 0.7;
+        }
+
+        .upload-placeholder p {
+            margin: 0;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .upload-placeholder small {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .upload-actions {
+            display: flex;
+            gap: var(--space-3);
+            justify-content: center;
+        }
+
+        .form-help {
+            display: block;
+            margin-top: var(--space-1);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Layout específico para uploads lado a lado */
+        .upload-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+        }
+
+        @media (max-width: 768px) {
+            .upload-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Ajustes para áreas de upload menores */
+        .form-row .upload-area {
+            min-height: 120px;
+        }
+
+        .form-row .upload-placeholder p {
+            font-size: 0.875rem;
+        }
+
+        .form-row .upload-placeholder small {
+            font-size: 0.75rem;
+        }
+
+        .form-row .upload-actions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        .form-row .upload-actions .btn {
+            font-size: 0.875rem;
+            padding: var(--space-2) var(--space-3);
+        }
     </style>
 </head>
 <body>
@@ -101,7 +205,7 @@
             <nav class="nav-menu">
                 <a href="dashboard.html" class="nav-link">
                     <span>📊</span>
-                    Dashboard
+                    Visão Geral
                 </a>
                 <a href="customers.html" class="nav-link">
                     <span>👥</span>
@@ -204,6 +308,100 @@
 
                 <!-- Aparência Tab -->
                 <div id="appearance-tab" class="tab-panel">
+                    <!-- Identidade Visual -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span>🏷️</span>
+                                Identidade Visual
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <!-- Título do Sistema -->
+                            <div class="form-group">
+                                <label class="form-label">Título do Sistema</label>
+                                <div style="display: flex; gap: var(--space-3); align-items: flex-end;">
+                                    <div style="flex: 1;">
+                                        <input type="text" class="form-input" id="system-title" value="Oficina Mecânica" placeholder="Nome que aparece no menu">
+                                        <small class="form-help">Este texto aparece ao lado do logotipo no menu principal</small>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" id="save-title" style="white-space: nowrap;">
+                                        <span>💾</span>
+                                        Salvar Título
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Upload de Logotipo e Favicon -->
+                            <div class="form-row">
+                                <!-- Upload de Logotipo -->
+                                <div class="form-group">
+                                    <label class="form-label">Logotipo</label>
+                                    <div class="upload-area" id="logo-upload-area">
+                                        <div class="upload-preview" id="logo-preview-container">
+                                            <img id="logo-preview" src="" alt="Preview do logotipo" style="display: none; max-width: 200px; max-height: 80px; object-fit: contain;">
+                                            <div class="upload-placeholder" id="logo-placeholder">
+                                                <span class="upload-icon">🖼️</span>
+                                                <p>Clique para selecionar o logotipo</p>
+                                                <small>PNG, JPG ou SVG até 2MB</small>
+                                            </div>
+                                        </div>
+                                        <input type="file" id="logo-file" accept="image/*" style="display: none;">
+                                    </div>
+                                    <div class="upload-actions" style="margin-top: var(--space-3); display: none;" id="logo-actions">
+                                        <button type="button" class="btn btn-primary" id="upload-logo">
+                                            <span>📤</span>
+                                            Aplicar Logotipo
+                                        </button>
+                                        <button type="button" class="btn btn-secondary" id="remove-logo">
+                                            <span>🗑️</span>
+                                            Remover
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Upload de Favicon -->
+                                <div class="form-group">
+                                    <label class="form-label">Favicon</label>
+                                    <div class="upload-area" id="favicon-upload-area">
+                                        <div class="upload-preview" id="favicon-preview-container">
+                                            <img id="favicon-preview" src="" alt="Preview do favicon" style="display: none; max-width: 32px; max-height: 32px; object-fit: contain;">
+                                            <div class="upload-placeholder" id="favicon-placeholder">
+                                                <span class="upload-icon">🔖</span>
+                                                <p>Clique para selecionar o favicon</p>
+                                                <small>ICO, PNG 16x16 ou 32x32 pixels</small>
+                                            </div>
+                                        </div>
+                                        <input type="file" id="favicon-file" accept="image/*,.ico" style="display: none;">
+                                    </div>
+                                    <div class="upload-actions" style="margin-top: var(--space-3); display: none;" id="favicon-actions">
+                                        <button type="button" class="btn btn-primary" id="upload-favicon">
+                                            <span>📤</span>
+                                            Aplicar Favicon
+                                        </button>
+                                        <button type="button" class="btn btn-secondary" id="remove-favicon">
+                                            <span>🗑️</span>
+                                            Remover
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ações da Identidade Visual -->
+                            <div style="margin-top: var(--space-4);">
+                                <button type="button" class="btn btn-primary" id="save-identity">
+                                    <span>💾</span>
+                                    Salvar Identidade Visual
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="reset-identity">
+                                    <span>🔄</span>
+                                    Restaurar Padrão
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cores do Sistema -->
                     <div class="card">
                         <div class="card-header">
                             <h2 class="card-title">
@@ -396,6 +594,8 @@
         </div>
     </main>
 
+    <script src="js/logo-immutable.js"></script>
+    <script src="js/global-settings.js"></script>
     <script src="js/settings.js"></script>
 
 </body>
