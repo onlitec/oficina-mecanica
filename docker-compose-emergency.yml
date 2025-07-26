@@ -1,0 +1,22 @@
+services:
+  # Aplicação usando Node.js direto (sem build complexo)
+  oficina-app:
+    image: node:18-alpine
+    container_name: oficina_app_emergency
+    restart: unless-stopped
+    working_dir: /app
+    ports:
+      - "8080:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev"
+    networks:
+      - oficina_network
+
+networks:
+  oficina_network:
+    driver: bridge
